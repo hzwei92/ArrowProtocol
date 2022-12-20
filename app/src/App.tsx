@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { WarpFactory, defaultCacheOptions } from 'warp-contracts/web';
+import { WarpFactory, defaultCacheOptions } from 'warp-contracts';
 import './App.css';
 
-const warp = WarpFactory.forMainnet({ ...defaultCacheOptions, inMemory: true });
-const contractId = 'N4G1F2ftAbArKpS5iHjPSuOY7GMQvyiEIcS-W4CVLbk';
+const warp = WarpFactory.forTestnet({ ...defaultCacheOptions, inMemory: true });
+const contractId = 'rSiz5a5MKY6kDoVvPdyzKvjDq_-iik1cTKecKLNL-4A';
 
 const getContract = async () => {
   const wallet = await warp.arweave.wallets.generate();
@@ -12,26 +12,26 @@ const getContract = async () => {
   return contract;
 };
 
-const getState = async (contract) => {
+const getState = async (contract: any) => {
   const { cachedValue } = await contract.readState();
   const state = cachedValue.state;
   return state;
 };
 
 function App() {
-  const [contractState, setContractState] = useState({});
+  const [contractState, setContractState] = useState({} as any);
   const [name, setName] = useState('');
 
   useEffect(() => {
     async function fetchContractData() {
       const contract = await getContract();
       const state = await getState(contract);
-      setContractState((prevState) => ({ ...prevState, state }));
+      setContractState((prevState: any) => ({ ...prevState, state }));
     }
     fetchContractData();
   }, []);
 
-  const addContent = async (e) => {
+  const addContent = async (e: any) => {
     e.preventDefault();
     if (!name) {
       return;
@@ -42,11 +42,11 @@ function App() {
         name: name,
       });
       const state = await getState(contract);
-      setContractState((prevState) => ({ ...prevState, state }));
+      setContractState((prevState: any) => ({ ...prevState, state }));
       setName('');
     }
   };
-  const handleNameChange = (event) => {
+  const handleNameChange = (event: any) => {
     setName(event.target.value);
   };
   return (

@@ -1,17 +1,22 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './app/App';
+import App from './components/app/App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
-import { AppProvider } from './app/AppProvider';
+import { AppProvider } from './components/app/AppProvider';
+
+import { store } from './redux/store';
+import { Provider } from 'react-redux';
 
 const container = document.getElementById('root');
 const root = createRoot(container!);
 root.render(
   <React.StrictMode>
-    <AppProvider>
-      <App />
-    </AppProvider>
+    <Provider store={store}>
+      <AppProvider>
+        <App />
+      </AppProvider>
+    </Provider>
   </React.StrictMode>
 );
 

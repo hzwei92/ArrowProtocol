@@ -1,5 +1,7 @@
 import { IonCard } from "@ionic/react";
+import { useSelector } from "react-redux";
 import { TWIG_WIDTH } from "../../constants";
+import { selectFrame } from "../../redux/slices/arrowSlice";
 import { Arrow } from "../../types";
 import { Twig } from "../../warp/arrow/types";
 import ArrowComponent from "../arrow/ArrowComponent";
@@ -13,6 +15,8 @@ interface PostTwigProps {
 }
 
 const PostTwig = ({i, twig, arrow}: PostTwigProps) => {
+  const frame = useSelector(selectFrame);
+  const isSelected = i === frame?.focusI;
   return (
     <IonCard style={{
       display: 'flex',
@@ -20,7 +24,7 @@ const PostTwig = ({i, twig, arrow}: PostTwigProps) => {
       width: TWIG_WIDTH,
       opacity: .9,
       margin: 0,
-      outline: true // isSelected
+      outline: isSelected
         ? `5px solid ${arrow.state.color}`
         : null,
       border: `1px solid ${arrow.state.color}`,

@@ -1,16 +1,20 @@
+import { MouseEvent } from "react";
 import { VIEW_RADIUS } from "../../constants";
+import useSelectTwig from "../../hooks/useSelectTwig";
 import { selectFrame, selectTxIdToArrow } from "../../redux/slices/arrowSlice";
 import { useAppSelector } from "../../redux/store";
 import { getPolylineCoords } from "../../utils";
 import { Twig } from "../../warp/arrow/types";
 
-interface LinkTwigMarkerProps {
+interface LinkMarkerProps {
   i: number;
   twig: Twig;
 }
-const LinkTwigMarker = ({i, twig}: LinkTwigMarkerProps) => {
+const LinkMarker = ({i, twig}: LinkMarkerProps) => {
   const frame = useAppSelector(selectFrame);
   const txIdToArrow = useAppSelector(selectTxIdToArrow);
+
+  const selectTwig = useSelectTwig();
 
   if (!frame || !twig.detailAddress || twig.sourceTwigI === null || twig.targetTwigI === null) return null;
 
@@ -23,14 +27,15 @@ const LinkTwigMarker = ({i, twig}: LinkTwigMarkerProps) => {
 
   const isSelected = frame.focusI === i;
 
-  const handleClick = () => {
-    console.log('click');
+  const handleClick = (e: MouseEvent) => {
+    e.stopPropagation();
+    if (!isSelected) {
+      selectTwig({ i });
+    }
   }
-  const handleMouseDown = () => {
-    console.log('mousedown');
-  }
+
   return (
-    <g onClick={handleClick} onMouseDown={handleMouseDown} style={{
+    <g onClick={handleClick} style={{
       cursor: 'pointer',
       zIndex: frame.state.twigIs.indexOf(i),
     }}>
@@ -47,7 +52,6 @@ const LinkTwigMarker = ({i, twig}: LinkTwigMarkerProps) => {
         markerEnd={`url(#marker-${link.state.color})`}
       />
       <line 
-        onClick={handleClick}
         style={{
           cursor: 'pointer',
           opacity: isSelected 
@@ -66,4 +70,4 @@ const LinkTwigMarker = ({i, twig}: LinkTwigMarkerProps) => {
   );
 }
 
-export default LinkTwigMarker;
+export default LinkMarker;

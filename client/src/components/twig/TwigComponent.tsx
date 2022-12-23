@@ -6,6 +6,7 @@ import useReadArrowState from '../../warp/arrow/actions/read/useReadArrowState';
 import LinkTwig from './LinkTwig';
 import PostTwig from './PostTwig';
 import { useAppSelector } from '../../redux/store';
+import useSelectTwig from '../../hooks/useSelectTwig';
 
 interface TwigProps {
   i: number;
@@ -18,6 +19,10 @@ const TwigComponent = ({ i, twig }: TwigProps) => {
   const txIdToArrow = useAppSelector(selectTxIdToArrow);
   const frame = useAppSelector(selectFrame);
 
+  const isSelected = frame?.focusI === i;
+
+  const selectTwig = useSelectTwig();
+
   useEffect(() => {
     if (twig.detailAddress){
       const arrow = txIdToArrow[twig.detailAddress];
@@ -26,8 +31,6 @@ const TwigComponent = ({ i, twig }: TwigProps) => {
       }
     }
   }, [twig.detailAddress]);
-
-  if (!frame) return null;
 
   let arrow;
   if (twig.detailAddress) {
@@ -39,13 +42,23 @@ const TwigComponent = ({ i, twig }: TwigProps) => {
 
   if (!arrow) return null;
 
+  const handleMouseDown = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    if (!isSelected) {
+      selectTwig({ i });
+    }
+  }
+
   return (
-    <div id={`twig-${i}`} style={{
-      position: 'absolute',
-      left: VIEW_RADIUS + twig.x,
-      top: VIEW_RADIUS + twig.y,
-      zIndex: frame.state.twigIs.indexOf(i),
-    }}>
+    <div id={`twig-${i}`} 
+      onMouseDown={handleMouseDown}
+      style={{
+        position: 'absolute',
+        left: VIEW_RADIUS + twig.x,
+        top: VIEW_RADIUS + twig.y,
+        zIndex: frame?.state.twigIs.indexOf(i),
+      }}
+    >
       {
         arrow?.state.sourceAddress === arrow?.state.targetAddress
           ? <PostTwig i={i} twig={twig} arrow={arrow}/>

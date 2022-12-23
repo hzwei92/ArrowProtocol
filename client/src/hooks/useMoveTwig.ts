@@ -1,3 +1,4 @@
+import { VIEW_RADIUS } from "../constants";
 import { mergeArrows, selectFrame } from "../redux/slices/arrowSlice";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 
@@ -17,16 +18,17 @@ const useMoveTwig = () => {
       if (Object.keys(frame.twigIToDescIToTrue[twigI] ?? {}).includes(i.toString())) {
         return {
           ...twig,
-          x: twig.x + dx,
-          y: twig.y + dy,
+          x: Math.max(Math.min(twig.x + dx, VIEW_RADIUS - 10), 10 - VIEW_RADIUS),
+          y: Math.max(Math.min(twig.y + dy, VIEW_RADIUS - 10), 10 - VIEW_RADIUS),
         };
       }
       return twig;
     });
 
+    let count = 0;
     let isDirty = true;
 
-    while (isDirty) {
+    while (isDirty && count < 100) {
       isDirty = false;
       
       twigs.forEach((t, i) => {
@@ -51,6 +53,8 @@ const useMoveTwig = () => {
           };
         }
       });
+
+      count++;
     }
 
     dispatch(mergeArrows([{

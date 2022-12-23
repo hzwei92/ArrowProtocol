@@ -3,11 +3,11 @@ import { selectFrame } from "../../redux/slices/arrowSlice";
 import { useAppSelector } from "../../redux/store";
 import { Twig } from "../../warp/arrow/types";
 
-interface PostTwigMarkerProps {
+interface PostMarkerProps {
   i: number;
   twig: Twig;
 }
-const PostTwigMarker = ({ i, twig }: PostTwigMarkerProps) => {
+const PostMarker = ({ i, twig }: PostMarkerProps) => {
   const frame = useAppSelector(selectFrame);
 
   if (!frame || twig.parentTwigI === null) return null;
@@ -29,4 +29,4 @@ const PostTwigMarker = ({ i, twig }: PostTwigMarkerProps) => {
   );
 }
 
-export default PostTwigMarker;
+export default PostMarker;

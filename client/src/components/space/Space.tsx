@@ -1,14 +1,15 @@
 import { useAppSelector } from "../../redux/store"
-import { SCROLL_SENSITIVITY, TAB_HEIGHT, VIEW_RADIUS } from "../../constants";
+import { SCROLL_SENSITIVITY, VIEW_RADIUS } from "../../constants";
 import { selectFrame, selectTxIdToArrow } from "../../redux/slices/arrowSlice"
 import TwigComponent from "../twig/TwigComponent"
 import { ReactZoomPanPinchRef, TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import { Fragment, MouseEvent, useContext, useEffect, useRef, useState } from "react";
-import TwigMarker from "../twig/TwigMarker";
 import { AppContext } from "../app/AppProvider";
 import useMoveTwig from "../../hooks/useMoveTwig";
 import useWriteTwigs from "../../warp/arrow/actions/write/useWriteTwigs";
 import MarkerDefs from "./MarkerDefs";
+import Marker from "./Marker";
+import SpaceNav from "./SpaceNav";
 
 const Space = () => {
   const { cursor, setCursor, drag, setDrag } = useContext(AppContext);
@@ -21,30 +22,19 @@ const Space = () => {
   const moveTwig = useMoveTwig();
   const writeTwigs = useWriteTwigs();
 
+  const focusTwig = frame?.state.twigs[frame?.focusI];
+  const focusArrow = focusTwig?.detailAddress
+    ? txIdToArrow[focusTwig.detailAddress]
+    : null;
+
   useEffect(() => {
     spaceRef.current?.zoomToElement(`twig-${frame?.focusI}`, 1.2, 200);
-  }, [frame?.txId, frame?.focusI]);
-  
-  const handleMouseDown = (e: MouseEvent) => {
-    setDrag({
-      isScreen: true,
-      twigI: null,
-      targetTwigI: null,
-    });
-  }
-  const handleMouseUp = (e: MouseEvent) => {
-    setDrag({
-      isScreen: false,
-      twigI: null,
-      targetTwigI: null,
-    });
-    if (drag.twigI !== null) {
-      writeTwigs();
-    }
-  }
+  }, [frame?.txId, frame?.focusI, focusArrow]);
 
-  const handleMouseMove = (e: MouseEvent) => {
-    if (!spaceRef.current) return;
+  const [mouseMoveEvent, setMouseMoveEvent] = useState<MouseEvent | null>(null);
+
+  useEffect(() => {
+    if (!mouseMoveEvent || !spaceRef.current) return;
 
     const {
       positionX,
@@ -52,7 +42,7 @@ const Space = () => {
       scale,
     } = spaceRef.current.state;
 
-    const { clientX, clientY } = e;
+    const { clientX, clientY } = mouseMoveEvent;
 
     const x = (clientX - positionX) / scale;
     const y = (clientY - positionY) / scale;
@@ -65,7 +55,35 @@ const Space = () => {
   
       moveTwig({ twigI: drag.twigI, dx, dy })
     }
+
+    setMouseMoveEvent(null);
+  }, [mouseMoveEvent]);
+  
+  const handleMouseDown = (e: MouseEvent) => {
+    setDrag({
+      isScreen: true,
+      twigI: null,
+      targetTwigI: null,
+    });
   }
+
+  const handleMouseUp = (e: MouseEvent) => {
+    setDrag({
+      isScreen: false,
+      twigI: null,
+      targetTwigI: null,
+    });
+    if (drag.twigI !== null) {
+      writeTwigs();
+    }
+  }
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (!mouseMoveEvent) {
+      setMouseMoveEvent(e);
+    }
+  }
+
   return (
     <div 
       onMouseDown={handleMouseDown}
@@ -127,7 +145,7 @@ const Space = () => {
                 {
                   (frame?.state.twigs || []).map((twig, i) => {
                     return (
-                      <TwigMarker key={'twig-marker-'+i} i={i} twig={twig}/>
+                      <Marker key={'marker-'+i} i={i} twig={twig}/>
                     )
                   })
                 }
@@ -143,7 +161,7 @@ const Space = () => {
           </Fragment>
         )}
       </TransformWrapper>
-
+      <SpaceNav spaceRef={spaceRef}/>
     </div>
   )
 }

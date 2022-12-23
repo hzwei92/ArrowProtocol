@@ -8,6 +8,7 @@ import TwigMarker from "../twig/TwigMarker";
 import { AppContext } from "../app/AppProvider";
 import useMoveTwig from "../../hooks/useMoveTwig";
 import useWriteTwigs from "../../warp/arrow/actions/write/useWriteTwigs";
+import MarkerDefs from "./MarkerDefs";
 
 const Space = () => {
   const { cursor, setCursor, drag, setDrag } = useContext(AppContext);
@@ -122,37 +123,7 @@ const Space = () => {
                 width: VIEW_RADIUS * 2,
                 height: VIEW_RADIUS * 2,
               }}>
-                <defs>
-                  { 
-                    frame?.state.twigs
-                      .map(t => {
-                        if (!t.detailAddress) return null;
-                        if (t.sourceTwigI === null || t.targetTwigI === null) return null;
-                        if (t.sourceTwigI === t.targetTwigI) return null;
-
-                        const a = txIdToArrow[t.detailAddress];
-
-                        return (
-                          <marker 
-                            key={`marker-${a.state.color}`}
-                            id={`marker-${a.state.color}`} 
-                            markerWidth='6'
-                            markerHeight='10'
-                            refX='7'
-                            refY='5'
-                            orient='auto'
-                          >
-                            <polyline 
-                              points='0,0 5,5 0,10'
-                              fill='none'
-                              stroke={a.state.color}
-                              strokeWidth={2}
-                            />
-                          </marker>
-                        )
-                      })
-                  }
-                </defs>
+                <MarkerDefs />
                 {
                   (frame?.state.twigs || []).map((twig, i) => {
                     return (

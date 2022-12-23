@@ -1,8 +1,7 @@
 
-import { VIEW_RADIUS } from '../../constants';
-import { selectFrame } from '../../redux/slices/arrowSlice';
-import { useAppSelector } from '../../redux/store';
 import { Twig } from '../../warp/arrow/types';
+import LinkTwigMarker from './LinkTwigMarker';
+import PostTwigMarker from './PostTwigMarker';
 
 interface TwigMarkerProps {
   i: number;
@@ -10,27 +9,19 @@ interface TwigMarkerProps {
 };
 
 const TwigMarker = ({ i, twig }: TwigMarkerProps) => {
-  const frame = useAppSelector(selectFrame);
+  if (twig.parentTwigI !== null) {
+    return (
+      <PostTwigMarker i={i} twig={twig} />
+    )
+  }
 
-  if (twig.parentTwigI === null || !frame) return null;
+  if (twig.sourceTwigI !== null && twig.targetTwigI !== null && twig.sourceTwigI !== twig.targetTwigI) {
+    return (
+      <LinkTwigMarker i={i} twig={twig} />
+    )
+  }
 
-  const parentTwig = frame.state.twigs[twig.parentTwigI];
-
-  if (!parentTwig) return null;
-
-  return (
-    <line 
-      x1={(parentTwig.x ?? 0) + VIEW_RADIUS}
-      y1={(parentTwig.y ?? 0) + VIEW_RADIUS}
-      x2={(twig.x ?? 0) + VIEW_RADIUS}
-      y2={(twig.y ?? 0) + VIEW_RADIUS}
-      stroke={true //palette === 'dark' 
-        ? 'white' 
-        : 'black'}
-      strokeLinecap={'round'}
-      strokeWidth={5}
-    />
-  );
+  return null;
 }
 
 export default TwigMarker;

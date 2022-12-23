@@ -1,6 +1,6 @@
 import { useAppSelector } from "../../redux/store"
 import { SCROLL_SENSITIVITY, TAB_HEIGHT, VIEW_RADIUS } from "../../constants";
-import { selectFrame } from "../../redux/slices/arrowSlice"
+import { selectFrame, selectTxIdToArrow } from "../../redux/slices/arrowSlice"
 import TwigComponent from "../twig/TwigComponent"
 import { ReactZoomPanPinchRef, TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import { Fragment, MouseEvent, useContext, useEffect, useRef, useState } from "react";
@@ -13,6 +13,8 @@ const Space = () => {
   const { cursor, setCursor, drag, setDrag } = useContext(AppContext);
 
   const frame = useAppSelector(selectFrame);
+  const txIdToArrow = useAppSelector(selectTxIdToArrow);
+
   const spaceRef = useRef<ReactZoomPanPinchRef>(null);
   
   const moveTwig = useMoveTwig();
@@ -120,6 +122,37 @@ const Space = () => {
                 width: VIEW_RADIUS * 2,
                 height: VIEW_RADIUS * 2,
               }}>
+                <defs>
+                  { 
+                    frame?.state.twigs
+                      .map(t => {
+                        if (!t.detailAddress) return null;
+                        if (t.sourceTwigI === null || t.targetTwigI === null) return null;
+                        if (t.sourceTwigI === t.targetTwigI) return null;
+
+                        const a = txIdToArrow[t.detailAddress];
+
+                        return (
+                          <marker 
+                            key={`marker-${a.state.color}`}
+                            id={`marker-${a.state.color}`} 
+                            markerWidth='6'
+                            markerHeight='10'
+                            refX='7'
+                            refY='5'
+                            orient='auto'
+                          >
+                            <polyline 
+                              points='0,0 5,5 0,10'
+                              fill='none'
+                              stroke={a.state.color}
+                              strokeWidth={2}
+                            />
+                          </marker>
+                        )
+                      })
+                  }
+                </defs>
                 {
                   (frame?.state.twigs || []).map((twig, i) => {
                     return (

@@ -27,6 +27,8 @@ const TwigComponent = ({ i, twig }: TwigProps) => {
     }
   }, [twig.detailAddress]);
 
+  if (!frame) return null;
+
   let arrow;
   if (twig.detailAddress) {
     arrow = txIdToArrow[twig.detailAddress];
@@ -42,7 +44,7 @@ const TwigComponent = ({ i, twig }: TwigProps) => {
       position: 'absolute',
       left: VIEW_RADIUS + twig.x,
       top: VIEW_RADIUS + twig.y,
-      zIndex: (frame?.state.twigIs || []).indexOf(i),
+      zIndex: frame.state.twigIs.indexOf(i),
     }}>
       {
         arrow?.state.sourceAddress === arrow?.state.targetAddress

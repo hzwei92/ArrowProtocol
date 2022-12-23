@@ -1,42 +1,49 @@
-import { useContext, useEffect } from "react";
+import { IonCard, IonCardContent, IonCardHeader } from "@ionic/react";
+import { useContext } from "react";
+import { OFF_WHITE, TAB_HEIGHT } from "../../constants";
+import { selectSlice } from "../../redux/slices/explorerSlice";
+import { useAppSelector } from "../../redux/store";
 import { AppContext } from "../app/AppProvider";
-import { TAB_HEIGHT } from "../../constants";
-import SpaceComponent from "../space/Space";
-import TabBar from "../tab/TabBar";
-import { isPlatform } from "@ionic/react";
-import CreateArrowModal from "../tab/NewTabModal";
-import useReadProfile from "../../hooks/useInitialize";
+import EntryTree from "../entry/EntryTree";
 
 const Explorer = () => {
-  const { walletAddress } = useContext(AppContext);
+  const { isDarkMode } = useContext(AppContext);
 
-  const readProfile = useReadProfile();
-
-  useEffect(() => {
-    if (walletAddress) {
-      readProfile();
-    }
-  }, [walletAddress])
+  const slice = useAppSelector(selectSlice);
 
   return (
-    <div style={{
-      width: '100%',
+    <IonCard style={{
+      margin: 0,
+      borderRadius: 0,
+      backgroundColor: isDarkMode
+        ? 'black'
+        : OFF_WHITE,
       height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      position:'relative',
     }}>
-      <TabBar />
-      <div style={{
-        position: 'relative',
-        width: '100%',
-        height: `calc(100% - ${isPlatform('iphone') ? TAB_HEIGHT : TAB_HEIGHT + 1}px)`,
+      <IonCardHeader style={{
+        height: TAB_HEIGHT,
       }}>
-        <SpaceComponent />
-      </div>
-      <CreateArrowModal />
-    </div>
-  );
+        EXPLORER
+      </IonCardHeader>
+      <IonCardContent style={{
+        height: `calc(100% - ${TAB_HEIGHT}px)`,
+        overflowY: 'scroll',
+        padding: 0,
+      }}>
+        { 
+          slice.entryIds.map((entryId) => {
+            return (
+              <EntryTree
+                key={`entry-tree-${entryId}`}
+                entryId={entryId}
+                depth={0}
+              />
+            );
+          })
+        }
+      </IonCardContent>
+    </IonCard>
+  )
 }
 
 export default Explorer;

@@ -1,13 +1,17 @@
+import { useContext } from "react";
 import { VIEW_RADIUS } from "../../constants";
 import { selectFrame } from "../../redux/slices/arrowSlice";
 import { useAppSelector } from "../../redux/store";
 import { Twig } from "../../warp/arrow/types";
+import { AppContext } from "../app/AppProvider";
 
 interface PostMarkerProps {
   i: number;
   twig: Twig;
 }
 const PostMarker = ({ i, twig }: PostMarkerProps) => {
+  const { isDarkMode } = useContext(AppContext);
+
   const frame = useAppSelector(selectFrame);
 
   if (!frame || twig.parentTwigI === null) return null;
@@ -20,7 +24,7 @@ const PostMarker = ({ i, twig }: PostMarkerProps) => {
       y1={parentTwig.y + VIEW_RADIUS}
       x2={twig.x + VIEW_RADIUS}
       y2={twig.y + VIEW_RADIUS}
-      stroke={true //palette === 'dark' 
+      stroke={isDarkMode
         ? 'white' 
         : 'black'}
       strokeLinecap={'round'}

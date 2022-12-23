@@ -4,6 +4,8 @@ import ArrowVoter from "./ArrowVoter";
 
 interface ArrowComponentProps {
   arrow: Arrow;
+  showLinkLeft?: boolean;
+  showLinkRight?: boolean;
 }
 
 const ArrowComponent = ({ arrow }: ArrowComponentProps) => {

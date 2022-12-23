@@ -6,7 +6,7 @@ import { AppContext } from "./AppProvider";
 
 
 const AppBarTop = () => {
-  const { walletAddress, setWalletAddress } = useContext(AppContext);
+  const { walletAddress, setWalletAddress, profile, isDarkMode } = useContext(AppContext);
 
   const handleConnectClick = async () => {
     console.log('connect');
@@ -32,14 +32,22 @@ const AppBarTop = () => {
   return (
     <IonCard style={{
       margin: 0,
+      borderRadius: 0,
+      borderLeft: '1px solid',
+      borderColor: isDarkMode
+        ? '#222222'
+        : 'lavender',
       width: '100%',
       height: 50,
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between',
+      boxShadow: 'none',
     }}>
-      <IonItem style={{
-        width: 'calc(100% - 280px)'
+      <div style={{
+        display: 'flex',
+        flexDirection: 'row',
+        padding: 5,
       }}>
         <IonButtons>
           <IonButton>
@@ -49,7 +57,7 @@ const AppBarTop = () => {
         <IonInput
           placeholder="Search"
         />
-      </IonItem>
+      </div>
       <div>
         {
           walletAddress
@@ -68,6 +76,7 @@ const AppBarTop = () => {
                 }}>
                   <IonIcon icon={personCircle} style={{
                     fontSize: 20,
+                    color: profile?.color,
                   }}/>
                 </div>
                 <div style={{

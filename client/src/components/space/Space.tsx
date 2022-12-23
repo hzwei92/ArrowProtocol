@@ -1,5 +1,5 @@
 import { useAppSelector } from "../../redux/store"
-import { SCROLL_SENSITIVITY, VIEW_RADIUS } from "../../constants";
+import { OFF_WHITE, SCROLL_SENSITIVITY, VIEW_RADIUS } from "../../constants";
 import { selectFrame, selectTxIdToArrow } from "../../redux/slices/arrowSlice"
 import TwigComponent from "../twig/TwigComponent"
 import { ReactZoomPanPinchRef, TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
@@ -12,7 +12,7 @@ import Marker from "./Marker";
 import SpaceNav from "./SpaceNav";
 
 const Space = () => {
-  const { cursor, setCursor, drag, setDrag } = useContext(AppContext);
+  const { cursor, setCursor, drag, setDrag, isDarkMode } = useContext(AppContext);
 
   const frame = useAppSelector(selectFrame);
   const txIdToArrow = useAppSelector(selectTxIdToArrow);
@@ -94,7 +94,9 @@ const Space = () => {
         padding: 0,
         height: '100%',
         width: '100%',
-        backgroundColor: '#000000',
+        backgroundColor: isDarkMode
+          ? 'black'
+          : OFF_WHITE,
         borderRadius: 0,
         cursor: drag.isScreen || !!drag.twigI
           ? 'grabbing'
@@ -132,9 +134,14 @@ const Space = () => {
               contentStyle={{
                 width: 2 * VIEW_RADIUS,
                 height: 2 * VIEW_RADIUS,
-                backgroundColor: '#000000',
+                backgroundColor: isDarkMode
+                  ? 'black'
+                  : OFF_WHITE,
                 borderRadius: 200,
                 outline: '10px solid',
+                outlineColor: isDarkMode
+                  ? 'white'
+                  : 'black',
               }}
             >
               <svg viewBox={`0 0 ${VIEW_RADIUS * 2} ${VIEW_RADIUS * 2}`} style={{

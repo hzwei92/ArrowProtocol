@@ -1,13 +1,13 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AppContext } from "../components/app/AppProvider";
 import { useAppDispatch } from "../redux/store";
 import { setFrameTxId } from "../redux/slices/arrowSlice";
 import useReadProfile from "../warp/jamn/actions/read/useReadProfile";
 
-const useInitialize = () => {
+const useAppInitializer = () => {
   const dispatch = useAppDispatch();
 
-  const { setProfile, setShowRegisterModal } = useContext(AppContext);
+  const { walletAddress, setProfile, setShowRegisterModal } = useContext(AppContext);
 
   const readProfile = useReadProfile();
 
@@ -25,7 +25,12 @@ const useInitialize = () => {
       }
     }
   }
-  return initialize;
+
+  useEffect(() => {
+    if (walletAddress) {
+      initialize();
+    }
+  }, [walletAddress]);
 }
 
-export default useInitialize;
+export default useAppInitializer;

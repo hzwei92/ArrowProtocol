@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSelector, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../store'
 import { Arrow, IdToType } from '../../types';
@@ -37,5 +37,10 @@ export const selectTxIdToArrow = (state: RootState) => state.arrow.txIdToArrow
 export const selectFrame = (state: RootState): Arrow | null => state.arrow.frameTxId
   ? state.arrow.txIdToArrow[state.arrow.frameTxId]
   : null;
+
+export const selectArrowByTxId = createSelector([
+  selectTxIdToArrow,
+  (_: RootState, txId: string) => txId,
+], (txIdToArrow, txId) => txIdToArrow[txId]);
 
 export default arrowSlice.reducer

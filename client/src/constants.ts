@@ -2,9 +2,9 @@
 
 
 
-export const ARROW_CONTRACT_SOURCE_TX_ID = 'buDrPDh-LImOchsXpQi67XP1d2sdQHKc3cjTXNv1eac';
+export const ARROW_CONTRACT_SOURCE_TX_ID = 'ILHUfL5GUF5vw38Grq89XcIPiZMi-lzNxYZG_uJGyGw';
 
-export const JAMN_CONTRACT_TX_ID = '2aejdq2CoRKSl8ZfkZ8-PpTm6-deutFZoS9-9SkZxhs';
+export const JAMN_CONTRACT_TX_ID = 'LpIT72acgfvADtyPWLm33JKR0m-iilvD18ZmlGSMgFg';
 
 export const OFF_WHITE = '#ededed';
 
@@ -17,3 +17,8 @@ export const SCROLL_SENSITIVITY = 0.1;
 export const TAB_HEIGHT = 42;
 
 export const TWIG_WIDTH = 220;
+
+export const APP_BAR_X = 50;
+export const APP_BAR_Y = 50;
+
+export const DEFAULT_MENU_X = 420;

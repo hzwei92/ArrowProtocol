@@ -70,7 +70,7 @@ export default function SpaceNav({ spaceRef }: SpaceNavProps) {
   const disableNext = !frame.state.twigs.slice(frame.focusI + 1).find(twig => !twig.deleteDate);
   return (
     <div onMouseMove={handleMouseMove} style={{
-      display: isPlatform('mobile') //&& menuMode !== MenuMode.NONE
+      display: isPlatform('mobile') //&& mode !== Mode.PORTAL
         ? 'none'
         : 'block',
       position: 'absolute',

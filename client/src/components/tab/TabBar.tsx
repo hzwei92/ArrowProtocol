@@ -6,7 +6,7 @@ import NewTabButton from "./NewTabButton";
 import Tab from "./Tab";
 
 const TabBar = () => {
-  const { profile } = useContext(AppContext);
+  const { profile, isDarkMode } = useContext(AppContext);
 
   const tabsRef = useRef<HTMLIonCardElement>(null);
 
@@ -37,7 +37,7 @@ const TabBar = () => {
         borderRadius: 0,
         width: '100%',
         scrollbarWidth: 'none',
-        backgroundColor: true
+        backgroundColor: isDarkMode
           ? '#444444'
           : '#dddddd',
         whiteSpace: 'nowrap',

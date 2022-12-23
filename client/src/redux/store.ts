@@ -1,10 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import arrowSlice from './slices/arrowSlice';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import entrySlice from './slices/entrySlice';
+import explorerSlice from './slices/explorerSlice';
 
 export const store = configureStore({
   reducer: {
     arrow: arrowSlice,
+    entry: entrySlice,
+    explorer: explorerSlice,
   },
 })
 

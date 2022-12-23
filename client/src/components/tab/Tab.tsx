@@ -1,10 +1,11 @@
 import { IonButton, IonButtons, IonCard, IonIcon, useIonRouter } from "@ionic/react";
 import { close } from "ionicons/icons";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../../redux/store";
 import { OFF_WHITE, TAB_HEIGHT } from "../../constants";
 import { selectFrameTxId, selectTxIdToArrow, setFrameTxId } from "../../redux/slices/arrowSlice";
 import useReadArrowState from "../../warp/arrow/actions/read/useReadArrowState";
+import { AppContext } from "../app/AppProvider";
 
 interface TabComponentProps {
   arrowTxId: string;
@@ -12,6 +13,8 @@ interface TabComponentProps {
 }
 const TabComponent = ({ arrowTxId, i }: TabComponentProps) => {
   const router = useIonRouter();
+
+  const { isDarkMode } = useContext(AppContext);
 
   const frameTxId = useAppSelector(selectFrameTxId);
   const txIdToArrow = useAppSelector(selectTxIdToArrow);
@@ -47,7 +50,7 @@ const TabComponent = ({ arrowTxId, i }: TabComponentProps) => {
           margin: 0,
           marginRight: 1,
           backgroundColor: frameTxId === arrowTxId
-            ? true //palette === 'dark'
+            ? isDarkMode
               ? 'black'
               : OFF_WHITE
             : null,
@@ -80,7 +83,7 @@ const TabComponent = ({ arrowTxId, i }: TabComponentProps) => {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          //color: arrow.color,
+          color: arrow.state.color,
           marginLeft: 10,
           fontSize: 16,
         }}>

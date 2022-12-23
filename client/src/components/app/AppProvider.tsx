@@ -4,7 +4,8 @@ import { createContext, Dispatch, SetStateAction, useEffect, useMemo, useState }
 import { defaultCacheOptions, Warp } from "warp-contracts";
 //@ts-ignore
 import { WarpFactory } from "warp-contracts/web";
-import { Cursor, Drag } from "../../types";
+import { DEFAULT_MENU_X } from "../../constants";
+import { Cursor, Drag, Mode } from "../../types";
 import { Profile } from "../../warp/jamn/types";
 
 
@@ -22,6 +23,17 @@ export type AppContextType = {
 
   drag: Drag;
   setDrag: Dispatch<SetStateAction<Drag>>;
+
+  mode: Mode;
+  setMode: Dispatch<SetStateAction<Mode>>;
+
+  isDarkMode: boolean;
+  setIsDarkMode: Dispatch<SetStateAction<boolean>>;
+
+  menuX: number;
+  setMenuX: Dispatch<SetStateAction<number>>;
+  menuIsResizing: boolean;
+  setMenuIsResizing: Dispatch<SetStateAction<boolean>>;
 
   showRegisterModal: boolean;
   setShowRegisterModal: Dispatch<SetStateAction<boolean>>;
@@ -47,10 +59,17 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
     twigI: null,
     targetTwigI: null,
   });
+
+  const [mode, setMode] = useState<Mode>(Mode.PORTAL);
   
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [showCreateArrowModal, setShowCreateArrowModal] = useState(false);
 
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
+  const [menuX, setMenuX] = useState(DEFAULT_MENU_X);
+  const [menuIsResizing, setMenuIsResizing] = useState(false);
+  
   useEffect(() => {
     const init = async () => {
       const warp = await WarpFactory.forTestnet({ ...defaultCacheOptions, inMemory: true });
@@ -80,6 +99,10 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
 
+  useEffect(() => {
+    document.body.classList.toggle('dark', isDarkMode);
+  }, [isDarkMode])
+
   const appContextValue: AppContextType = useMemo(() => ({
     warp,
 
@@ -94,11 +117,22 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
     drag,
     setDrag,
 
+    mode,
+    setMode,
+
+    isDarkMode,
+    setIsDarkMode,
+
+    menuX,
+    setMenuX,
+    menuIsResizing,
+    setMenuIsResizing,
+
     showRegisterModal,
     setShowRegisterModal,
     showCreateArrowModal,
     setShowCreateArrowModal
-  }), [warp, walletAddress, profile, cursor, drag, showRegisterModal, showCreateArrowModal]);
+  }), [warp, walletAddress, profile, cursor, drag, mode, isDarkMode, menuX, showRegisterModal, showCreateArrowModal]);
 
   return (
     <IonApp>

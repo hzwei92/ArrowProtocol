@@ -2,9 +2,8 @@ import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonIcon,
 import { useContext, useState } from "react";
 import { ChromePicker } from "react-color";
 import { AppContext } from "../app/AppProvider";
-import { useAppSelector } from "../../redux/store";
-import useReadProfile from "../../hooks/useInitialize";
 import useRegister from "../../warp/jamn/actions/write/useRegister";
+import useReadProfile from "../../warp/jamn/actions/read/useReadProfile";
 
 const RegisterModal = () => {
   const { showRegisterModal, setShowRegisterModal } = useContext(AppContext);

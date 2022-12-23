@@ -21,3 +21,35 @@ export type Drag = {
   twigI: number | null;
   targetTwigI: number | null;
 }
+
+export enum Mode {
+  PORTAL = 'PORTAL',
+  PROFILE = 'PROFILE',
+  EXPLORER = 'EXPLORER',
+  CONTACTS = 'CONTACTS',
+  MAP = 'MAP',
+  ABOUT = 'ABOUT',
+}
+
+export type ExplorerSlice = {
+  originalQuery: string;
+  query: string;
+  entryIds: string[];
+}
+
+export type Entry = {
+  id: string;
+  userId: string;
+  arrowTxId: string;
+  showIns: boolean;
+  showOuts: boolean;
+  inIds: string[];
+  outIds: string[];
+  parentEntryId: string | null;
+  sourceEntryId: string | null;
+  targetEntryId: string | null;
+  shouldRefreshArrow?: boolean;
+  shouldGetLinks?: boolean;
+  isDeleted?: boolean;
+  bonusText?: string[];
+}

@@ -1,5 +1,4 @@
-import { IonApp, setupIonicReact } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
+import { isPlatform, setupIonicReact } from '@ionic/react';
 import './App.css';
 
 /* Core CSS required for Ionic components to work properly */
@@ -22,17 +21,27 @@ import '@ionic/react/css/display.css';
 import '../../theme/variables.css';
 
 import Menu from '../menu/Menu';
-import Explorer from '../explorer/Explorer';
+import Portal from '../portal/Portal';
 import AppBarLeft from './AppBarLeft';
 import AppBarTop from './AppBarTop';
 import RegisterModal from '../profile/RegisterModal';
 import useAppRouter from '../../hooks/useAppRouter';
+import { useContext } from 'react';
+import { AppContext } from './AppProvider';
+import useAppInitializer from '../../hooks/useAppInitializer';
+import CreateArrowModal from '../tab/NewTabModal';
+import { Mode } from '../../types';
+import { APP_BAR_X, APP_BAR_Y } from '../../constants';
 
 setupIonicReact();
 
 const App = () => {
-  useAppRouter();
-  
+  useAppRouter();  
+  useAppInitializer();
+
+  const { mode, menuX } = useContext(AppContext);
+
+
   return (
     <div id='app'>
       <AppBarLeft />
@@ -44,16 +53,37 @@ const App = () => {
       }}>
         <AppBarTop />
         <div style={{
-          display: 'flex',
-          flexDirection: 'row',
-          width: '100%',
-          height: 'calc(100% - 50px)',
+          display: mode === Mode.PORTAL
+            ? 'none'
+            : 'block',
+          height: '100%',
+          position: 'fixed',
+          left: APP_BAR_X,
+          right: isPlatform('mobile')
+            ? 0 
+            : menuX,
+          top: APP_BAR_Y,
+          bottom: 0,
         }}>
           <Menu />
-          <Explorer />
-          <RegisterModal />
+        </div>
+        <div style={{
+          display: mode !== Mode.PORTAL && isPlatform('mobile')
+            ? 'none'
+            : 'block',
+          position: 'fixed',
+          left: mode === Mode.PORTAL
+            ? APP_BAR_X
+            : menuX,
+          right: 0,
+          top: APP_BAR_Y,
+          bottom: 0,
+        }}>
+          <Portal />
         </div>
       </div>
+      <RegisterModal />
+      <CreateArrowModal />
     </div>
   );
 };

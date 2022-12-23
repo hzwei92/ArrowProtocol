@@ -15,7 +15,7 @@ interface TwigBarProps {
 }
 
 function TwigBar({i, twig, arrow, isSelected}: TwigBarProps) {
-  const { walletAddress, drag, setDrag } = useContext(AppContext);
+  const { walletAddress, drag, setDrag, isDarkMode } = useContext(AppContext);
 
   const frameTxId = useAppSelector(selectFrameTxId);
 
@@ -89,7 +89,7 @@ function TwigBar({i, twig, arrow, isSelected}: TwigBarProps) {
             <IonLabel style={{
               marginLeft: '3px',
               fontSize: 10,
-              color: true //palette === 'dark'
+              color: isDarkMode
                 ? 'black'
                 : 'white',
             }}>
@@ -109,13 +109,13 @@ function TwigBar({i, twig, arrow, isSelected}: TwigBarProps) {
             {
               false
                 ? <IonIcon icon={removeOutline} style={{
-                    color: true // palette === 'dark'
+                    color: isDarkMode
                       ? 'black'
                       : 'white',
                     fontSize: 10,
                   }}/>
                 : <IonIcon icon={addOutline} style={{
-                    color: true //palette === 'dark'
+                    color: isDarkMode
                       ? 'black'
                       : 'white',
                     fontSize: 10,                  
@@ -136,7 +136,7 @@ function TwigBar({i, twig, arrow, isSelected}: TwigBarProps) {
             }}
           >
             <IonIcon icon={closeOutline} style={{
-              color: true //palette === 'dark'
+              color: isDarkMode
                 ? 'black'
                 : 'white',
               fontSize: 10,

@@ -118,8 +118,10 @@ export interface ArrowAction {
 
 export interface ArrowInput {
   function: ArrowFunction;
-  parentTwigI?: number;
   detailAddress?: string;
+  parentTwigI?: number;
+  sourceTwigI?: number | null;
+  targetTwigI?: number | null;
   x?: number;
   y?: number;
   date?: number;

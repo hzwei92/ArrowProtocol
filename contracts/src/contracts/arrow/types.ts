@@ -125,10 +125,11 @@ export interface ArrowInput {
   x?: number;
   y?: number;
   date?: number;
+  twigs?: Twig[];
 }
 
 export type ArrowResult = string;
 
-export type ArrowFunction = 'arrowRead' | 'createTwig';
+export type ArrowFunction = 'createTwig' | 'writeTwigs';
 
 export type ContractResult = { state: ArrowState } | { result: ArrowResult };

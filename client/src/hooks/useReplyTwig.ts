@@ -57,6 +57,7 @@ const useReplyTwig = () => {
       date: Date.now(),
     });
 
+
     const linkTxId = await deployArrow({
       walletAddress,
       uuid: v4(),
@@ -72,16 +73,30 @@ const useReplyTwig = () => {
 
     if (!linkTxId) return;
 
+    const frame1 = await readArrowState(frameTxId);
+
+    console.log(frame1);
+    if (!frame1) return;
+
+    let targetTwigI: number | null = null;
+    frame1.state.twigs.slice().reverse().some((t, i) => {
+      if (t.detailAddress === postTxId) {
+        targetTwigI = frame1.state.twigs.length - 1 - i;
+        return true;
+      }
+      return false;
+    });
+
     await createTwig({
       abstractAddress: frameTxId,
       detailAddress: linkTxId,
       parentTwigI: null,
-      sourceTwigI: null,
-      targetTwigI: null,
+      sourceTwigI: i,
+      targetTwigI,
       x: (twig.x + x) / 2,
       y: (twig.y + y) / 2,
       date: Date.now(),
-    })
+    });
 
     await readArrowState(frameTxId);
   }

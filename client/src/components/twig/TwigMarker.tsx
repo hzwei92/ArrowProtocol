@@ -16,7 +16,6 @@ const TwigMarker = ({ i, twig }: TwigMarkerProps) => {
 
   const parentTwig = frame.state.twigs[twig.parentTwigI];
 
-  console.log(parentTwig);
   if (!parentTwig) return null;
 
   return (

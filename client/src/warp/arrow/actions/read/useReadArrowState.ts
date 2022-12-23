@@ -4,7 +4,7 @@ import { useAppDispatch } from "../../../../redux/store";
 import { ArrowState } from "../../types";
 import signer from '../../../../wallet/signer';
 import { mergeArrows } from "../../../../redux/slices/arrowSlice";
-import { IdToType } from "../../../../types";
+import { Arrow, IdToType } from "../../../../types";
 
 const useReadArrowState = () => {
   const dispatch = useAppDispatch();
@@ -13,18 +13,16 @@ const useReadArrowState = () => {
 
   const readArrowState = async (contractTxId: string) => {
     if (!warp) return;
+
     const contract = await warp.contract(contractTxId).connect({
       signer,
       type: 'arweave',
     });
-    
     const { cachedValue } = await contract.readState();
+
     const state = cachedValue.state as ArrowState;
 
-    console.log(state);
-
     const twigIToDescIToTrue: IdToType<IdToType<true>> = {};
-
     state.twigs.forEach((twig, i) => {
       let t = twig;
 
@@ -37,7 +35,7 @@ const useReadArrowState = () => {
       // add to all ancestors' descendants
       while (t.parentTwigI !== null) {
         twigIToDescIToTrue[t.parentTwigI] = {
-          ...(twigIToDescIToTrue[t.parentTwigI] || {}),
+          ...twigIToDescIToTrue[t.parentTwigI],
           [i]: true,
         };
 
@@ -45,12 +43,16 @@ const useReadArrowState = () => {
       }
     });
 
-    dispatch(mergeArrows([{
+    const arrow: Arrow = {
       txId: contractTxId,
       focusI: 0,
       twigIToDescIToTrue,
       state,
-    }]));
+    };
+
+    dispatch(mergeArrows([arrow]));
+
+    return arrow;
   }
 
   return readArrowState;

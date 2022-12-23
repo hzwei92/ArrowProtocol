@@ -63,6 +63,9 @@ const TabComponent = ({ arrowTxId, i }: TabComponentProps) => {
           flexShrink: 0,
           cursor: 'default',
           opacity: 1, //isOver ? 0.2 : 1,
+          height: frameTxId === arrowTxId
+            ? TAB_HEIGHT + 1
+            : TAB_HEIGHT - 1,
         }}
       >
         <div style={{
@@ -79,9 +82,6 @@ const TabComponent = ({ arrowTxId, i }: TabComponentProps) => {
           justifyContent: 'center',
           //color: arrow.color,
           marginLeft: 10,
-          height: frameTxId === arrowTxId
-            ? TAB_HEIGHT + 1
-            : TAB_HEIGHT - 1,
           fontSize: 16,
         }}>
           { arrow.state.name }

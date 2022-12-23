@@ -3,22 +3,24 @@ import { SCROLL_SENSITIVITY, TAB_HEIGHT, VIEW_RADIUS } from "../../constants";
 import { selectFrame } from "../../redux/slices/arrowSlice"
 import TwigComponent from "../twig/TwigComponent"
 import { ReactZoomPanPinchRef, TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
-import { Fragment, MouseEvent, useContext, useEffect, useRef } from "react";
+import { Fragment, MouseEvent, useContext, useEffect, useRef, useState } from "react";
 import TwigMarker from "../twig/TwigMarker";
 import { AppContext } from "../app/AppProvider";
 import useMoveTwig from "../../hooks/useMoveTwig";
+import useWriteTwigs from "../../warp/arrow/actions/write/useWriteTwigs";
 
 const Space = () => {
   const { cursor, setCursor, drag, setDrag } = useContext(AppContext);
-  const frame = useAppSelector(selectFrame);
 
+  const frame = useAppSelector(selectFrame);
   const spaceRef = useRef<ReactZoomPanPinchRef>(null);
+  
+  const moveTwig = useMoveTwig();
+  const writeTwigs = useWriteTwigs();
 
   useEffect(() => {
     spaceRef.current?.zoomToElement(`twig-${frame?.focusI}`, 1.2, 200);
   }, [frame?.txId, frame?.focusI]);
-
-  const moveTwig = useMoveTwig();
   
   const handleMouseDown = (e: MouseEvent) => {
     setDrag({
@@ -33,6 +35,9 @@ const Space = () => {
       twigI: null,
       targetTwigI: null,
     });
+    if (drag.twigI !== null) {
+      writeTwigs();
+    }
   }
 
   const handleMouseMove = (e: MouseEvent) => {
@@ -52,8 +57,8 @@ const Space = () => {
     setCursor({ x, y });
   
     if (drag.twigI) {
-      const dx = x - cursor.x;
-      const dy = y - cursor.y;
+      const dx = Math.round(x - cursor.x);
+      const dy = Math.round(y - cursor.y);
   
       moveTwig({ twigI: drag.twigI, dx, dy })
     }

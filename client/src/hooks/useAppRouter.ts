@@ -5,7 +5,6 @@ import { mergeArrows, selectFrame, selectTxIdToArrow, setFrameTxId } from "../re
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import useWriteTabs from "../warp/jamn/actions/write/useWriteTabs";
 
-
 const useAppRouter = () => {
   const dispatch = useAppDispatch();
 
@@ -22,7 +21,6 @@ const useAppRouter = () => {
     if (!profile) return;
 
     const path = router.routeInfo.pathname.split('/');
-    console.log('path', path);
 
     if (path[1] !== 'j') return;
     

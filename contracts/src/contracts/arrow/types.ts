@@ -2,7 +2,7 @@ export interface Comment {
   creatorAddress: string; // the address of the user that created this comment
 
   // abstractAddress: string; // the address of the arrow that contains this comment
-  detailAddress: string | null; // the address of the arrow that the comment embeds within the container arrow.
+  txId: string | null; // the address of the arrow that the comment embeds within the container arrow.
 
   parentCommentI: number | null; // parentComment.i the comments form a tree structure; dragging a comment will move the whole subtree
   
@@ -69,10 +69,10 @@ export interface ArrowState {
 
   // the arrow connects two Arrows, source --> target; 
   // an Arrow is just a transaction, 
-  // where if sourceAddress !== targetAddress then the Arrow functions as a link. 
+  // where if sourceTxId !== targetTxId then the Arrow functions as a link. 
   // Otherwise, the Arrow functions as a post. So all transactions are de facto posts.
-  sourceAddress: string | null; 
-  targetAddress: string | null;
+  sourceTxId: string | null; 
+  targetTxId: string | null;
 
 
   // the original Arrow in which this Arrow is embedded
@@ -118,7 +118,7 @@ export interface ArrowAction {
 
 export interface ArrowInput {
   function: ArrowFunction;
-  detailAddress?: string;
+  txId?: string;
   parentCommentI?: number;
   sourceCommentI?: number | null;
   targetCommentI?: number | null;

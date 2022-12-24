@@ -24,17 +24,17 @@ const CommentComponent = ({ i, comment }: CommentProps) => {
   const selectComment = useSelectComment();
 
   useEffect(() => {
-    if (comment.detailAddress){
-      const arrow = txIdToArrow[comment.detailAddress];
+    if (comment.txId){
+      const arrow = txIdToArrow[comment.txId];
       if (!arrow) {
-        readArrowState(comment.detailAddress);
+        readArrowState(comment.txId);
       }
     }
-  }, [comment.detailAddress]);
+  }, [comment.txId]);
 
   let arrow;
-  if (comment.detailAddress) {
-    arrow = txIdToArrow[comment.detailAddress];
+  if (comment.txId) {
+    arrow = txIdToArrow[comment.txId];
   }
   else if (i === 0) {
     arrow = frame;
@@ -60,7 +60,7 @@ const CommentComponent = ({ i, comment }: CommentProps) => {
       }}
     >
       {
-        arrow?.state.sourceAddress === arrow?.state.targetAddress
+        arrow?.state.sourceTxId === arrow?.state.targetTxId
           ? <PostComment i={i} comment={comment} arrow={arrow}/>
           : <LinkComment i={i} comment={comment} arrow={arrow}/>
       }

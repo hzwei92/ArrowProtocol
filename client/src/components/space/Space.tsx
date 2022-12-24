@@ -23,8 +23,8 @@ const Space = () => {
   const writeComments = useWriteComments();
 
   const focusComment = frame?.state.comments[frame?.focusI];
-  const focusArrow = focusComment?.detailAddress
-    ? txIdToArrow[focusComment.detailAddress]
+  const focusArrow = focusComment?.txId
+    ? txIdToArrow[focusComment.txId]
     : null;
 
   useEffect(() => {

@@ -16,9 +16,9 @@ const LinkMarker = ({i, comment}: LinkMarkerProps) => {
 
   const selectComment = useSelectComment();
 
-  if (!frame || !comment.detailAddress || comment.sourceCommentI === null || comment.targetCommentI === null) return null;
+  if (!frame || !comment.txId || comment.sourceCommentI === null || comment.targetCommentI === null) return null;
 
-  const link = txIdToArrow[comment.detailAddress];
+  const link = txIdToArrow[comment.txId];
 
   if (!link) return null;
 

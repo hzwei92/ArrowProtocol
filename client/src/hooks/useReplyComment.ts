@@ -32,8 +32,8 @@ const useReplyComment = () => {
       color: profile.color,
       data: '',
       parentAddress: frameTxId,
-      sourceAddress: null,
-      targetAddress: null,
+      sourceTxId: null,
+      targetTxId: null,
       date: Date.now(),
     });
 
@@ -50,7 +50,7 @@ const useReplyComment = () => {
 
     await createComment({
       abstractAddress: frameTxId,
-      detailAddress: postTxId,
+      txId: postTxId,
       parentCommentI: i,
       sourceCommentI: null,
       targetCommentI: null,
@@ -68,8 +68,8 @@ const useReplyComment = () => {
       data: '',
       color: profile.color,
       parentAddress: frameTxId,
-      sourceAddress: arrow.txId,
-      targetAddress: postTxId,
+      sourceTxId: arrow.txId,
+      targetTxId: postTxId,
       date: Date.now(),
     });
 
@@ -85,7 +85,7 @@ const useReplyComment = () => {
 
     let targetCommentI: number | null = null;
     frame1.state.comments.slice().reverse().some((t, i) => {
-      if (t.detailAddress === postTxId) {
+      if (t.txId === postTxId) {
         targetCommentI = frame1.state.comments.length - 1 - i;
         return true;
       }
@@ -94,7 +94,7 @@ const useReplyComment = () => {
 
     await createComment({
       abstractAddress: frameTxId,
-      detailAddress: linkTxId,
+      txId: linkTxId,
       parentCommentI: null,
       sourceCommentI: i,
       targetCommentI,

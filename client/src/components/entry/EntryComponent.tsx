@@ -34,7 +34,7 @@ export default function EntryComponent(props: EntryComponentProps) {
 
   useEffect(() => {
     if (props.entry.showOuts || props.entry.showIns) return;
-    if (arrow.state.sourceAddress === arrow.state.targetAddress) return;
+    if (arrow.state.sourceTxId === arrow.state.targetTxId) return;
     //getEndpoints();
   }, [props.entry.showOuts, props.entry.showIns]);
 
@@ -69,7 +69,7 @@ export default function EntryComponent(props: EntryComponentProps) {
         cursor: false //pendingLink.sourceArrowId
           ? 'crosshair'
           : null, 
-        borderLeft: arrow.state.sourceAddress === arrow.state.targetAddress
+        borderLeft: arrow.state.sourceTxId === arrow.state.targetTxId
           ? `4px solid ${arrow.state.color}`
           : null,
         padding: 10,

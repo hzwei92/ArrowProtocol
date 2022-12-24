@@ -10,11 +10,11 @@ const MarkerDefs = () => {
   const colorToTrue: IdToType<true> = {};
 
   frame?.state.comments.forEach(t => {
-    if (!t.detailAddress) return;
+    if (!t.txId) return;
     if (t.sourceCommentI === null || t.targetCommentI === null) return;
     if (t.sourceCommentI === t.targetCommentI) return;
 
-    const a = txIdToArrow[t.detailAddress];
+    const a = txIdToArrow[t.txId];
 
     if (!a) return;
 

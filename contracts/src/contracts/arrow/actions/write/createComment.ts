@@ -4,10 +4,10 @@ declare const ContractError: any;
 
 export const createComment = async (
   state: ArrowState,
-  {caller, input: { detailAddress, parentCommentI, sourceCommentI, targetCommentI, x, y, date }}: ArrowAction
+  {caller, input: { txId, parentCommentI, sourceCommentI, targetCommentI, x, y, date }}: ArrowAction
 ): Promise<ContractResult> => {
-  if (!detailAddress) {
-    throw new ContractError(`No detailAddress supplied`);
+  if (!txId) {
+    throw new ContractError(`No txId supplied`);
   }
   if (x === undefined || x === null) {
     throw new ContractError(`No x supplied`);
@@ -21,7 +21,7 @@ export const createComment = async (
 
   const comment: Comment = {
     creatorAddress: caller,
-    detailAddress,
+    txId,
     parentCommentI,
     sourceCommentI,
     targetCommentI,

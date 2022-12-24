@@ -34,8 +34,8 @@ const useLinkComments = () => {
       color: profile.color,
       data: '',
       parentAddress: frame.txId,
-      sourceAddress: sourceComment.detailAddress,
-      targetAddress: targetComment.detailAddress,
+      sourceTxId: sourceComment.txId,
+      targetTxId: targetComment.txId,
       date: Date.now(),
     });
 
@@ -45,7 +45,7 @@ const useLinkComments = () => {
 
     await createComment({
       abstractAddress: frame.txId,
-      detailAddress: linkTxId,
+      txId: linkTxId,
       parentCommentI: null,
       sourceCommentI,
       targetCommentI,

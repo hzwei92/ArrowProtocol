@@ -8,7 +8,7 @@ export const writeComments = async (
 ): Promise<ContractResult> => {
   comments.forEach((comment, i) => {
     const t = state.comments[i];
-    if (t && comment.detailAddress === t.detailAddress) {
+    if (t && comment.txId === t.txId) {
       t.x = comment.x;
       t.y = comment.y;
     }

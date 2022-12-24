@@ -4,9 +4,13 @@ import { ChromePicker } from "react-color";
 import { AppContext } from "../app/AppProvider";
 import useRegister from "../../warp/jamn/actions/write/useRegister";
 import useReadProfile from "../../warp/jamn/actions/read/useReadProfile";
+import { useAppDispatch } from "../../redux/store";
+import { setFrameTxId } from "../../redux/slices/arrowSlice";
 
 const RegisterModal = () => {
-  const { showRegisterModal, setShowRegisterModal } = useContext(AppContext);
+  const dispatch = useAppDispatch();
+
+  const { setProfile, showRegisterModal, setShowRegisterModal } = useContext(AppContext);
 
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -36,7 +40,14 @@ const RegisterModal = () => {
 
   const handleSubmit = async () => {
     await register({name, description, color});
-    await readProfile();
+    const result = await readProfile();
+    if (result?.type === 'ok') {
+      const { profile } = result.result;
+      if (profile) {
+        setProfile(profile);
+        dispatch(setFrameTxId(profile?.tabs[profile.tabs.length - 1]))
+      }
+    }
     handleClose();
   }
 

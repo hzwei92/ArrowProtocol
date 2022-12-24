@@ -8,8 +8,8 @@ const initializeArrowState = ({
   description, 
   color,
   data, 
-  sourceAddress, 
-  targetAddress, 
+  sourceTxId, 
+  targetTxId, 
   parentAddress, 
   date
 }: DeployArrowProps) => {
@@ -21,14 +21,14 @@ const initializeArrowState = ({
     data,
     weight: 0,
     creatorAddress: walletAddress,
-    sourceAddress,
-    targetAddress,
+    sourceTxId,
+    targetTxId,
     parentAddress,
     comments: [{
       x: 0,
       y: 0,
       creatorAddress: walletAddress,
-      detailAddress: '',
+      txId: '',
       parentCommentI: null,
       sourceCommentI: null,
       targetCommentI: null,

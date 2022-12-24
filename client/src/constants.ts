@@ -2,9 +2,9 @@
 
 
 
-export const ARROW_CONTRACT_SOURCE_TX_ID = '3Yxa8VTye8S-kld6Orp3-lsVdH6A9ulBlCwl22ie7y8';
+export const ARROW_CONTRACT_SOURCE_TX_ID = '6GY2Om7Ju7OAxFFNum4ox8kDppiTZ2EpAqCbHcA4y7s';
 
-export const JAMN_CONTRACT_TX_ID = 'Vzc2_hath-LjABt0hTp8fAv6D7HVYp2T8ZTbIHm34mA';
+export const JAMN_CONTRACT_TX_ID = 'SxkBDO1c8HL_zTqUROOJuDu-7vsWPbRrN45ZTrlRvTM';
 
 export const OFF_WHITE = '#ededed';
 

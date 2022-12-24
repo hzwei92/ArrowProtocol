@@ -4,7 +4,7 @@ import signer from '../../../../wallet/signer';
 
 interface CreateCommentProps {
   abstractAddress: string;
-  detailAddress: string;
+  txId: string;
   parentCommentI: number | null;
   sourceCommentI: number | null;
   targetCommentI: number | null;
@@ -17,7 +17,7 @@ const useCreateComment = () => {
 
   const createComment = async ({
     abstractAddress,
-    detailAddress,
+    txId,
     parentCommentI,
     sourceCommentI,
     targetCommentI,
@@ -34,7 +34,7 @@ const useCreateComment = () => {
     
     await contract.writeInteraction({
       function: 'createComment',
-      detailAddress,
+      txId,
       parentCommentI,
       sourceCommentI,
       targetCommentI,

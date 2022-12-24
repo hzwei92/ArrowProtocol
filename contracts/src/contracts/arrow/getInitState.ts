@@ -3,8 +3,8 @@ import { v4 } from 'uuid';
 
 export const getInitState = (
   creatorAddress: string, 
-  sourceAddress: string, 
-  targetAddress: string, 
+  sourceTxId: string, 
+  targetTxId: string, 
   parentAddress: string,
 ) => {
   const date = Date.now();
@@ -16,12 +16,12 @@ export const getInitState = (
     weight: 0,
     data: '',
     creatorAddress,
-    sourceAddress,
-    targetAddress,
+    sourceTxId,
+    targetTxId,
     parentAddress,
     comments: [{
       creatorAddress,
-      detailAddress: null,
+      txId: null,
       parentCommentI: null,
       sourceCommentI: null,
       targetCommentI: null,

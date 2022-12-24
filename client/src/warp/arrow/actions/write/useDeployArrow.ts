@@ -12,8 +12,8 @@ export interface DeployArrowProps {
   color: string;
   data: string;
   parentAddress: string | null;
-  sourceAddress: string | null;
-  targetAddress: string | null;
+  sourceTxId: string | null;
+  targetTxId: string | null;
   date: number;
 }
 
@@ -33,8 +33,8 @@ const useDeployArrow = () => {
       initState: JSON.stringify(initState),
       srcTxId: ARROW_CONTRACT_SOURCE_TX_ID,
       tags: [
-        { name: 'Arrow-A-Address', value: initState.sourceAddress ?? '' },
-        { name: 'Arrow-B-Address', value: initState.targetAddress ?? '' },
+        { name: 'Arrow-A-Address', value: initState.sourceTxId ?? '' },
+        { name: 'Arrow-B-Address', value: initState.targetTxId ?? '' },
       ]
     });
   

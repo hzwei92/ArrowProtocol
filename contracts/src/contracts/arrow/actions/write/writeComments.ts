@@ -11,6 +11,7 @@ export const writeComments = async (
     if (t && comment.txId === t.txId) {
       t.x = comment.x;
       t.y = comment.y;
+      t.isExpanded = comment.isExpanded
     }
   });
   return { state }; 

@@ -3,8 +3,8 @@ import { VIEW_RADIUS } from '../../constants';
 import { Comment } from '../../warp/arrow/types';
 import { selectFrame, selectTxIdToArrow } from '../../redux/slices/arrowSlice';
 import useReadArrowState from '../../warp/arrow/actions/read/useReadArrowState';
-import LinkComment from './LinkComment';
-import PostComment from './PostComment';
+import Link from './Link';
+import Post from './Post';
 import { useAppSelector } from '../../redux/store';
 import useSelectComment from '../../hooks/useSelectComment';
 
@@ -40,7 +40,7 @@ const CommentComponent = ({ i, comment }: CommentProps) => {
     arrow = frame;
   }
 
-  if (!arrow) return null;
+  if (!frame || !arrow) return null;
 
   const handleMouseDown = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -56,13 +56,12 @@ const CommentComponent = ({ i, comment }: CommentProps) => {
         position: 'absolute',
         left: VIEW_RADIUS + comment.x,
         top: VIEW_RADIUS + comment.y,
-        zIndex: frame?.state.commentIs.indexOf(i),
       }}
     >
       {
         arrow?.state.sourceTxId === arrow?.state.targetTxId
-          ? <PostComment i={i} comment={comment} arrow={arrow}/>
-          : <LinkComment i={i} comment={comment} arrow={arrow}/>
+          ? <Post i={i} comment={comment} arrow={arrow}/>
+          : <Link i={i} comment={comment} arrow={arrow}/>
       }
     </div>
   )

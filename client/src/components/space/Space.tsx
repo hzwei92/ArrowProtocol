@@ -73,8 +73,10 @@ const Space = () => {
       commentI: null,
       targetCommentI: null,
     });
-    if (drag.commentI !== null) {
-      writeComments();
+    if (frame && drag.commentI !== null) {
+      writeComments({
+        comments: frame.state.comments,
+      });
     }
   }
 
@@ -83,6 +85,8 @@ const Space = () => {
       setMouseMoveEvent(e);
     }
   }
+
+  if (!frame) return null;
 
   return (
     <div 
@@ -150,17 +154,19 @@ const Space = () => {
               }}>
                 <MarkerDefs />
                 {
-                  (frame?.state.comments || []).map((comment, i) => {
+                  (frame.state.commentIs || []).map((commentI) => {
+                    const comment = frame.state.comments[commentI]
                     return (
-                      <Marker key={'marker-'+i} i={i} comment={comment}/>
+                      <Marker key={'marker-'+commentI} i={commentI} comment={comment}/>
                     )
                   })
                 }
               </svg>
               {
-                (frame?.state.comments || []).map((comment, i) => {
+                (frame.state.commentIs || []).map((commentI) => {
+                  const comment = frame.state.comments[commentI]
                   return (
-                    <CommentComponent key={'comment-'+i} i={i} comment={comment}/>
+                    <CommentComponent key={'comment-'+commentI} i={commentI} comment={comment}/>
                   )
                 })
               }

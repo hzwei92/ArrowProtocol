@@ -6,18 +6,20 @@ import { Comment } from '../../warp/arrow/types';
 import { selectFrameTxId } from '../../redux/slices/arrowSlice';
 import { AppContext } from '../app/AppProvider';
 import { Arrow } from '../../types';
+import useExpandComment from '../../hooks/useExpandComment';
 
-interface CommentBarProps {
+interface PostBarProps {
   i: number;
   comment: Comment;
   arrow: Arrow;
-  isSelected: boolean;
 }
 
-function CommentBar({i, comment, arrow, isSelected}: CommentBarProps) {
+function PostBar({ i, comment, arrow }: PostBarProps) {
   const { walletAddress, drag, setDrag, isDarkMode } = useContext(AppContext);
 
   const frameTxId = useAppSelector(selectFrameTxId);
+
+  const expandComment = useExpandComment();
 
   const beginDrag = () => {
     if (i === 0) return;
@@ -33,8 +35,9 @@ function CommentBar({i, comment, arrow, isSelected}: CommentBarProps) {
     event.stopPropagation();
   }
 
-  const handleToggleOpenClick = (e: React.MouseEvent) => {
+  const handleExpandClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+    expandComment({ i, isExpanded: !comment.isExpanded });
   }
 
   const handleRemoveClick = (event: React.MouseEvent) => {
@@ -101,13 +104,13 @@ function CommentBar({i, comment, arrow, isSelected}: CommentBarProps) {
           <IonButton
             color='inherit'
             onMouseDown={dontDrag}
-            onClick={handleToggleOpenClick}
+            onClick={handleExpandClick}
             style={{
               height: 20,
             }}
           >
             {
-              false
+              comment.isExpanded
                 ? <IonIcon icon={removeOutline} style={{
                     color: isDarkMode
                       ? 'black'
@@ -148,4 +151,4 @@ function CommentBar({i, comment, arrow, isSelected}: CommentBarProps) {
   )
 }
 
-export default React.memo(CommentBar)
+export default React.memo(PostBar)

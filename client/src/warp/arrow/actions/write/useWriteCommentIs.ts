@@ -3,18 +3,17 @@ import { AppContext } from "../../../../components/app/AppProvider";
 import { selectFrame } from "../../../../redux/slices/arrowSlice";
 import { useAppSelector } from "../../../../redux/store";
 import signer from "../../../../wallet/signer";
-import { Comment } from "../../types";
 
 
-interface WriteCommentsProps {
-  comments: Comment[];
+interface WriteCommentIsProps {
+  commentIs: number[];
 }
 
-const useWriteComments = () => {
+const useWriteCommentIs = () => {
   const { warp } = useContext(AppContext);
   const frame = useAppSelector(selectFrame);
 
-  const writeComments = async ({ comments }: WriteCommentsProps) => {
+  const writeComments = async ({ commentIs }: WriteCommentIsProps) => {
     if (!warp || !frame) return;
 
     const contract = await warp.contract(frame.txId).connect({
@@ -23,11 +22,11 @@ const useWriteComments = () => {
     });
 
     await contract.writeInteraction({
-      function: 'writeComments',
-      comments,
+      function: 'writeCommentIs',
+      commentIs,
     });
   }
   return writeComments;
 }
 
-export default useWriteComments;
+export default useWriteCommentIs;

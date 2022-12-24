@@ -7,7 +7,7 @@ import useReadArrowState from "../warp/arrow/actions/read/useReadArrowState";
 import useCreateComment from "../warp/arrow/actions/write/useCreateComment";
 import useDeployArrow from "../warp/arrow/actions/write/useDeployArrow";
 
-interface LinkCommentsProps {
+interface LinksProps {
   sourceCommentI: number;
   targetCommentI: number;
 }
@@ -20,7 +20,7 @@ const useLinkComments = () => {
   const createComment = useCreateComment();
   const readArrowState = useReadArrowState();
 
-  const linkComments = async ({ sourceCommentI, targetCommentI }: LinkCommentsProps) => {
+  const linkComments = async ({ sourceCommentI, targetCommentI }: LinksProps) => {
     if (!walletAddress || !profile || !frame) return;
 
     const sourceComment = frame.state.comments[sourceCommentI];

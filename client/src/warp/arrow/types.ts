@@ -13,6 +13,8 @@ export interface Comment {
   x: number; 
   y: number;
 
+  isExpanded: boolean; // whether the comment is expanded or collapsed
+
   createDate: number;
   updateDate: number;
   deleteDate: number | null;
@@ -125,10 +127,12 @@ export interface ArrowInput {
   x?: number;
   y?: number;
   date?: number;
+  comments?: Comment[];
+  commentIs?: number[];
 }
 
 export type ArrowResult = string;
 
-export type ArrowFunction = 'arrowRead' | 'createComment';
+export type ArrowFunction = 'createComment' | 'writeComments' | 'writeCommentIs';
 
 export type ContractResult = { state: ArrowState } | { result: ArrowResult };

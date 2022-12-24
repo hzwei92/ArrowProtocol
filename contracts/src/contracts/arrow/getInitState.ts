@@ -10,8 +10,8 @@ export const getInitState = (
   const date = Date.now();
   const initState: ArrowState = {
     uuid: v4(),
-    name: 'JAMN testnet',
-    description: 'JAMN is pioneering the next generation of social media. Join us on our journey to build a better internet.',
+    name: 'JAMN testnet Arrow',
+    description: 'JAMN is a community of citizen journalists. The Arrow Protocol is our tool for organizing and sharing information.',
     color: '#' + Math.round(Math.random() * Math.pow(16, 6)).toString(16).padStart(6, '0'),
     weight: 0,
     data: '',
@@ -27,6 +27,7 @@ export const getInitState = (
       targetCommentI: null,
       x: 0,
       y: 0,
+      isExpanded: true,
       createDate: date,
       updateDate: date,
       deleteDate: null,

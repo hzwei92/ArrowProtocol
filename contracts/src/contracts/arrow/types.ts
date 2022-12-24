@@ -4,7 +4,7 @@ export interface Comment {
   // abstractAddress: string; // the address of the arrow that contains this comment
   txId: string | null; // the address of the arrow that the comment embeds within the container arrow.
 
-  parentCommentI: number | null; // parentComment.i the comments form a tree structure; dragging a comment will move the whole subtree
+  parentCommentI: number | null; //  the comments form a tree structure; dragging a comment will move the whole subtree
   
   sourceCommentI: number | null; // if detailArrow is to be rendered as a link, this is the comment that holds detailArrow.source
   targetCommentI: number | null; // if detailArrow is to be rendered as a link, this is the comment that holds detailArrow.target
@@ -12,6 +12,8 @@ export interface Comment {
   // x, y are rel to origin
   x: number; 
   y: number;
+
+  isExpanded: boolean; // whether the comment is expanded or collapsed
 
   createDate: number;
   updateDate: number;
@@ -126,10 +128,11 @@ export interface ArrowInput {
   y?: number;
   date?: number;
   comments?: Comment[];
+  commentIs?: number[];
 }
 
 export type ArrowResult = string;
 
-export type ArrowFunction = 'createComment' | 'writeComments';
+export type ArrowFunction = 'createComment' | 'writeComments' | 'writeCommentIs';
 
 export type ContractResult = { state: ArrowState } | { result: ArrowResult };

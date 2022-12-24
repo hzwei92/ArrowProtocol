@@ -1,23 +1,23 @@
 import { IonCard } from "@ionic/react";
 import { MouseEvent, useContext } from "react";
 import { useSelector } from "react-redux";
-import { TWIG_WIDTH } from "../../constants";
+import { COMMENT_WIDTH } from "../../constants";
 import useLinkComments from "../../hooks/useLinkComments";
 import { selectFrame } from "../../redux/slices/arrowSlice";
 import { Arrow } from "../../types";
 import { Comment } from "../../warp/arrow/types";
 import { AppContext } from "../app/AppProvider";
 import ArrowComponent from "../arrow/ArrowComponent";
-import CommentBar from "./CommentBar";
+import PostBar from "./PostBar";
 import CommentControls from "./CommentControls";
 
-interface PostCommentProps {
+interface PostProps {
   i: number;
   comment: Comment;
   arrow: Arrow;
 }
 
-const PostComment = ({i, comment, arrow}: PostCommentProps) => {
+const Post = ({i, comment, arrow}: PostProps) => {
   const { pendingLink, setPendingLink } = useContext(AppContext);
   const frame = useSelector(selectFrame);
   const isSelected = i === frame?.focusI;
@@ -65,7 +65,7 @@ const PostComment = ({i, comment, arrow}: PostCommentProps) => {
     <IonCard onClick={handleClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{
       display: 'flex',
       flexDirection: 'column',
-      width: TWIG_WIDTH,
+      width: COMMENT_WIDTH,
       opacity: .9,
       margin: 0,
       outline: isSelected
@@ -83,7 +83,7 @@ const PostComment = ({i, comment, arrow}: PostCommentProps) => {
       pointerEvents: 'auto',
       fontSize: 10,
     }}>
-      <CommentBar i={i} comment={comment} arrow={arrow} isSelected={false} />
+      <PostBar i={i} comment={comment} arrow={arrow} />
       <div style={{
         padding: 5,
       }}>
@@ -94,4 +94,4 @@ const PostComment = ({i, comment, arrow}: PostCommentProps) => {
   )
 }
 
-export default PostComment;
+export default Post;

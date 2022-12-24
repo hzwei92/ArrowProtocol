@@ -1,5 +1,6 @@
 import { MouseEvent } from "react";
 import { VIEW_RADIUS } from "../../constants";
+import useExpandComment from "../../hooks/useExpandComment";
 import useSelectComment from "../../hooks/useSelectComment";
 import { selectFrame, selectTxIdToArrow } from "../../redux/slices/arrowSlice";
 import { useAppSelector } from "../../redux/store";
@@ -15,6 +16,7 @@ const LinkMarker = ({i, comment}: LinkMarkerProps) => {
   const txIdToArrow = useAppSelector(selectTxIdToArrow);
 
   const selectComment = useSelectComment();
+  const expandComment = useExpandComment();
 
   if (!frame || !comment.txId || comment.sourceCommentI === null || comment.targetCommentI === null) return null;
 
@@ -31,6 +33,9 @@ const LinkMarker = ({i, comment}: LinkMarkerProps) => {
     e.stopPropagation();
     if (!isSelected) {
       selectComment({ i });
+    }
+    if (!comment.isExpanded) {
+      expandComment({ i, isExpanded: true });
     }
   }
 

@@ -27,6 +27,7 @@ export const createComment = async (
     targetCommentI,
     x,
     y,
+    isExpanded: true,
     createDate: date,
     updateDate: date,
     deleteDate: null,

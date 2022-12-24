@@ -2,27 +2,27 @@ import { useContext } from "react";
 import { v4 } from "uuid";
 import { AppContext } from "../components/app/AppProvider";
 import { useAppSelector } from "../redux/store";
-import { Twig } from "../warp/arrow/types";
+import { Comment } from "../warp/arrow/types";
 import { selectFrameTxId } from "../redux/slices/arrowSlice";
 import useDeployArrow from "../warp/arrow/actions/write/useDeployArrow";
-import useCreateTwig from "../warp/arrow/actions/write/useCreateTwig";
+import useCreateComment from "../warp/arrow/actions/write/useCreateComment";
 import useReadArrowState from "../warp/arrow/actions/read/useReadArrowState";
 import { Arrow } from "../types";
 
-interface ReplyTwigProps {
+interface ReplyCommentProps {
   i: number;
-  twig: Twig;
+  comment: Comment;
   arrow: Arrow;
 }
-const useReplyTwig = () => {
+const useReplyComment = () => {
   const { walletAddress, profile } = useContext(AppContext);
   const frameTxId = useAppSelector(selectFrameTxId);
 
   const deployArrow = useDeployArrow();
-  const createTwig = useCreateTwig();
+  const createComment = useCreateComment();
   const readArrowState = useReadArrowState();
 
-  const replyTwig = async ({ i, twig, arrow }: ReplyTwigProps) => {
+  const replyComment = async ({ i, comment, arrow }: ReplyCommentProps) => {
     if (!walletAddress || !profile || !frameTxId) return;
     const postTxId = await deployArrow({
       walletAddress,
@@ -41,19 +41,19 @@ const useReplyTwig = () => {
       throw Error('Failed to deploy post arrow');
     };
 
-    const dx = Math.round(twig.x) || (Math.random() - 0.5);
-    const dy = Math.round(twig.y) || (Math.random() - 0.5);
+    const dx = Math.round(comment.x) || (Math.random() - 0.5);
+    const dy = Math.round(comment.y) || (Math.random() - 0.5);
     const dr = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
 
-    const x = Math.round((300 * dx / dr) + twig.x + (100 * Math.random() - 50));
-    const y = Math.round((300 * dy / dr) + twig.y + (100 * Math.random() - 50));
+    const x = Math.round((300 * dx / dr) + comment.x + (100 * Math.random() - 50));
+    const y = Math.round((300 * dy / dr) + comment.y + (100 * Math.random() - 50));
 
-    await createTwig({
+    await createComment({
       abstractAddress: frameTxId,
       detailAddress: postTxId,
-      parentTwigI: i,
-      sourceTwigI: null,
-      targetTwigI: null,
+      parentCommentI: i,
+      sourceCommentI: null,
+      targetCommentI: null,
       x,
       y,
       date: Date.now(),
@@ -83,30 +83,30 @@ const useReplyTwig = () => {
       throw Error('Failed to read frame arrow');
     };
 
-    let targetTwigI: number | null = null;
-    frame1.state.twigs.slice().reverse().some((t, i) => {
+    let targetCommentI: number | null = null;
+    frame1.state.comments.slice().reverse().some((t, i) => {
       if (t.detailAddress === postTxId) {
-        targetTwigI = frame1.state.twigs.length - 1 - i;
+        targetCommentI = frame1.state.comments.length - 1 - i;
         return true;
       }
       return false;
     });
 
-    await createTwig({
+    await createComment({
       abstractAddress: frameTxId,
       detailAddress: linkTxId,
-      parentTwigI: null,
-      sourceTwigI: i,
-      targetTwigI,
-      x: (twig.x + x) / 2,
-      y: (twig.y + y) / 2,
+      parentCommentI: null,
+      sourceCommentI: i,
+      targetCommentI,
+      x: (comment.x + x) / 2,
+      y: (comment.y + y) / 2,
       date: Date.now(),
     });
 
     await readArrowState(frameTxId);
   }
 
-  return replyTwig;
+  return replyComment;
 }
 
-export default useReplyTwig;
+export default useReplyComment;

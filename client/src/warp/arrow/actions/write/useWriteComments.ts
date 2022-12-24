@@ -4,11 +4,11 @@ import { selectFrame } from "../../../../redux/slices/arrowSlice";
 import { useAppSelector } from "../../../../redux/store";
 import signer from "../../../../wallet/signer";
 
-const useWriteTwigs = () => {
+const useWriteComments = () => {
   const { warp } = useContext(AppContext);
   const frame = useAppSelector(selectFrame);
 
-  const writeTwigs = async () => {
+  const writeComments = async () => {
     if (!warp || !frame) return;
 
     const contract = await warp.contract(frame.txId).connect({
@@ -17,11 +17,11 @@ const useWriteTwigs = () => {
     });
 
     await contract.writeInteraction({
-      function: 'writeTwigs',
-      twigs: frame.state.twigs,
+      function: 'writeComments',
+      comments: frame.state.comments,
     });
   }
-  return writeTwigs;
+  return writeComments;
 }
 
-export default useWriteTwigs;
+export default useWriteComments;

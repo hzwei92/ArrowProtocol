@@ -1,26 +1,26 @@
 import { IonButton, IonButtons, IonIcon } from '@ionic/react';
 import { ellipsisVertical } from 'ionicons/icons';
 import React, { useContext, useState } from 'react';
-import { Twig } from '../../warp/arrow/types';
-import TwigOptions from './TwigOptions';
-import useReplyTwig from '../../hooks/useReplyTwig';
+import { Comment } from '../../warp/arrow/types';
+import CommentOptions from './CommentOptions';
+import useReplyComment from '../../hooks/useReplyComment';
 import { Arrow } from '../../types';
 import { AppContext } from '../app/AppProvider';
 
-//import useCenterTwig from './useCenterTwig';
+//import useCenterComment from './useCenterComment';
 
-interface TwigControlsProps {
+interface CommentControlsProps {
   i: number;
-  twig: Twig;
+  comment: Comment;
   arrow: Arrow;
 }
 
-function TwigControls({i, twig, arrow}: TwigControlsProps) {
+function CommentControls({i, comment, arrow}: CommentControlsProps) {
   const { setPendingLink } = useContext(AppContext);
 
   const [showOptions, setShowOptions] = useState(false);
 
-  const replyTwig = useReplyTwig();
+  const replyComment = useReplyComment();
 
   const handleMouseDown = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -38,14 +38,14 @@ function TwigControls({i, twig, arrow}: TwigControlsProps) {
 
   const handleReplyClick = (event: React.MouseEvent) => {
     event.stopPropagation();
-    replyTwig({ i, twig, arrow });
+    replyComment({ i, comment, arrow });
   }
 
   const handleLinkClick = (event: React.MouseEvent) => {
     event.stopPropagation();
     setPendingLink({
-      sourceTwigI: i,
-      targetTwigI: null,
+      sourceCommentI: i,
+      targetCommentI: null,
     });
   }
 
@@ -86,7 +86,7 @@ function TwigControls({i, twig, arrow}: TwigControlsProps) {
         LINK
       </IonButton>
       <IonButton 
-        id={'twig-options-' + i} 
+        id={'comment-options-' + i} 
         size='small'
         onMouseDown={handleMouseDown} 
         onClick={handleOptionsClick}
@@ -98,7 +98,7 @@ function TwigControls({i, twig, arrow}: TwigControlsProps) {
           fontSize: 5,
         }}/>
       </IonButton>
-      <TwigOptions isOpen={showOptions} setIsOpen={setShowOptions} i={i} twig={twig} arrow={arrow} />
+      <CommentOptions isOpen={showOptions} setIsOpen={setShowOptions} i={i} comment={comment} arrow={arrow} />
       <IonButton 
         onMouseDown={handleMouseDown} 
         onClick={handlePrevClick}
@@ -133,4 +133,4 @@ function TwigControls({i, twig, arrow}: TwigControlsProps) {
   )
 }
 
-export default React.memo(TwigControls)
+export default React.memo(CommentControls)

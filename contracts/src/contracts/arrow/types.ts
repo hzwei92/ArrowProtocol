@@ -1,13 +1,13 @@
-export interface Twig {
-  creatorAddress: string; // the address of the user that created this twig
+export interface Comment {
+  creatorAddress: string; // the address of the user that created this comment
 
-  // abstractAddress: string; // the address of the arrow that contains this twig
-  detailAddress: string | null; // the address of the arrow that the twig embeds within the container arrow.
+  // abstractAddress: string; // the address of the arrow that contains this comment
+  detailAddress: string | null; // the address of the arrow that the comment embeds within the container arrow.
 
-  parentTwigI: number | null; // parentTwig.i the twigs form a tree structure; dragging a twig will move the whole subtree
+  parentCommentI: number | null; // parentComment.i the comments form a tree structure; dragging a comment will move the whole subtree
   
-  sourceTwigI: number | null; // if detailArrow is to be rendered as a link, this is the twig that holds detailArrow.source
-  targetTwigI: number | null; // if detailArrow is to be rendered as a link, this is the twig that holds detailArrow.target
+  sourceCommentI: number | null; // if detailArrow is to be rendered as a link, this is the comment that holds detailArrow.source
+  targetCommentI: number | null; // if detailArrow is to be rendered as a link, this is the comment that holds detailArrow.target
   
   // x, y are rel to origin
   x: number; 
@@ -33,12 +33,12 @@ export type Permit =
   // this puts up a minor paywall to view the arrow's subgraph, on cooperative block/Arrow explorers
   'readSubgraph' | 
   // this resricts who can add an arrow to the subgraph
-  'createTwig' | 
+  'createComment' | 
   // this restricts who can modify the layout of the subgraph--
   // it's a tree-shaped layout, so this means translating a post's x,y,z coords or changing its parent
-  'updateTwig' |
+  'updateComment' |
   // this restricts who can remove an arrow from the subgraph; of course this doesn't delete the arrow itself
-  'deleteTwig' |
+  'deleteComment' |
   // this restricts who can create/update/delete roles on the Arrow.
   'manageRoles'; 
 
@@ -76,17 +76,17 @@ export interface ArrowState {
 
 
   // the original Arrow in which this Arrow is embedded
-  // the arrow may be embedded in multiple Arrows, via those Arrows' twigs
+  // the arrow may be embedded in multiple Arrows, via those Arrows' comments
   // however, the parentArrow is the Arrow in which this Arrow was created
   parentAddress: string | null;
 
-  // the arrow contains within it a tree structure of twigs;
-  // each twig is the embedding of an Arrow within this Arrow, as content 
+  // the arrow contains within it a tree structure of comments;
+  // each comment is the embedding of an Arrow within this Arrow, as content 
   // as content that supplements the arrow's data. 
-  // Arrows are indexed into subgraphs by Arrows; this is defined by the Twigs.
-  twigs: Twig[]; 
+  // Arrows are indexed into subgraphs by Arrows; this is defined by the Comments.
+  comments: Comment[]; 
 
-  twigIs: number[]; // the indexes of the twigs in the twigs array, ordered by increasing z-index
+  commentIs: number[]; // the indexes of the comments in the comments array, ordered by increasing z-index
 
   // the arrow can be weighted by votes; 
   // it functions like a bank for AR tokens, 
@@ -119,17 +119,17 @@ export interface ArrowAction {
 export interface ArrowInput {
   function: ArrowFunction;
   detailAddress?: string;
-  parentTwigI?: number;
-  sourceTwigI?: number | null;
-  targetTwigI?: number | null;
+  parentCommentI?: number;
+  sourceCommentI?: number | null;
+  targetCommentI?: number | null;
   x?: number;
   y?: number;
   date?: number;
-  twigs?: Twig[];
+  comments?: Comment[];
 }
 
 export type ArrowResult = string;
 
-export type ArrowFunction = 'createTwig' | 'writeTwigs';
+export type ArrowFunction = 'createComment' | 'writeComments';
 
 export type ContractResult = { state: ArrowState } | { result: ArrowResult };

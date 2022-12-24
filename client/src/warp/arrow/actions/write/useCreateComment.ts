@@ -2,29 +2,29 @@ import { useContext } from 'react';
 import { AppContext } from '../../../../components/app/AppProvider';
 import signer from '../../../../wallet/signer';
 
-interface CreateTwigProps {
+interface CreateCommentProps {
   abstractAddress: string;
   detailAddress: string;
-  parentTwigI: number | null;
-  sourceTwigI: number | null;
-  targetTwigI: number | null;
+  parentCommentI: number | null;
+  sourceCommentI: number | null;
+  targetCommentI: number | null;
   x: number;
   y: number;
   date: number;
 }
-const useCreateTwig = () => {
+const useCreateComment = () => {
   const { warp } = useContext(AppContext);
 
-  const createTwig = async ({
+  const createComment = async ({
     abstractAddress,
     detailAddress,
-    parentTwigI,
-    sourceTwigI,
-    targetTwigI,
+    parentCommentI,
+    sourceCommentI,
+    targetCommentI,
     x,
     y,
     date,
-  }: CreateTwigProps) => {
+  }: CreateCommentProps) => {
     if (!warp) return;
 
     const contract = await warp.contract(abstractAddress).connect({
@@ -33,18 +33,18 @@ const useCreateTwig = () => {
     })
     
     await contract.writeInteraction({
-      function: 'createTwig',
+      function: 'createComment',
       detailAddress,
-      parentTwigI,
-      sourceTwigI,
-      targetTwigI,
+      parentCommentI,
+      sourceCommentI,
+      targetCommentI,
       x,
       y,
       date,
     })
   }
 
-  return createTwig;
+  return createComment;
 }
 
-export default useCreateTwig;
+export default useCreateComment;

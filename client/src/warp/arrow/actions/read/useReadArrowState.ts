@@ -22,31 +22,31 @@ const useReadArrowState = () => {
 
     const state = cachedValue.state as ArrowState;
 
-    const twigIToDescIToTrue: IdToType<IdToType<true>> = {};
-    state.twigs.forEach((twig, i) => {
-      let t = twig;
+    const commentIToDescIToTrue: IdToType<IdToType<true>> = {};
+    state.comments.forEach((comment, i) => {
+      let t = comment;
 
       // add to own descendants 
-      twigIToDescIToTrue[i] = {
-        ...twigIToDescIToTrue[i],
+      commentIToDescIToTrue[i] = {
+        ...commentIToDescIToTrue[i],
         [i]: true,
       };
 
       // add to all ancestors' descendants
-      while (t.parentTwigI !== null) {
-        twigIToDescIToTrue[t.parentTwigI] = {
-          ...twigIToDescIToTrue[t.parentTwigI],
+      while (t.parentCommentI !== null) {
+        commentIToDescIToTrue[t.parentCommentI] = {
+          ...commentIToDescIToTrue[t.parentCommentI],
           [i]: true,
         };
 
-        t = state.twigs[t.parentTwigI];
+        t = state.comments[t.parentCommentI];
       }
     });
 
     const arrow: Arrow = {
       txId: contractTxId,
       focusI: 0,
-      twigIToDescIToTrue,
+      commentIToDescIToTrue,
       state,
     };
 

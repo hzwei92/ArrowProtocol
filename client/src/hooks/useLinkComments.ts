@@ -4,27 +4,27 @@ import { AppContext } from "../components/app/AppProvider";
 import { selectFrame } from "../redux/slices/arrowSlice";
 import { useAppSelector } from "../redux/store";
 import useReadArrowState from "../warp/arrow/actions/read/useReadArrowState";
-import useCreateTwig from "../warp/arrow/actions/write/useCreateTwig";
+import useCreateComment from "../warp/arrow/actions/write/useCreateComment";
 import useDeployArrow from "../warp/arrow/actions/write/useDeployArrow";
 
-interface LinkTwigsProps {
-  sourceTwigI: number;
-  targetTwigI: number;
+interface LinkCommentsProps {
+  sourceCommentI: number;
+  targetCommentI: number;
 }
 
-const useLinkTwigs = () => {
+const useLinkComments = () => {
   const { walletAddress, profile } = useContext(AppContext);
   const frame = useAppSelector(selectFrame);
 
   const deployArrow = useDeployArrow();
-  const createTwig = useCreateTwig();
+  const createComment = useCreateComment();
   const readArrowState = useReadArrowState();
 
-  const linkTwigs = async ({ sourceTwigI, targetTwigI }: LinkTwigsProps) => {
+  const linkComments = async ({ sourceCommentI, targetCommentI }: LinkCommentsProps) => {
     if (!walletAddress || !profile || !frame) return;
 
-    const sourceTwig = frame.state.twigs[sourceTwigI];
-    const targetTwig = frame.state.twigs[targetTwigI];
+    const sourceComment = frame.state.comments[sourceCommentI];
+    const targetComment = frame.state.comments[targetCommentI];
 
     const linkTxId = await deployArrow({
       walletAddress,
@@ -34,8 +34,8 @@ const useLinkTwigs = () => {
       color: profile.color,
       data: '',
       parentAddress: frame.txId,
-      sourceAddress: sourceTwig.detailAddress,
-      targetAddress: targetTwig.detailAddress,
+      sourceAddress: sourceComment.detailAddress,
+      targetAddress: targetComment.detailAddress,
       date: Date.now(),
     });
 
@@ -43,21 +43,21 @@ const useLinkTwigs = () => {
       throw Error('Failed to deploy link arrow');
     };
 
-    await createTwig({
+    await createComment({
       abstractAddress: frame.txId,
       detailAddress: linkTxId,
-      parentTwigI: null,
-      sourceTwigI,
-      targetTwigI,
-      x: (sourceTwig.x + targetTwig.x) / 2,
-      y: (sourceTwig.y + targetTwig.y) / 2,
+      parentCommentI: null,
+      sourceCommentI,
+      targetCommentI,
+      x: (sourceComment.x + targetComment.x) / 2,
+      y: (sourceComment.y + targetComment.y) / 2,
       date: Date.now(),
     });
 
     await readArrowState(frame.txId);
   }
 
-  return linkTwigs;
+  return linkComments;
 }
 
-export default useLinkTwigs;
+export default useLinkComments;

@@ -7,7 +7,7 @@ export type IdToType<T> = {
 export type Arrow = {
   txId: string;
   focusI: number;
-  twigIToDescIToTrue: IdToType<IdToType<true>>;
+  commentIToDescIToTrue: IdToType<IdToType<true>>;
   state: ArrowState;
 }
 
@@ -18,13 +18,13 @@ export type Cursor = {
 
 export type Drag = {
   isScreen: boolean;
-  twigI: number | null;
-  targetTwigI: number | null;
+  commentI: number | null;
+  targetCommentI: number | null;
 }
 
 export type PendingLink = {
-  sourceTwigI: number | null;
-  targetTwigI: number | null;
+  sourceCommentI: number | null;
+  targetCommentI: number | null;
 }
 
 export enum Mode {

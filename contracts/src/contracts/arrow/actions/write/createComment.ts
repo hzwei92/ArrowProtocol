@@ -1,10 +1,10 @@
-import { ArrowAction, ArrowState, ContractResult, Twig } from '../../types';
+import { ArrowAction, ArrowState, ContractResult, Comment } from '../../types';
 
 declare const ContractError: any;
 
-export const createTwig = async (
+export const createComment = async (
   state: ArrowState,
-  {caller, input: { detailAddress, parentTwigI, sourceTwigI, targetTwigI, x, y, date }}: ArrowAction
+  {caller, input: { detailAddress, parentCommentI, sourceCommentI, targetCommentI, x, y, date }}: ArrowAction
 ): Promise<ContractResult> => {
   if (!detailAddress) {
     throw new ContractError(`No detailAddress supplied`);
@@ -19,12 +19,12 @@ export const createTwig = async (
     throw new ContractError(`No date supplied`);
   }
 
-  const twig: Twig = {
+  const comment: Comment = {
     creatorAddress: caller,
     detailAddress,
-    parentTwigI,
-    sourceTwigI,
-    targetTwigI,
+    parentCommentI,
+    sourceCommentI,
+    targetCommentI,
     x,
     y,
     createDate: date,
@@ -32,8 +32,8 @@ export const createTwig = async (
     deleteDate: null,
   };
 
-  state.twigIs.push(state.twigs.length);
-  state.twigs.push(twig);
+  state.commentIs.push(state.comments.length);
+  state.comments.push(comment);
 
   return { state }; 
 };

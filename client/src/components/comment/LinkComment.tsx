@@ -2,15 +2,15 @@ import { IonCard } from "@ionic/react";
 import { selectFrame } from "../../redux/slices/arrowSlice";
 import { useAppSelector } from "../../redux/store";
 import { Arrow } from "../../types";
-import { Twig } from "../../warp/arrow/types";
+import { Comment } from "../../warp/arrow/types";
 
-interface LinkTwigProps {
+interface LinkCommentProps {
   i: number;
-  twig: Twig;
+  comment: Comment;
   arrow: Arrow;
 }
 
-const LinkTwig = ({i, twig, arrow}: LinkTwigProps) => {
+const LinkComment = ({i, comment, arrow}: LinkCommentProps) => {
   const frame = useAppSelector(selectFrame);
   const isSelected = frame?.focusI === i;
 
@@ -35,4 +35,4 @@ const LinkTwig = ({i, twig, arrow}: LinkTwigProps) => {
   )
 }
 
-export default LinkTwig;
+export default LinkComment;

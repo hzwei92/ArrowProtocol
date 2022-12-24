@@ -1,23 +1,23 @@
 import { useIonRouter } from "@ionic/react";
 import { selectFrame } from "../redux/slices/arrowSlice";
 import { useAppSelector } from "../redux/store";
-import { Twig } from "../warp/arrow/types";
+import { Comment } from "../warp/arrow/types";
 
-interface SelectTwigProps {
+interface SelectCommentProps {
   i: number;
 }
-const useSelectTwig = () => {
+const useSelectComment = () => {
   const router = useIonRouter();
 
   const frame = useAppSelector(selectFrame);
 
-  const selectTwig = ({i}: SelectTwigProps) => {
+  const selectComment = ({i}: SelectCommentProps) => {
     if (!frame) return;
 
     router.push(`/j/${frame.txId}/${i}`);
   }
 
-  return selectTwig;
+  return selectComment;
 }
 
-export default useSelectTwig;
+export default useSelectComment;

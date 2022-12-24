@@ -1,23 +1,23 @@
 
-import { Twig } from '../../warp/arrow/types';
+import { Comment } from '../../warp/arrow/types';
 import LinkMarker from './LinkMarker';
 import PostMarker from './PostMarker';
 
 interface MarkerProps {
   i: number;
-  twig: Twig;
+  comment: Comment;
 };
 
-const Marker = ({ i, twig }: MarkerProps) => {
-  if (twig.parentTwigI !== null) {
+const Marker = ({ i, comment }: MarkerProps) => {
+  if (comment.parentCommentI !== null) {
     return (
-      <PostMarker i={i} twig={twig} />
+      <PostMarker i={i} comment={comment} />
     )
   }
 
-  if (twig.sourceTwigI !== null && twig.targetTwigI !== null && twig.sourceTwigI !== twig.targetTwigI) {
+  if (comment.sourceCommentI !== null && comment.targetCommentI !== null && comment.sourceCommentI !== comment.targetCommentI) {
     return (
-      <LinkMarker i={i} twig={twig} />
+      <LinkMarker i={i} comment={comment} />
     )
   }
 

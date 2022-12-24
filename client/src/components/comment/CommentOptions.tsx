@@ -1,17 +1,17 @@
 import { IonButton, IonButtons, IonPopover } from "@ionic/react";
 import { Dispatch, SetStateAction, useContext } from "react";
 import { AppContext } from "../app/AppProvider";
-import { Twig } from "../../warp/arrow/types";
+import { Comment } from "../../warp/arrow/types";
 import { Arrow } from "../../types";
 
-interface TwigOptionsProps {
+interface CommentOptionsProps {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   i: number;
-  twig: Twig
+  comment: Comment
   arrow: Arrow;
 }
-const TwigOptions = ({ isOpen, setIsOpen, i, twig, arrow }: TwigOptionsProps) => {
+const CommentOptions = ({ isOpen, setIsOpen, i, comment, arrow }: CommentOptionsProps) => {
   const { walletAddress } = useContext(AppContext);
 
   const handleCopyClick = () => {
@@ -29,7 +29,7 @@ const TwigOptions = ({ isOpen, setIsOpen, i, twig, arrow }: TwigOptionsProps) =>
 
   const handleCopyRelativeClick = (event: React.MouseEvent) => {
     event.stopPropagation();
-    //navigator.clipboard.writeText(`https://mindscape.pub/g/${abstract?.routeName}/${props.twig.i}`);
+    //navigator.clipboard.writeText(`https://mindscape.pub/g/${abstract?.routeName}/${props.comment.i}`);
   }
 
   const handleSubscribeClick = (event: React.MouseEvent) => {
@@ -44,13 +44,13 @@ const TwigOptions = ({ isOpen, setIsOpen, i, twig, arrow }: TwigOptionsProps) =>
 
   const handleCommitClick = (event: React.MouseEvent) => {
     event.stopPropagation();
-    //dispatch(setCommitArrowId(props.twig.detailId))
+    //dispatch(setCommitArrowId(props.comment.detailId))
   }
   const handleClose = () => {
     setIsOpen(false);
   }
   return (
-    <IonPopover trigger={'twigOptions-' + i} isOpen={isOpen} onWillDismiss={handleClose}>
+    <IonPopover trigger={'commentOptions-' + i} isOpen={isOpen} onWillDismiss={handleClose}>
         <div style={{
           margin: 10,
           borderBottom: '1px solid',
@@ -124,12 +124,12 @@ const TwigOptions = ({ isOpen, setIsOpen, i, twig, arrow }: TwigOptionsProps) =>
               display: 'table-cell',
               fontWeight: 'bold',
             }}>
-              twigCreatorAddress
+              commentCreatorAddress
             </div>
             <div style={{
               display: 'table-cell',
             }}>
-              {twig.creatorAddress}
+              {comment.creatorAddress}
             </div>
           </div>
         </div>
@@ -137,4 +137,4 @@ const TwigOptions = ({ isOpen, setIsOpen, i, twig, arrow }: TwigOptionsProps) =>
   );
 }
 
-export default TwigOptions;
+export default CommentOptions;

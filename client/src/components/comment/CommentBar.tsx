@@ -2,19 +2,19 @@ import React, { useContext } from 'react';
 import { useAppSelector } from '../../redux/store';
 import { IonButton, IonButtons, IonIcon, IonLabel } from '@ionic/react';
 import { addOutline, closeOutline, removeOutline } from 'ionicons/icons';
-import { Twig } from '../../warp/arrow/types';
+import { Comment } from '../../warp/arrow/types';
 import { selectFrameTxId } from '../../redux/slices/arrowSlice';
 import { AppContext } from '../app/AppProvider';
 import { Arrow } from '../../types';
 
-interface TwigBarProps {
+interface CommentBarProps {
   i: number;
-  twig: Twig;
+  comment: Comment;
   arrow: Arrow;
   isSelected: boolean;
 }
 
-function TwigBar({i, twig, arrow, isSelected}: TwigBarProps) {
+function CommentBar({i, comment, arrow, isSelected}: CommentBarProps) {
   const { walletAddress, drag, setDrag, isDarkMode } = useContext(AppContext);
 
   const frameTxId = useAppSelector(selectFrameTxId);
@@ -24,8 +24,8 @@ function TwigBar({i, twig, arrow, isSelected}: TwigBarProps) {
 
     setDrag({
       isScreen: false,
-      twigI: i,
-      targetTwigI: null,
+      commentI: i,
+      targetCommentI: null,
     });
   }
 
@@ -61,7 +61,7 @@ function TwigBar({i, twig, arrow, isSelected}: TwigBarProps) {
         textAlign: 'left',
         cursor: frameTxId === arrow.txId
             ? 'default'
-            : drag.twigI === i
+            : drag.commentI === i
               ? 'grabbing'
               : 'grab',
         touchAction: 'none',
@@ -125,7 +125,7 @@ function TwigBar({i, twig, arrow, isSelected}: TwigBarProps) {
           <IonButton
             disabled={
               frameTxId === arrow.txId || 
-              (twig.creatorAddress !== walletAddress) //&& !canEdit) || 
+              (comment.creatorAddress !== walletAddress) //&& !canEdit) || 
               //!!pendingLink.sourceArrowId 
             } 
             color='inherit'
@@ -148,4 +148,4 @@ function TwigBar({i, twig, arrow, isSelected}: TwigBarProps) {
   )
 }
 
-export default React.memo(TwigBar)
+export default React.memo(CommentBar)

@@ -19,19 +19,19 @@ export const getInitState = (
     sourceAddress,
     targetAddress,
     parentAddress,
-    twigs: [{
+    comments: [{
       creatorAddress,
       detailAddress: null,
-      parentTwigI: null,
-      sourceTwigI: null,
-      targetTwigI: null,
+      parentCommentI: null,
+      sourceCommentI: null,
+      targetCommentI: null,
       x: 0,
       y: 0,
       createDate: date,
       updateDate: date,
       deleteDate: null,
     }],
-    twigIs: [0],
+    commentIs: [0],
     votes: [{
       creatorAddress,
       weight: 1,
@@ -42,7 +42,7 @@ export const getInitState = (
     roles: [{
       name: 'member',
       description: 'A member owns at least 1e6 points, i.e. 1e-3 of the supply',
-      permits: ['readSubgraph', 'createTwig', 'updateTwig', 'deleteTwig'],
+      permits: ['readSubgraph', 'createComment', 'updateComment', 'deleteComment'],
       pointThreshold: 1000000,
       createDate: date,
       updateDate: date,
@@ -50,7 +50,7 @@ export const getInitState = (
     }, {
       name: 'non-member',
       description: 'A non-member is someone with 0 points',
-      permits: ['readSubgraph', 'createTwig'],
+      permits: ['readSubgraph', 'createComment'],
       pointThreshold: 0,
       createDate: date,
       updateDate: date,

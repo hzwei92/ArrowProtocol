@@ -1,19 +1,19 @@
 import { useEffect } from 'react';
 import { VIEW_RADIUS } from '../../constants';
-import { Twig } from '../../warp/arrow/types';
+import { Comment } from '../../warp/arrow/types';
 import { selectFrame, selectTxIdToArrow } from '../../redux/slices/arrowSlice';
 import useReadArrowState from '../../warp/arrow/actions/read/useReadArrowState';
-import LinkTwig from './LinkTwig';
-import PostTwig from './PostTwig';
+import LinkComment from './LinkComment';
+import PostComment from './PostComment';
 import { useAppSelector } from '../../redux/store';
-import useSelectTwig from '../../hooks/useSelectTwig';
+import useSelectComment from '../../hooks/useSelectComment';
 
-interface TwigProps {
+interface CommentProps {
   i: number;
-  twig: Twig;
+  comment: Comment;
 }
 
-const TwigComponent = ({ i, twig }: TwigProps) => {
+const CommentComponent = ({ i, comment }: CommentProps) => {
   const readArrowState = useReadArrowState();
 
   const txIdToArrow = useAppSelector(selectTxIdToArrow);
@@ -21,20 +21,20 @@ const TwigComponent = ({ i, twig }: TwigProps) => {
 
   const isSelected = frame?.focusI === i;
 
-  const selectTwig = useSelectTwig();
+  const selectComment = useSelectComment();
 
   useEffect(() => {
-    if (twig.detailAddress){
-      const arrow = txIdToArrow[twig.detailAddress];
+    if (comment.detailAddress){
+      const arrow = txIdToArrow[comment.detailAddress];
       if (!arrow) {
-        readArrowState(twig.detailAddress);
+        readArrowState(comment.detailAddress);
       }
     }
-  }, [twig.detailAddress]);
+  }, [comment.detailAddress]);
 
   let arrow;
-  if (twig.detailAddress) {
-    arrow = txIdToArrow[twig.detailAddress];
+  if (comment.detailAddress) {
+    arrow = txIdToArrow[comment.detailAddress];
   }
   else if (i === 0) {
     arrow = frame;
@@ -45,27 +45,27 @@ const TwigComponent = ({ i, twig }: TwigProps) => {
   const handleMouseDown = (event: React.MouseEvent) => {
     event.stopPropagation();
     if (!isSelected) {
-      selectTwig({ i });
+      selectComment({ i });
     }
   }
 
   return (
-    <div id={`twig-${i}`} 
+    <div id={`comment-${i}`} 
       onMouseDown={handleMouseDown}
       style={{
         position: 'absolute',
-        left: VIEW_RADIUS + twig.x,
-        top: VIEW_RADIUS + twig.y,
-        zIndex: frame?.state.twigIs.indexOf(i),
+        left: VIEW_RADIUS + comment.x,
+        top: VIEW_RADIUS + comment.y,
+        zIndex: frame?.state.commentIs.indexOf(i),
       }}
     >
       {
         arrow?.state.sourceAddress === arrow?.state.targetAddress
-          ? <PostTwig i={i} twig={twig} arrow={arrow}/>
-          : <LinkTwig i={i} twig={twig} arrow={arrow}/>
+          ? <PostComment i={i} comment={comment} arrow={arrow}/>
+          : <LinkComment i={i} comment={comment} arrow={arrow}/>
       }
     </div>
   )
 }
 
-export default TwigComponent
+export default CommentComponent

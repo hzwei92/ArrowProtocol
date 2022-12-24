@@ -9,10 +9,10 @@ const MarkerDefs = () => {
 
   const colorToTrue: IdToType<true> = {};
 
-  frame?.state.twigs.forEach(t => {
+  frame?.state.comments.forEach(t => {
     if (!t.detailAddress) return;
-    if (t.sourceTwigI === null || t.targetTwigI === null) return;
-    if (t.sourceTwigI === t.targetTwigI) return;
+    if (t.sourceCommentI === null || t.targetCommentI === null) return;
+    if (t.sourceCommentI === t.targetCommentI) return;
 
     const a = txIdToArrow[t.detailAddress];
 

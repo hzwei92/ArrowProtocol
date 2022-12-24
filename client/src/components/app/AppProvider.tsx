@@ -59,13 +59,13 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
   
   const [drag, setDrag] = useState<Drag>({
     isScreen: false,
-    twigI: null,
-    targetTwigI: null,
+    commentI: null,
+    targetCommentI: null,
   });
 
   const [pendingLink, setPendingLink] = useState<PendingLink>({
-    sourceTwigI: null,
-    targetTwigI: null,
+    sourceCommentI: null,
+    targetCommentI: null,
   });
   
   const [mode, setMode] = useState<Mode>(Mode.PORTAL);

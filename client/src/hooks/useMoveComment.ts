@@ -2,27 +2,27 @@ import { VIEW_RADIUS } from "../constants";
 import { mergeArrows, selectFrame } from "../redux/slices/arrowSlice";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 
-interface MoveTwigProps {
-  twigI: number;
+interface MoveCommentProps {
+  commentI: number;
   dx: number;
   dy: number;
 }
-const useMoveTwig = () => {
+const useMoveComment = () => {
   const dispatch = useAppDispatch();
   const frame = useAppSelector(selectFrame);
 
-  const moveTwig = ({ twigI, dx, dy }: MoveTwigProps) => {
+  const moveComment = ({ commentI, dx, dy }: MoveCommentProps) => {
     if (!frame) return;
 
-    const twigs = frame.state.twigs.map((twig, i) => {
-      if (Object.keys(frame.twigIToDescIToTrue[twigI] ?? {}).includes(i.toString())) {
+    const comments = frame.state.comments.map((comment, i) => {
+      if (Object.keys(frame.commentIToDescIToTrue[commentI] ?? {}).includes(i.toString())) {
         return {
-          ...twig,
-          x: Math.max(Math.min(twig.x + dx, VIEW_RADIUS - 10), 10 - VIEW_RADIUS),
-          y: Math.max(Math.min(twig.y + dy, VIEW_RADIUS - 10), 10 - VIEW_RADIUS),
+          ...comment,
+          x: Math.max(Math.min(comment.x + dx, VIEW_RADIUS - 10), 10 - VIEW_RADIUS),
+          y: Math.max(Math.min(comment.y + dy, VIEW_RADIUS - 10), 10 - VIEW_RADIUS),
         };
       }
-      return twig;
+      return comment;
     });
 
     let count = 0;
@@ -31,22 +31,22 @@ const useMoveTwig = () => {
     while (isDirty && count < 100) {
       isDirty = false;
       
-      twigs.forEach((t, i) => {
+      comments.forEach((t, i) => {
         if (
-          t.sourceTwigI === null || 
-          t.targetTwigI === null || 
-          t.sourceTwigI === t.targetTwigI
+          t.sourceCommentI === null || 
+          t.targetCommentI === null || 
+          t.sourceCommentI === t.targetCommentI
         ) return;
 
-        const source = twigs[t.sourceTwigI];
-        const target = twigs[t.targetTwigI];
+        const source = comments[t.sourceCommentI];
+        const target = comments[t.targetCommentI];
 
         const x = Math.round((source.x + target.x) / 2);
         const y = Math.round((source.y + target.y) / 2);
 
         if (t.x !== x || t.y !== y) {
           isDirty = true;
-          twigs[i] = {
+          comments[i] = {
             ...t,
             x,
             y,
@@ -61,12 +61,12 @@ const useMoveTwig = () => {
       ...frame,
       state: {
         ...frame.state,
-        twigs,
+        comments,
       }
     }]))
   }
 
-  return moveTwig;
+  return moveComment;
 }
 
-export default useMoveTwig;
+export default useMoveComment;

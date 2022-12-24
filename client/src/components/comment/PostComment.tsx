@@ -2,61 +2,61 @@ import { IonCard } from "@ionic/react";
 import { MouseEvent, useContext } from "react";
 import { useSelector } from "react-redux";
 import { TWIG_WIDTH } from "../../constants";
-import useLinkTwigs from "../../hooks/useLinkTwigs";
+import useLinkComments from "../../hooks/useLinkComments";
 import { selectFrame } from "../../redux/slices/arrowSlice";
 import { Arrow } from "../../types";
-import { Twig } from "../../warp/arrow/types";
+import { Comment } from "../../warp/arrow/types";
 import { AppContext } from "../app/AppProvider";
 import ArrowComponent from "../arrow/ArrowComponent";
-import TwigBar from "./TwigBar";
-import TwigControls from "./TwigControls";
+import CommentBar from "./CommentBar";
+import CommentControls from "./CommentControls";
 
-interface PostTwigProps {
+interface PostCommentProps {
   i: number;
-  twig: Twig;
+  comment: Comment;
   arrow: Arrow;
 }
 
-const PostTwig = ({i, twig, arrow}: PostTwigProps) => {
+const PostComment = ({i, comment, arrow}: PostCommentProps) => {
   const { pendingLink, setPendingLink } = useContext(AppContext);
   const frame = useSelector(selectFrame);
   const isSelected = i === frame?.focusI;
-  const isLinking = pendingLink.sourceTwigI === i || pendingLink.targetTwigI === i;
+  const isLinking = pendingLink.sourceCommentI === i || pendingLink.targetCommentI === i;
 
-  const linkTwigs = useLinkTwigs();
+  const linkComments = useLinkComments();
 
   const handleClick = (e: MouseEvent) => {
     e.stopPropagation();
     
-    if (pendingLink.sourceTwigI !== null) {
-      if (pendingLink.sourceTwigI !== i) {
+    if (pendingLink.sourceCommentI !== null) {
+      if (pendingLink.sourceCommentI !== i) {
         console.log('linking');
-        linkTwigs({
-          sourceTwigI: pendingLink.sourceTwigI,
-          targetTwigI: i,
+        linkComments({
+          sourceCommentI: pendingLink.sourceCommentI,
+          targetCommentI: i,
         });
       }
       setPendingLink({
-        sourceTwigI: null,
-        targetTwigI: null,
+        sourceCommentI: null,
+        targetCommentI: null,
       })
     }
   }
 
   const handleMouseEnter = (e: MouseEvent) => {
-    if (pendingLink.sourceTwigI !== null && pendingLink.sourceTwigI !== i) {
+    if (pendingLink.sourceCommentI !== null && pendingLink.sourceCommentI !== i) {
       setPendingLink({
         ...pendingLink,
-        targetTwigI: i,
+        targetCommentI: i,
       });
     }
   }
 
   const handleMouseLeave = (e: MouseEvent) => {
-    if (pendingLink.sourceTwigI !== null && pendingLink.sourceTwigI !== i && pendingLink.targetTwigI === i) {
+    if (pendingLink.sourceCommentI !== null && pendingLink.sourceCommentI !== i && pendingLink.targetCommentI === i) {
       setPendingLink({
         ...pendingLink,
-        targetTwigI: null,
+        targetCommentI: null,
       });
     }
   }
@@ -77,21 +77,21 @@ const PostTwig = ({i, twig, arrow}: PostTwigProps) => {
       backgroundColor: isLinking
         ? arrow.state.color
         : null,
-      cursor: pendingLink.sourceTwigI !== null
+      cursor: pendingLink.sourceCommentI !== null
         ? 'crosshair'
         : 'default', 
       pointerEvents: 'auto',
       fontSize: 10,
     }}>
-      <TwigBar i={i} twig={twig} arrow={arrow} isSelected={false} />
+      <CommentBar i={i} comment={comment} arrow={arrow} isSelected={false} />
       <div style={{
         padding: 5,
       }}>
         <ArrowComponent arrow={arrow} />
-        <TwigControls i={i} twig={twig} arrow={arrow}/>
+        <CommentControls i={i} comment={comment} arrow={arrow}/>
       </div>
     </IonCard>
   )
 }
 
-export default PostTwig;
+export default PostComment;

@@ -1,51 +1,51 @@
 import { MouseEvent } from "react";
 import { VIEW_RADIUS } from "../../constants";
-import useSelectTwig from "../../hooks/useSelectTwig";
+import useSelectComment from "../../hooks/useSelectComment";
 import { selectFrame, selectTxIdToArrow } from "../../redux/slices/arrowSlice";
 import { useAppSelector } from "../../redux/store";
 import { getPolylineCoords } from "../../utils";
-import { Twig } from "../../warp/arrow/types";
+import { Comment } from "../../warp/arrow/types";
 
 interface LinkMarkerProps {
   i: number;
-  twig: Twig;
+  comment: Comment;
 }
-const LinkMarker = ({i, twig}: LinkMarkerProps) => {
+const LinkMarker = ({i, comment}: LinkMarkerProps) => {
   const frame = useAppSelector(selectFrame);
   const txIdToArrow = useAppSelector(selectTxIdToArrow);
 
-  const selectTwig = useSelectTwig();
+  const selectComment = useSelectComment();
 
-  if (!frame || !twig.detailAddress || twig.sourceTwigI === null || twig.targetTwigI === null) return null;
+  if (!frame || !comment.detailAddress || comment.sourceCommentI === null || comment.targetCommentI === null) return null;
 
-  const link = txIdToArrow[twig.detailAddress];
+  const link = txIdToArrow[comment.detailAddress];
 
   if (!link) return null;
 
-  const sourceTwig = frame.state.twigs[twig.sourceTwigI];
-  const targetTwig = frame.state.twigs[twig.targetTwigI];
+  const sourceComment = frame.state.comments[comment.sourceCommentI];
+  const targetComment = frame.state.comments[comment.targetCommentI];
 
   const isSelected = frame.focusI === i;
 
   const handleClick = (e: MouseEvent) => {
     e.stopPropagation();
     if (!isSelected) {
-      selectTwig({ i });
+      selectComment({ i });
     }
   }
 
   return (
     <g onClick={handleClick} style={{
       cursor: 'pointer',
-      zIndex: frame.state.twigIs.indexOf(i),
+      zIndex: frame.state.commentIs.indexOf(i),
     }}>
       <polyline 
         points={getPolylineCoords(
           10 + (20 * (isSelected ? 2 : 1)),
-          sourceTwig.x + VIEW_RADIUS,
-          sourceTwig.y + VIEW_RADIUS,
-          targetTwig.x + VIEW_RADIUS,
-          targetTwig.y + VIEW_RADIUS,
+          sourceComment.x + VIEW_RADIUS,
+          sourceComment.y + VIEW_RADIUS,
+          targetComment.x + VIEW_RADIUS,
+          targetComment.y + VIEW_RADIUS,
         )}
         strokeWidth={1 + (isSelected ? 1 : 0) + 1}
         markerMid={`url(#marker-${link.state.color})`}
@@ -58,10 +58,10 @@ const LinkMarker = ({i, twig}: LinkMarkerProps) => {
             ? .5
             : .3,
         }}
-        x1={sourceTwig.x + VIEW_RADIUS}
-        y1={sourceTwig.y + VIEW_RADIUS}
-        x2={targetTwig.x + VIEW_RADIUS}
-        y2={targetTwig.y + VIEW_RADIUS}
+        x1={sourceComment.x + VIEW_RADIUS}
+        y1={sourceComment.y + VIEW_RADIUS}
+        x2={targetComment.x + VIEW_RADIUS}
+        y2={targetComment.y + VIEW_RADIUS}
         strokeWidth={10 * ((isSelected ? 2 : 1) + 1)}
         stroke={link.state.color}
         strokeLinecap={'round'}

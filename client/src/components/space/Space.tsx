@@ -1,12 +1,12 @@
 import { useAppSelector } from "../../redux/store"
 import { OFF_WHITE, SCROLL_SENSITIVITY, VIEW_RADIUS } from "../../constants";
 import { selectFrame, selectTxIdToArrow } from "../../redux/slices/arrowSlice"
-import TwigComponent from "../twig/TwigComponent"
+import CommentComponent from "../comment/CommentComponent"
 import { ReactZoomPanPinchRef, TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import { Fragment, MouseEvent, useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../app/AppProvider";
-import useMoveTwig from "../../hooks/useMoveTwig";
-import useWriteTwigs from "../../warp/arrow/actions/write/useWriteTwigs";
+import useMoveComment from "../../hooks/useMoveComment";
+import useWriteComments from "../../warp/arrow/actions/write/useWriteComments";
 import MarkerDefs from "./MarkerDefs";
 import Marker from "./Marker";
 import SpaceNav from "./SpaceNav";
@@ -19,16 +19,16 @@ const Space = () => {
 
   const spaceRef = useRef<ReactZoomPanPinchRef>(null);
   
-  const moveTwig = useMoveTwig();
-  const writeTwigs = useWriteTwigs();
+  const moveComment = useMoveComment();
+  const writeComments = useWriteComments();
 
-  const focusTwig = frame?.state.twigs[frame?.focusI];
-  const focusArrow = focusTwig?.detailAddress
-    ? txIdToArrow[focusTwig.detailAddress]
+  const focusComment = frame?.state.comments[frame?.focusI];
+  const focusArrow = focusComment?.detailAddress
+    ? txIdToArrow[focusComment.detailAddress]
     : null;
 
   useEffect(() => {
-    spaceRef.current?.zoomToElement(`twig-${frame?.focusI}`, 1.2, 200);
+    spaceRef.current?.zoomToElement(`comment-${frame?.focusI}`, 1.2, 200);
   }, [frame?.txId, frame?.focusI, focusArrow]);
 
   const [mouseMoveEvent, setMouseMoveEvent] = useState<MouseEvent | null>(null);
@@ -49,11 +49,11 @@ const Space = () => {
 
     setCursor({ x, y });
   
-    if (drag.twigI) {
+    if (drag.commentI) {
       const dx = Math.round(x - cursor.x);
       const dy = Math.round(y - cursor.y);
   
-      moveTwig({ twigI: drag.twigI, dx, dy })
+      moveComment({ commentI: drag.commentI, dx, dy })
     }
 
     setMouseMoveEvent(null);
@@ -62,19 +62,19 @@ const Space = () => {
   const handleMouseDown = (e: MouseEvent) => {
     setDrag({
       isScreen: true,
-      twigI: null,
-      targetTwigI: null,
+      commentI: null,
+      targetCommentI: null,
     });
   }
 
   const handleMouseUp = (e: MouseEvent) => {
     setDrag({
       isScreen: false,
-      twigI: null,
-      targetTwigI: null,
+      commentI: null,
+      targetCommentI: null,
     });
-    if (drag.twigI !== null) {
-      writeTwigs();
+    if (drag.commentI !== null) {
+      writeComments();
     }
   }
 
@@ -98,7 +98,7 @@ const Space = () => {
           ? 'black'
           : OFF_WHITE,
         borderRadius: 0,
-        cursor: drag.isScreen || !!drag.twigI
+        cursor: drag.isScreen || !!drag.commentI
           ? 'grabbing'
           : 'grab',
         position: 'relative',
@@ -113,7 +113,7 @@ const Space = () => {
         initialPositionY={VIEW_RADIUS}
         centerZoomedOut={false}
         panning={{
-          disabled: !!drag.twigI,
+          disabled: !!drag.commentI,
         }}
         wheel={{
           step: SCROLL_SENSITIVITY,
@@ -150,17 +150,17 @@ const Space = () => {
               }}>
                 <MarkerDefs />
                 {
-                  (frame?.state.twigs || []).map((twig, i) => {
+                  (frame?.state.comments || []).map((comment, i) => {
                     return (
-                      <Marker key={'marker-'+i} i={i} twig={twig}/>
+                      <Marker key={'marker-'+i} i={i} comment={comment}/>
                     )
                   })
                 }
               </svg>
               {
-                (frame?.state.twigs || []).map((twig, i) => {
+                (frame?.state.comments || []).map((comment, i) => {
                   return (
-                    <TwigComponent key={'twig-'+i} i={i} twig={twig}/>
+                    <CommentComponent key={'comment-'+i} i={i} comment={comment}/>
                   )
                 })
               }

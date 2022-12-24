@@ -30,7 +30,6 @@ const Profile = () => {
       margin: 0,
       borderRadius: 0,
       height: '100%',
-      overflowY: 'scroll',
     }}>
       <IonCardHeader style={{
         height: TAB_HEIGHT,

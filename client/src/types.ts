@@ -22,6 +22,11 @@ export type Drag = {
   targetTwigI: number | null;
 }
 
+export type PendingLink = {
+  sourceTwigI: number | null;
+  targetTwigI: number | null;
+}
+
 export enum Mode {
   PORTAL = 'PORTAL',
   PROFILE = 'PROFILE',

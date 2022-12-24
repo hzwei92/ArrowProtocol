@@ -5,7 +5,7 @@ import { defaultCacheOptions, Warp } from "warp-contracts";
 //@ts-ignore
 import { WarpFactory } from "warp-contracts/web";
 import { DEFAULT_MENU_X } from "../../constants";
-import { Cursor, Drag, Mode } from "../../types";
+import { Cursor, Drag, Mode, PendingLink } from "../../types";
 import { Profile } from "../../warp/jamn/types";
 
 
@@ -23,6 +23,9 @@ export type AppContextType = {
 
   drag: Drag;
   setDrag: Dispatch<SetStateAction<Drag>>;
+
+  pendingLink: PendingLink;
+  setPendingLink: Dispatch<SetStateAction<PendingLink>>;
 
   mode: Mode;
   setMode: Dispatch<SetStateAction<Mode>>;
@@ -60,6 +63,11 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
     targetTwigI: null,
   });
 
+  const [pendingLink, setPendingLink] = useState<PendingLink>({
+    sourceTwigI: null,
+    targetTwigI: null,
+  });
+  
   const [mode, setMode] = useState<Mode>(Mode.PORTAL);
   
   const [showRegisterModal, setShowRegisterModal] = useState(false);
@@ -114,8 +122,12 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
     cursor,
     setCursor,
+
     drag,
     setDrag,
+
+    pendingLink,
+    setPendingLink,
 
     mode,
     setMode,
@@ -132,7 +144,7 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setShowRegisterModal,
     showCreateArrowModal,
     setShowCreateArrowModal
-  }), [warp, walletAddress, profile, cursor, drag, mode, isDarkMode, menuX, showRegisterModal, showCreateArrowModal]);
+  }), [warp, walletAddress, profile, cursor, drag, pendingLink, mode, isDarkMode, menuX, showRegisterModal, showCreateArrowModal]);
 
   return (
     <IonApp>

@@ -10,7 +10,6 @@ import Profile from "../profile/Profile";
 
 const Menu = () => {
   const { profile, mode, isDarkMode, menuX, setMenuIsResizing } = useContext(AppContext);
-  console.log(mode);
 
   const [showResizer, setShowResizer] = useState(false);
 

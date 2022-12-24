@@ -29,7 +29,7 @@ const useReplyTwig = () => {
       uuid: v4(),
       name: '',
       description: '',
-      color: profile?.color,
+      color: profile.color,
       data: '',
       parentAddress: frameTxId,
       sourceAddress: null,
@@ -37,7 +37,9 @@ const useReplyTwig = () => {
       date: Date.now(),
     });
 
-    if (!postTxId) return;
+    if (!postTxId) {
+      throw Error('Failed to deploy post arrow');
+    };
 
     const dx = Math.round(twig.x) || (Math.random() - 0.5);
     const dy = Math.round(twig.y) || (Math.random() - 0.5);
@@ -71,12 +73,15 @@ const useReplyTwig = () => {
       date: Date.now(),
     });
 
-    if (!linkTxId) return;
+    if (!linkTxId) {
+      throw Error('Failed to deploy link arrow');
+    };
 
     const frame1 = await readArrowState(frameTxId);
 
-    console.log(frame1);
-    if (!frame1) return;
+    if (!frame1) {
+      throw Error('Failed to read frame arrow');
+    };
 
     let targetTwigI: number | null = null;
     frame1.state.twigs.slice().reverse().some((t, i) => {

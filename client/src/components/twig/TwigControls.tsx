@@ -1,11 +1,11 @@
 import { IonButton, IonButtons, IonIcon } from '@ionic/react';
 import { ellipsisVertical } from 'ionicons/icons';
 import React, { useContext, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { Twig } from '../../warp/arrow/types';
 import TwigOptions from './TwigOptions';
 import useReplyTwig from '../../hooks/useReplyTwig';
 import { Arrow } from '../../types';
+import { AppContext } from '../app/AppProvider';
 
 //import useCenterTwig from './useCenterTwig';
 
@@ -16,7 +16,7 @@ interface TwigControlsProps {
 }
 
 function TwigControls({i, twig, arrow}: TwigControlsProps) {
-  const dispatch = useAppDispatch();
+  const { setPendingLink } = useContext(AppContext);
 
   const [showOptions, setShowOptions] = useState(false);
 
@@ -43,7 +43,10 @@ function TwigControls({i, twig, arrow}: TwigControlsProps) {
 
   const handleLinkClick = (event: React.MouseEvent) => {
     event.stopPropagation();
-
+    setPendingLink({
+      sourceTwigI: i,
+      targetTwigI: null,
+    });
   }
 
   const handlePrevClick = (event: React.MouseEvent) => {
@@ -83,7 +86,7 @@ function TwigControls({i, twig, arrow}: TwigControlsProps) {
         LINK
       </IonButton>
       <IonButton 
-        id={'twigOptions-' + i} 
+        id={'twig-options-' + i} 
         size='small'
         onMouseDown={handleMouseDown} 
         onClick={handleOptionsClick}

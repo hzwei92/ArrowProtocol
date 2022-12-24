@@ -52,7 +52,6 @@ function LinkBar({i, comment, arrow }: LinkBarProps) {
           (comment.creatorAddress !== walletAddress) ||
           pendingLink.sourceCommentI !== null
         } 
-        color='inherit'
         onClick={handleRemoveClick}
         style={{
           height: 20,

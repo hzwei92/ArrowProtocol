@@ -46,6 +46,7 @@ const Link = ({i, comment, arrow}: LinkProps) => {
           position: 'absolute',
           right: 0,
           top: 0,
+          zIndex: 10,
         }}>
           <LinkBar i={i} comment={comment} arrow={arrow} />
         </div>

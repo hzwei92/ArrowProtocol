@@ -56,7 +56,6 @@ function PostBar({ i, comment, arrow }: PostBarProps) {
 
   return (
     <div
-      className='no-pan'
       onMouseDown={handleMouseDown}
       onTouchStart={handleTouchStart}
       style={{

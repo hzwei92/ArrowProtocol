@@ -4,7 +4,7 @@ export interface Comment {
   // abstractAddress: string; // the address of the arrow that contains this comment
   txId: string | null; // the address of the arrow that the comment embeds within the container arrow.
 
-  parentCommentI: number | null; // parentComment.i the comments form a tree structure; dragging a comment will move the whole subtree
+  parentCommentI: number | null; //  the comments form a tree structure; dragging a comment will move the whole subtree
   
   sourceCommentI: number | null; // if detailArrow is to be rendered as a link, this is the comment that holds detailArrow.source
   targetCommentI: number | null; // if detailArrow is to be rendered as a link, this is the comment that holds detailArrow.target
@@ -78,7 +78,7 @@ export interface ArrowState {
   // the original Arrow in which this Arrow is embedded
   // the arrow may be embedded in multiple Arrows, via those Arrows' comments
   // however, the parentArrow is the Arrow in which this Arrow was created
-  parentAddress: string | null;
+  parentTxId: string | null;
 
   // the arrow contains within it a tree structure of comments;
   // each comment is the embedding of an Arrow within this Arrow, as content 

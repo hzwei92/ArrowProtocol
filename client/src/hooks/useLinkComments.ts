@@ -33,7 +33,7 @@ const useLinkComments = () => {
       description: '',
       color: profile.color,
       data: '',
-      parentAddress: frame.txId,
+      parentTxId: frame.txId,
       sourceTxId: sourceComment.txId,
       targetTxId: targetComment.txId,
       date: Date.now(),

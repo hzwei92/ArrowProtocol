@@ -28,7 +28,7 @@ const useCreateNewTab = () => {
       description,
       color: profile.color,
       data: '',
-      parentAddress: null,
+      parentTxId: null,
       sourceTxId: null,
       targetTxId: null,
       date: Date.now(),

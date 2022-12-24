@@ -11,7 +11,7 @@ export interface DeployArrowProps {
   description: string;
   color: string;
   data: string;
-  parentAddress: string | null;
+  parentTxId: string | null;
   sourceTxId: string | null;
   targetTxId: string | null;
   date: number;

@@ -10,7 +10,7 @@ const initializeArrowState = ({
   data, 
   sourceTxId, 
   targetTxId, 
-  parentAddress, 
+  parentTxId, 
   date
 }: DeployArrowProps) => {
   const state: ArrowState = {
@@ -23,7 +23,7 @@ const initializeArrowState = ({
     creatorAddress: walletAddress,
     sourceTxId,
     targetTxId,
-    parentAddress,
+    parentTxId,
     comments: [{
       x: 0,
       y: 0,

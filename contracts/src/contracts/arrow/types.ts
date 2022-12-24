@@ -78,7 +78,7 @@ export interface ArrowState {
   // the original Arrow in which this Arrow is embedded
   // the arrow may be embedded in multiple Arrows, via those Arrows' comments
   // however, the parentArrow is the Arrow in which this Arrow was created
-  parentAddress: string | null;
+  parentTxId: string | null;
 
   // the arrow contains within it a tree structure of comments;
   // each comment is the embedding of an Arrow within this Arrow, as content 

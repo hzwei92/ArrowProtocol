@@ -5,20 +5,20 @@ export const getInitState = (
   creatorAddress: string, 
   sourceTxId: string, 
   targetTxId: string, 
-  parentAddress: string,
+  parentTxId: string,
 ) => {
   const date = Date.now();
   const initState: ArrowState = {
     uuid: v4(),
-    name: '',
-    description: '',
+    name: 'JAMN testnet',
+    description: 'JAMN is pioneering the next generation of social media. Join us on our journey to build a better internet.',
     color: '#' + Math.round(Math.random() * Math.pow(16, 6)).toString(16).padStart(6, '0'),
     weight: 0,
     data: '',
     creatorAddress,
     sourceTxId,
     targetTxId,
-    parentAddress,
+    parentTxId,
     comments: [{
       creatorAddress,
       txId: null,

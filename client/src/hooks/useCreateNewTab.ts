@@ -5,8 +5,8 @@ import useDeployArrow from "../warp/arrow/actions/write/useDeployArrow";
 import useWriteTabs from "../warp/jamn/actions/write/useWriteTabs";
 
 interface CreateNewTabProps {
-  name: string;
-  description: string;
+  text: string;
+  draft: string;
 };
 
 const useCreateNewTab = () => {
@@ -16,18 +16,18 @@ const useCreateNewTab = () => {
   const writeTabs = useWriteTabs();
 
   const createNewTab = async ({
-    name,
-    description,
+    text,
+    draft,
   }: CreateNewTabProps) => {
     if (!walletAddress || !profile) return;
 
     const contractTxId = await deployArrow({
       walletAddress,
-      uuid: v4(),
-      name,
-      description,
-      color: profile.color,
       data: '',
+      uuid: v4(),
+      text,
+      draft,
+      color: profile.color,
       parentTxId: null,
       sourceTxId: null,
       targetTxId: null,

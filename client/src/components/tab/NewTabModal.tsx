@@ -2,29 +2,40 @@ import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonInput
 import { useContext, useState } from "react";
 import { AppContext } from "../app/AppProvider";
 import useCreateNewTab from "../../hooks/useCreateNewTab";
+import { EditorState, convertToRaw } from "draft-js";
+import Editor from '@draft-js-plugins/editor';
+import 'draft-js/dist/Draft.css';
+import { CHAR_LIMIT } from "../../constants";
 
 const CreateArrowModal = () => {
   const { showCreateArrowModal, setShowCreateArrowModal } = useContext(AppContext);
 
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  const [editorState, setEditorState] = useState(() => {
+    return EditorState.createEmpty();
+  });
+
+  const [text, setText] = useState('');
 
   const createNewTab = useCreateNewTab();
 
-  const handleNameChange = (e: any) => {
-    setName(e.target.value);
+
+  const handleChange = (editorState: EditorState) => {
+    setEditorState(editorState);
+    const contentState = editorState.getCurrentContent();
+    setText(contentState.getPlainText('\n'));
   }
-  const handleDescriptionChange = (e: any) => {
-    setDescription(e.target.value);
-  }
+
   const handleClose = () => {
     setShowCreateArrowModal(false);
   }
 
   const handleSubmit = () => {
+    const contentState = editorState.getCurrentContent();
+    const text = contentState.getPlainText('\n');
+    const draft = JSON.stringify(convertToRaw(contentState));
     createNewTab({
-      name,
-      description,
+      text,
+      draft,
     });
     handleClose();
   }
@@ -39,33 +50,15 @@ const CreateArrowModal = () => {
           Create Arrow
         </IonCardHeader>
         <IonCardContent>
-          <IonItem style={{
-            border: '1px solid',
-            borderRadius: 5,
-            marginBottom: 10,
-          }}>
-            <IonLabel>
-              Name
-            </IonLabel>
-            <IonInput
-              value={name}
-              onIonChange={handleNameChange}
-            />
-          </IonItem>
-          <IonItem style={{
-            border: '1px solid',
-            borderRadius: 5,
-          }}>
-            <IonLabel>
-              Description
-            </IonLabel>
-            <IonTextarea
-              value={description}
-              onIonChange={handleDescriptionChange}
-            />
-          </IonItem>
+          <Editor 
+            editorState={editorState} 
+            onChange={handleChange}
+            spellCheck={true}
+            placeholder='Post text...'
+          />
           <IonButtons>
-            <IonButton onClick={handleSubmit}>
+            { text.length } / { CHAR_LIMIT }&nbsp;
+            <IonButton disabled={text.length > CHAR_LIMIT} onClick={handleSubmit}>
               CREATE
             </IonButton>
             <IonButton onClick={handleClose}>

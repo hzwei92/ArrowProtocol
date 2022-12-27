@@ -1,5 +1,6 @@
 import { Arrow } from "../../types";
 import AddressComponent from "../address/AddressComponent";
+import ArrowEditor from "./ArrowEditor";
 import ArrowVoter from "./ArrowVoter";
 
 interface ArrowComponentProps {
@@ -22,12 +23,7 @@ const ArrowComponent = ({ arrow }: ArrowComponentProps) => {
         <ArrowVoter arrow={arrow}/>
       </div>
       <AddressComponent address={arrow.state.creatorAddress} fontSize={8}/>
-      <br />
-      {arrow.state.name}
-      <br />
-      {arrow.state.description}
-      <br />
-      {arrow.state.data}
+      <ArrowEditor arrow={arrow} />
     </div>
   );
 }

@@ -87,7 +87,7 @@ const TabComponent = ({ arrowTxId, i }: TabComponentProps) => {
           marginLeft: 10,
           fontSize: 16,
         }}>
-          { arrow.state.name }
+          { (arrow.state.text ?? '').split('\n')[0] }
         </div>
         <IonButtons style={{
           display: 'flex',

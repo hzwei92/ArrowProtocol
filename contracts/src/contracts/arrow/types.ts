@@ -60,13 +60,14 @@ export interface Role {
 
 
 export interface ArrowState {
-  uuid: string;
-  name: string; // the title of the arrow
-  description: string // the description of the arrows
-  color: string;
-  weight: number;
   data: string; // this is the payload of the arrow
 
+  uuid: string;
+  text: string; // the text of the arrow
+  draft: string // the stringified raw draft-js contentState of the arrow
+  color: string;
+  weight: number;
+  
   creatorAddress: string; // the address of the creator of the arrow
 
   // the arrow connects two Arrows, source --> target; 
@@ -129,10 +130,12 @@ export interface ArrowInput {
   date?: number;
   comments?: Comment[];
   commentIs?: number[];
+  draft?: string;
+  text?: string;
 }
 
 export type ArrowResult = string;
 
-export type ArrowFunction = 'createComment' | 'writeComments' | 'writeCommentIs';
+export type ArrowFunction = 'createComment' | 'writeComments' | 'writeCommentIs' | 'writeDraftAndText';
 
 export type ContractResult = { state: ArrowState } | { result: ArrowResult };

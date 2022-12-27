@@ -20,15 +20,6 @@ import { getInitState as getInitJamnState } from '../contracts/jamn/getInitState
     fs.writeFileSync(walletFilename, JSON.stringify(wallet));
   }
 
-  // const contract = await warp.contract('spQBqLo5DqadaJyAAdiPcULsj6cv-xAVsKCI60G-w7k').connect(wallet)
-
-  // const result = await contract.viewState({
-  //   function: 'readTabs',
-  // });
-  // console.log(result);
-
-  // return;
-
   const arrowSrc = fs.readFileSync(path.join(__dirname, '../../dist/arrow/contract.js'), 'utf8');
   const arrowState = getInitArrowState(address, null, null, null);
   const { contractTxId: arrowTxId } = await warp.deploy({

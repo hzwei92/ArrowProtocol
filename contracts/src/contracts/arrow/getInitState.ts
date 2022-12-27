@@ -10,8 +10,10 @@ export const getInitState = (
   const date = Date.now();
   const initState: ArrowState = {
     uuid: v4(),
-    name: 'JAMN testnet Arrow',
-    description: 'JAMN is a community of citizen journalists. The Arrow Protocol is our tool for organizing and sharing information.',
+    text: `Am I lens or light /
+The cause of wind or the kite /
+For the kite dances`,
+    draft: '',
     color: '#' + Math.round(Math.random() * Math.pow(16, 6)).toString(16).padStart(6, '0'),
     weight: 0,
     data: '',

@@ -3,22 +3,22 @@ import { DeployArrowProps } from "./actions/write/useDeployArrow";
 
 const initializeArrowState = ({ 
   walletAddress, 
+  data,
   uuid, 
-  name, 
-  description, 
+  text, 
+  draft, 
   color,
-  data, 
   sourceTxId, 
   targetTxId, 
   parentTxId, 
   date
 }: DeployArrowProps) => {
   const state: ArrowState = {
-    uuid,
-    name,
-    description,
-    color: color || '#' + Math.round(Math.random() * Math.pow(16, 6)).toString(16).padStart(6, '0'),
     data,
+    uuid,
+    text,
+    draft,
+    color: color || '#' + Math.round(Math.random() * Math.pow(16, 6)).toString(16).padStart(6, '0'),
     weight: 0,
     creatorAddress: walletAddress,
     sourceTxId,

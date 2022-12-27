@@ -6,11 +6,11 @@ import { AppContext } from "../../../../components/app/AppProvider";
 
 export interface DeployArrowProps {
   walletAddress: string;
-  uuid: string;
-  name: string;
-  description: string;
-  color: string;
   data: string;
+  uuid: string;
+  text: string;
+  draft: string;
+  color: string;
   parentTxId: string | null;
   sourceTxId: string | null;
   targetTxId: string | null;
@@ -33,8 +33,8 @@ const useDeployArrow = () => {
       initState: JSON.stringify(initState),
       srcTxId: ARROW_CONTRACT_SOURCE_TX_ID,
       tags: [
-        { name: 'Arrow-A-Address', value: initState.sourceTxId ?? '' },
-        { name: 'Arrow-B-Address', value: initState.targetTxId ?? '' },
+        { name: 'Arrow-Source-TxId', value: initState.sourceTxId ?? '' },
+        { name: 'Arrow-Target-TxId', value: initState.targetTxId ?? '' },
       ]
     });
   

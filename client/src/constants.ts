@@ -2,9 +2,9 @@
 
 
 
-export const ARROW_CONTRACT_SOURCE_TX_ID = 'id_-Ws78ibExQ8D18ZVC5vPosubzCPanFOs50JtYReE';
+export const ARROW_CONTRACT_SOURCE_TX_ID = 'csY_omP70rhqqdL4Eby80DXF3xS63bjK4luTN_KZYmA';
 
-export const JAMN_CONTRACT_TX_ID = '5oNrv1WijkMzI9NiW39_LNHui3-zNqnm5_yA3zHaTXA';
+export const JAMN_CONTRACT_TX_ID = 'anoccNLA5SlQRGgfRbwAHtve8NmgDZmJIvQcRXAinPE';
 
 export const OFF_WHITE = '#ededed';
 
@@ -22,3 +22,5 @@ export const APP_BAR_X = 50;
 export const APP_BAR_Y = 50;
 
 export const DEFAULT_MENU_X = 420;
+
+export const CHAR_LIMIT = 280;

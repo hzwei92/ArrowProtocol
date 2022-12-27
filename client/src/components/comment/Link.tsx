@@ -1,11 +1,12 @@
 import { IonCard } from "@ionic/react";
-import { MouseEvent } from "react";
+import { MouseEvent, useContext } from "react";
 import { COMMENT_WIDTH } from "../../constants";
 import useExpandComment from "../../hooks/useExpandComment";
 import { selectFrame } from "../../redux/slices/arrowSlice";
 import { useAppSelector } from "../../redux/store";
 import { Arrow } from "../../types";
 import { Comment } from "../../warp/arrow/types";
+import { AppContext } from "../app/AppProvider";
 import ArrowComponent from "../arrow/ArrowComponent";
 import CommentControls from "./CommentControls";
 import LinkBar from "./LinkBar";
@@ -17,6 +18,8 @@ interface LinkProps {
 }
 
 const Link = ({i, comment, arrow}: LinkProps) => {
+  const { pendingLink } = useContext(AppContext);
+
   const frame = useAppSelector(selectFrame);
   const isSelected = frame?.focusI === i;
   
@@ -41,6 +44,10 @@ const Link = ({i, comment, arrow}: LinkProps) => {
         opacity: .9,
         padding: 5,
         position: 'relative',
+        fontSize: 10,
+        cursor: pendingLink.sourceCommentI !== null
+          ? 'crosshair'
+          : 'default', 
       }}>
         <div style={{
           position: 'absolute',
@@ -69,11 +76,13 @@ const Link = ({i, comment, arrow}: LinkProps) => {
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
-      cursor: 'pointer',
       pointerEvents: 'auto',
       opacity: .6,
       alignItems: 'center',
       fontSize: 10,
+      cursor: pendingLink.sourceCommentI !== null
+        ? 'crosshair'
+        : 'default', 
     }}>
       { arrow.state.weight }
     </IonCard>

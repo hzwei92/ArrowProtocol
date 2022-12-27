@@ -21,6 +21,8 @@ const useReadArrowState = () => {
     const { cachedValue } = await contract.readState();
 
     const state = cachedValue.state as ArrowState;
+  
+    // TODO differentiate between tx of type Arrow and tx in general; use tx tags?
 
     const commentIToDescIToTrue: IdToType<IdToType<true>> = {};
     state.comments.forEach((comment, i) => {

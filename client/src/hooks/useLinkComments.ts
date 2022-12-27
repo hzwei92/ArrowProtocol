@@ -29,8 +29,8 @@ const useLinkComments = () => {
     const linkTxId = await deployArrow({
       walletAddress,
       uuid: v4(),
-      name: '',
-      description: '',
+      text: '',
+      draft: '',
       color: profile.color,
       data: '',
       parentTxId: frame.txId,

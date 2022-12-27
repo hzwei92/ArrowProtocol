@@ -21,6 +21,5 @@ export const writeCommentIs = async (
   }
 
   state.commentIs = commentIs;
-  
   return { state }; 
 };

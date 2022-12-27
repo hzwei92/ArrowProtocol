@@ -27,8 +27,8 @@ const useReplyComment = () => {
     const postTxId = await deployArrow({
       walletAddress,
       uuid: v4(),
-      name: '',
-      description: '',
+      text: '',
+      draft: '',
       color: profile.color,
       data: '',
       parentTxId: frameTxId,
@@ -63,8 +63,8 @@ const useReplyComment = () => {
     const linkTxId = await deployArrow({
       walletAddress,
       uuid: v4(),
-      name: '',
-      description: '',
+      text: '',
+      draft: '',
       data: '',
       color: profile.color,
       parentTxId: frameTxId,

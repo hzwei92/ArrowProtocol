@@ -29,7 +29,7 @@ const Space = () => {
 
   useEffect(() => {
     spaceRef.current?.zoomToElement(`pin-${frame?.focusI}`, 1.2, 200);
-  }, [frame?.txId, frame?.focusI, focusArrow]);
+  }, [frame?.txId, frame?.focusI, focusArrow?.txId]);
 
   const [mouseMoveEvent, setMouseMoveEvent] = useState<MouseEvent | null>(null);
 

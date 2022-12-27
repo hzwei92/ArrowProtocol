@@ -33,6 +33,7 @@ const useDeployArrow = () => {
       initState: JSON.stringify(initState),
       srcTxId: ARROW_CONTRACT_SOURCE_TX_ID,
       tags: [
+        { name: 'Arrow-Protocol-Version', value: '0.1'},
         { name: 'Arrow-Source-TxId', value: initState.sourceTxId ?? '' },
         { name: 'Arrow-Target-TxId', value: initState.targetTxId ?? '' },
       ]

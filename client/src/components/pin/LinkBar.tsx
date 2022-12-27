@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { MouseEvent, useContext } from 'react';
 import { useAppSelector } from '../../redux/store';
 import { IonButton, IonButtons, IonIcon } from '@ionic/react';
 import { closeOutline, removeOutline } from 'ionicons/icons';
@@ -21,25 +21,28 @@ function LinkBar({i, pin, arrow }: LinkBarProps) {
 
   const expandPin = useExpandPin();
 
-
-  const handleCollapseClick = (e: React.MouseEvent) => {
+  const handleCollapseClick = (e: MouseEvent) => {
     e.stopPropagation();
     expandPin({ i, isExpanded: false });
   }
 
-  const handleRemoveClick = (event: React.MouseEvent) => {
-    event.stopPropagation();
+  const handleRemoveClick = (e: MouseEvent) => {
+    e.stopPropagation();
   }
 
+  const dontSelect = (e: MouseEvent) => {
+    e.stopPropagation();
+  }
+  
   return (
     <IonButtons>
-      <IonButton style={{
+      <IonButton onMouseDown={dontSelect} style={{
         height: 20,
         fontSize: 10,
       }}>
         {i}
       </IonButton>
-      <IonButton onClick={handleCollapseClick} style={{
+      <IonButton onMouseDown={dontSelect} onClick={handleCollapseClick} style={{
         height: 20,
       }}>
         <IonIcon icon={removeOutline} style={{
@@ -52,6 +55,7 @@ function LinkBar({i, pin, arrow }: LinkBarProps) {
           (pin.creatorAddress !== walletAddress) ||
           pendingLink.sourcePinI !== null
         } 
+        onMouseDown={dontSelect}
         onClick={handleRemoveClick}
         style={{
           height: 20,

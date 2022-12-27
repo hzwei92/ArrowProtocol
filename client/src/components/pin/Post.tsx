@@ -18,51 +18,13 @@ interface PostProps {
 }
 
 const Post = ({i, pin, arrow}: PostProps) => {
-  const { pendingLink, setPendingLink } = useContext(AppContext);
+  const { pendingLink } = useContext(AppContext);
   const frame = useSelector(selectFrame);
   const isSelected = i === frame?.focusI;
   const isLinking = pendingLink.sourcePinI === i || pendingLink.targetPinI === i;
 
-  const linkPins = useLinkPins();
-
-  const handleClick = (e: MouseEvent) => {
-    e.stopPropagation();
-    
-    if (pendingLink.sourcePinI !== null) {
-      if (pendingLink.sourcePinI !== i) {
-        console.log('linking');
-        linkPins({
-          sourcePinI: pendingLink.sourcePinI,
-          targetPinI: i,
-        });
-      }
-      setPendingLink({
-        sourcePinI: null,
-        targetPinI: null,
-      })
-    }
-  }
-
-  const handleMouseEnter = (e: MouseEvent) => {
-    if (pendingLink.sourcePinI !== null && pendingLink.sourcePinI !== i) {
-      setPendingLink({
-        ...pendingLink,
-        targetPinI: i,
-      });
-    }
-  }
-
-  const handleMouseLeave = (e: MouseEvent) => {
-    if (pendingLink.sourcePinI !== null && pendingLink.sourcePinI !== i && pendingLink.targetPinI === i) {
-      setPendingLink({
-        ...pendingLink,
-        targetPinI: null,
-      });
-    }
-  }
-
   return (
-    <IonCard onClick={handleClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{
+    <IonCard style={{
       display: 'flex',
       flexDirection: 'column',
       width: COMMENT_WIDTH,

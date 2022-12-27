@@ -1,15 +1,17 @@
 import { useContext } from "react";
 import { AppContext } from "../../../../components/app/AppProvider";
-import { useAppDispatch } from "../../../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../../../redux/store";
 import { ArrowState } from "../../types";
 import signer from '../../../../wallet/signer';
-import { mergeArrows } from "../../../../redux/slices/arrowSlice";
+import { mergeArrows, selectTxIdToArrow } from "../../../../redux/slices/arrowSlice";
 import { Arrow, IdToType } from "../../../../types";
 
 const useReadArrowState = () => {
   const dispatch = useAppDispatch();
 
   const { warp } = useContext(AppContext);
+
+  const txIdToArrow = useAppSelector(selectTxIdToArrow);
 
   const readArrowState = async (contractTxId: string) => {
     if (!warp) return;
@@ -47,7 +49,7 @@ const useReadArrowState = () => {
 
     const arrow: Arrow = {
       txId: contractTxId,
-      focusI: 0,
+      focusI: txIdToArrow[contractTxId]?.focusI ?? 0,
       pinIToDescIToTrue,
       state,
     };

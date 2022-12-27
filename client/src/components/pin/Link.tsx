@@ -22,6 +22,7 @@ const Link = ({i, pin, arrow}: LinkProps) => {
 
   const frame = useAppSelector(selectFrame);
   const isSelected = frame?.focusI === i;
+  const isLinking = pendingLink.sourcePinI === i || pendingLink.targetPinI === i;
   
   const expandPin = useExpandPin();
 
@@ -45,6 +46,9 @@ const Link = ({i, pin, arrow}: LinkProps) => {
         padding: 5,
         position: 'relative',
         fontSize: 10,
+        backgroundColor: isLinking
+          ? arrow.state.color
+          : null,
         cursor: pendingLink.sourcePinI !== null
           ? 'crosshair'
           : 'default', 
@@ -83,6 +87,10 @@ const Link = ({i, pin, arrow}: LinkProps) => {
       cursor: pendingLink.sourcePinI !== null
         ? 'crosshair'
         : 'default', 
+
+      backgroundColor: isLinking
+      ? arrow.state.color
+      : null,
     }}>
       { arrow.state.weight }
     </IonCard>

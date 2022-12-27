@@ -17,7 +17,7 @@ interface PinControlsProps {
 }
 
 function PinControls({i, pin, arrow}: PinControlsProps) {
-  const { setPendingLink } = useContext(AppContext);
+  const { walletAddress, setPendingLink } = useContext(AppContext);
 
   const [showOptions, setShowOptions] = useState(false);
 
@@ -68,6 +68,7 @@ function PinControls({i, pin, arrow}: PinControlsProps) {
       flexDirection: 'row',
     }}>
       <IonButton
+        disabled={!walletAddress}
         onMouseDown={handleMouseDown} 
         onClick={handleReplyClick}
         style={{
@@ -78,6 +79,7 @@ function PinControls({i, pin, arrow}: PinControlsProps) {
         REPLY
       </IonButton>
       <IonButton 
+        disabled={!walletAddress}
         onMouseDown={handleMouseDown} 
         onClick={handleLinkClick}
         style={{

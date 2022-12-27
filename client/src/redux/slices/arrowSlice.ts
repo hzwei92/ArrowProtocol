@@ -17,7 +17,7 @@ export const arrowSlice = createSlice({
   name: 'arrow',
   initialState,
   reducers: {
-    setFrameTxId: (state, action: PayloadAction<string>) => {
+    setFrameTxId: (state, action: PayloadAction<string | null>) => {
       state.frameTxId = action.payload;
     },
     mergeArrows: (state, action: PayloadAction<Arrow[]>) => {

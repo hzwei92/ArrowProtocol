@@ -1,11 +1,12 @@
 import { IonButton, IonButtons, IonCard, IonIcon, useIonRouter } from "@ionic/react";
 import { close } from "ionicons/icons";
-import { useContext, useEffect } from "react";
-import { useAppSelector, useAppDispatch } from "../../redux/store";
+import { MouseEvent, useContext, useEffect } from "react";
+import { useAppSelector } from "../../redux/store";
 import { OFF_WHITE, TAB_HEIGHT } from "../../constants";
-import { selectFrameTxId, selectTxIdToArrow, setFrameTxId } from "../../redux/slices/arrowSlice";
+import { selectFrameTxId, selectTxIdToArrow } from "../../redux/slices/arrowSlice";
 import useReadArrowState from "../../warp/arrow/actions/read/useReadArrowState";
 import { AppContext } from "../app/AppProvider";
+import useRemoveTab from "../../hooks/tab/useRemoveTab";
 
 interface TabComponentProps {
   arrowTxId: string;
@@ -22,6 +23,7 @@ const TabComponent = ({ arrowTxId, i }: TabComponentProps) => {
   const arrow = txIdToArrow[arrowTxId];
 
   const readArrowState = useReadArrowState();
+  const removeTab = useRemoveTab();
 
   useEffect(() => {
     if (!arrow) {
@@ -30,12 +32,12 @@ const TabComponent = ({ arrowTxId, i }: TabComponentProps) => {
   }, [arrow])
 
   const handleTabClick = () => {
-    console.log('handleTabClick');
     router.push(`/j/${arrowTxId}/${arrow.focusI}`)
   }
 
-  const handleTabCloseClick = () => {
-    console.log('handleTabCloseClick');
+  const handleTabCloseClick = (e: MouseEvent) => {
+    e.stopPropagation();
+    removeTab({ arrowTxId })
   }
 
   if (!arrow) return null;

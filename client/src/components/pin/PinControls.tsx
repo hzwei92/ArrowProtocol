@@ -8,8 +8,6 @@ import { Arrow } from '../../types';
 import { AppContext } from '../app/AppProvider';
 import useOpenArrowInNewTab from '../../hooks/tab/useOpenArrowInNewTab';
 
-//import useCenterPin from './useCenterPin';
-
 interface PinControlsProps {
   i: number;
   pin: Pin;

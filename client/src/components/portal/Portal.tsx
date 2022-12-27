@@ -1,8 +1,7 @@
 import { TAB_HEIGHT } from "../../constants";
-import SpaceComponent from "../space/Space";
+import Space from "../space/Space";
 import TabBar from "../tab/TabBar";
 import { isPlatform } from "@ionic/react";
-import CreateArrowModal from "../tab/NewTabModal";
 
 const Portal = () => {
   return (
@@ -19,7 +18,7 @@ const Portal = () => {
         width: '100%',
         height: `calc(100% - ${isPlatform('iphone') ? TAB_HEIGHT : TAB_HEIGHT + 1}px)`,
       }}>
-        <SpaceComponent />
+        <Space />
       </div>
     </div>
   );

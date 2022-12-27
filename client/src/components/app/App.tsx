@@ -29,8 +29,8 @@ import { AppContext } from './AppProvider';
 import CreateArrowModal from '../tab/NewTabModal';
 import { Mode } from '../../types';
 import { APP_BAR_X, APP_BAR_Y } from '../../constants';
-import useAppRouter from '../../hooks/useAppRouter';
-import useAppInitializer from '../../hooks/useAppInitializer';
+import useAppRouter from '../../hooks/app/useAppRouter';
+import useAppInitializer from '../../hooks/app/useAppInitializer';
 
 setupIonicReact();
 

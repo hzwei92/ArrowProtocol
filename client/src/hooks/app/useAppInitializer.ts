@@ -1,14 +1,14 @@
 import { useContext, useEffect } from "react";
-import { AppContext } from "../components/app/AppProvider";
-import { useAppDispatch } from "../redux/store";
-import { setFrameTxId } from "../redux/slices/arrowSlice";
-import useReadProfile from "../warp/jamn/actions/read/useReadProfile";
-import useRegister from "../warp/jamn/actions/write/useRegister";
-import useReadDefaultTabs from "../warp/jamn/actions/read/useReadDefaultTabs";
+import { AppContext } from "../../components/app/AppProvider";
+import { useAppDispatch } from "../../redux/store";
+import { setFrameTxId } from "../../redux/slices/arrowSlice";
+import useReadProfile from "../../warp/jamn/actions/read/useReadProfile";
+import useRegister from "../../warp/jamn/actions/write/useRegister";
+import useReadDefaultTabs from "../../warp/jamn/actions/read/useReadDefaultTabs";
 //@ts-ignore
 import { WarpFactory } from "warp-contracts/web";
 import { defaultCacheOptions } from "warp-contracts";
-import { Profile } from "../warp/jamn/types";
+import { Profile } from "../../warp/jamn/types";
 
 const useAppInitializer = () => {
   const dispatch = useAppDispatch();

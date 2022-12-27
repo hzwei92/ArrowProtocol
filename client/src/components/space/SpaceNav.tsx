@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { IonFab, IonFabButton, IonIcon, isPlatform } from '@ionic/react';
 import { playBackOutline, playForwardOutline, playSkipBackOutline, playSkipForwardOutline } from 'ionicons/icons';
 import { ReactZoomPanPinchRef } from 'react-zoom-pan-pinch';
-import useSelectPin from '../../hooks/useSelectPin';
+import useSelectPin from '../../hooks/pin/useSelectPin';
 import { useAppSelector } from '../../redux/store';
 import { selectFrame } from '../../redux/slices/arrowSlice';
 

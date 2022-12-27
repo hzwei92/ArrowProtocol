@@ -6,7 +6,7 @@ import { Pin } from '../../warp/arrow/types';
 import { selectFrameTxId } from '../../redux/slices/arrowSlice';
 import { AppContext } from '../app/AppProvider';
 import { Arrow } from '../../types';
-import useExpandPin from '../../hooks/useExpandPin';
+import useExpandPin from '../../hooks/pin/useExpandPin';
 
 interface LinkBarProps {
   i: number;

@@ -1,13 +1,13 @@
 import { useContext } from "react";
 import { v4 } from "uuid";
-import { AppContext } from "../components/app/AppProvider";
-import { useAppSelector } from "../redux/store";
-import { Pin } from "../warp/arrow/types";
-import { selectFrameTxId } from "../redux/slices/arrowSlice";
-import useDeployArrow from "../warp/arrow/actions/write/useDeployArrow";
-import useCreatePin from "../warp/arrow/actions/write/useCreatePin";
-import useReadArrowState from "../warp/arrow/actions/read/useReadArrowState";
-import { Arrow } from "../types";
+import { AppContext } from "../../components/app/AppProvider";
+import { useAppSelector } from "../../redux/store";
+import { Pin } from "../../warp/arrow/types";
+import { selectFrameTxId } from "../../redux/slices/arrowSlice";
+import useDeployArrow from "../../warp/arrow/actions/write/useDeployArrow";
+import useCreatePin from "../../warp/arrow/actions/write/useCreatePin";
+import useReadArrowState from "../../warp/arrow/actions/read/useReadArrowState";
+import { Arrow } from "../../types";
 
 interface ReplyPinProps {
   i: number;

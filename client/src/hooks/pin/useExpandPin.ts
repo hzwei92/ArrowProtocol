@@ -1,11 +1,8 @@
-import { useIonRouter } from "@ionic/react";
-import { useContext } from "react";
-import { mergeArrows, selectFrame } from "../redux/slices/arrowSlice";
-import { useAppDispatch, useAppSelector } from "../redux/store";
-import { AppContext } from '../components/app/AppProvider';
-import signer from "../wallet/signer";
-import useWritePins from "../warp/arrow/actions/write/useWritePins";
-import { Pin } from "../warp/arrow/types";
+import { mergeArrows, selectFrame } from "../../redux/slices/arrowSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import useWritePins from "../../warp/arrow/actions/write/useWritePins";
+import { Pin } from "../../warp/arrow/types";
+
 interface ExpandPinProps {
   i: number;
   isExpanded: boolean;

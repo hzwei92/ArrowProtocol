@@ -1,9 +1,9 @@
 import { useIonRouter } from "@ionic/react";
 import { useContext, useEffect } from "react";
-import { AppContext } from "../components/app/AppProvider";
-import { mergeArrows, selectFrame, selectTxIdToArrow, setFrameTxId } from "../redux/slices/arrowSlice";
-import { useAppDispatch, useAppSelector } from "../redux/store";
-import useWriteTabs from "../warp/jamn/actions/write/useWriteTabs";
+import { AppContext } from "../../components/app/AppProvider";
+import { mergeArrows, selectFrame, selectTxIdToArrow, setFrameTxId } from "../../redux/slices/arrowSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import useWriteTabs from "../../warp/jamn/actions/write/useWriteTabs";
 
 const useAppRouter = () => {
   const dispatch = useAppDispatch();

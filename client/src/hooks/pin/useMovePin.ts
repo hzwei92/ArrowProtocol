@@ -1,6 +1,6 @@
-import { VIEW_RADIUS } from "../constants";
-import { mergeArrows, selectFrame } from "../redux/slices/arrowSlice";
-import { useAppDispatch, useAppSelector } from "../redux/store";
+import { VIEW_RADIUS } from "../../constants";
+import { mergeArrows, selectFrame } from "../../redux/slices/arrowSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 
 interface MovePinProps {
   pinI: number;

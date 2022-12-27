@@ -1,24 +1,24 @@
 import { useContext } from "react";
 import { v4 } from "uuid";
-import { AppContext } from "../components/app/AppProvider";
-import useDeployArrow from "../warp/arrow/actions/write/useDeployArrow";
-import useWriteTabs from "../warp/jamn/actions/write/useWriteTabs";
+import { AppContext } from "../../components/app/AppProvider";
+import useDeployArrow from "../../warp/arrow/actions/write/useDeployArrow";
+import useWriteTabs from "../../warp/jamn/actions/write/useWriteTabs";
 
-interface CreateNewTabProps {
+interface CreateArrowInNewTabProps {
   text: string;
   draft: string;
 };
 
-const useCreateNewTab = () => {
+const useCreateArrowInNewTab = () => {
   const { walletAddress, profile, setProfile } = useContext(AppContext);
 
   const deployArrow = useDeployArrow();
   const writeTabs = useWriteTabs();
 
-  const createNewTab = async ({
+  const createArrowInNewTab = async ({
     text,
     draft,
-  }: CreateNewTabProps) => {
+  }: CreateArrowInNewTabProps) => {
     if (!walletAddress || !profile) return;
 
     const contractTxId = await deployArrow({
@@ -44,7 +44,7 @@ const useCreateNewTab = () => {
     writeTabs(tabs1);
   }
 
-  return createNewTab;
+  return createArrowInNewTab;
 }
 
-export default useCreateNewTab;
+export default useCreateArrowInNewTab;

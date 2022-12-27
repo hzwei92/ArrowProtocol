@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Arrow } from "../../types";
 import { AppContext } from "../app/AppProvider";
 import { ContentState, convertFromRaw, convertToRaw, EditorState } from "draft-js";
@@ -14,19 +14,23 @@ interface ArrowEditorProps {
 const ArrowEditor = ({ arrow }: ArrowEditorProps) => {
   const { walletAddress } = useContext(AppContext);
 
-  const [editorState, setEditorState] = useState(() => {
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+
+  useEffect(() => {
+    let editorState1: EditorState;
     if (arrow.state.draft) {
       const contentState = convertFromRaw(JSON.parse(arrow.state.draft));
-      return EditorState.createWithContent(contentState);
+      editorState1 = EditorState.createWithContent(contentState);
     }
     else if (arrow.state.text) {
       const contentState = ContentState.createFromText(arrow.state.text);
-      return EditorState.createWithContent(contentState);
+      editorState1 = EditorState.createWithContent(contentState);
     }
     else {
-      return EditorState.createEmpty();
+      editorState1 = EditorState.createEmpty();
     }
-  });
+    setEditorState(editorState1);
+  }, [arrow.txId])
 
   const [text, setText] = useState(arrow.state.text);
 

@@ -6,8 +6,8 @@ import useReadArrowState from '../../warp/arrow/actions/read/useReadArrowState';
 import Link from './Link';
 import Post from './Post';
 import { useAppSelector } from '../../redux/store';
-import useSelectPin from '../../hooks/useSelectPin';
-import useLinkPins from '../../hooks/useLinkPins';
+import useSelectPin from '../../hooks/pin/useSelectPin';
+import useLinkPins from '../../hooks/pin/useLinkPins';
 import { AppContext } from '../app/AppProvider';
 
 interface PinProps {

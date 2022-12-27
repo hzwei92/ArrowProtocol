@@ -5,7 +5,7 @@ import PinComponent from "../pin/PinComponent"
 import { ReactZoomPanPinchRef, TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import { Fragment, MouseEvent, useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../app/AppProvider";
-import useMovePin from "../../hooks/useMovePin";
+import useMovePin from "../../hooks/pin/useMovePin";
 import useWritePins from "../../warp/arrow/actions/write/useWritePins";
 import MarkerDefs from "./MarkerDefs";
 import Marker from "./Marker";

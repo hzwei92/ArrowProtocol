@@ -3,9 +3,10 @@ import { ellipsisVertical } from 'ionicons/icons';
 import React, { useContext, useState } from 'react';
 import { Pin } from '../../warp/arrow/types';
 import PinOptions from './PinOptions';
-import useReplyPin from '../../hooks/useReplyPin';
+import useReplyPin from '../../hooks/pin/useReplyPin';
 import { Arrow } from '../../types';
 import { AppContext } from '../app/AppProvider';
+import useOpenArrowInNewTab from '../../hooks/tab/useOpenArrowInNewTab';
 
 //import useCenterPin from './useCenterPin';
 
@@ -21,6 +22,7 @@ function PinControls({i, pin, arrow}: PinControlsProps) {
   const [showOptions, setShowOptions] = useState(false);
 
   const replyPin = useReplyPin();
+  const openArrowInNewTab = useOpenArrowInNewTab();
 
   const handleMouseDown = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -33,7 +35,7 @@ function PinControls({i, pin, arrow}: PinControlsProps) {
 
   const handleOpenClick = (event: React.MouseEvent) => {
     event.stopPropagation();
-    console.log(arrow);
+    openArrowInNewTab({ txId: arrow.txId })
   }
 
   const handleReplyClick = (event: React.MouseEvent) => {
@@ -120,6 +122,7 @@ function PinControls({i, pin, arrow}: PinControlsProps) {
         OUT
       </IonButton>
       <IonButton
+        disabled={i === 0}
         onMouseDown={handleMouseDown}
         onClick={handleOpenClick}
         style={{

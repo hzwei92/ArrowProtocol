@@ -1,7 +1,7 @@
 import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonInput, IonItem, IonLabel, IonModal, IonTextarea } from "@ionic/react";
 import { useContext, useState } from "react";
 import { AppContext } from "../app/AppProvider";
-import useCreateNewTab from "../../hooks/useCreateNewTab";
+import useCreateArrowInNewTab from "../../hooks/tab/useCreateArrowInNewTab";
 import { EditorState, convertToRaw } from "draft-js";
 import Editor from '@draft-js-plugins/editor';
 import 'draft-js/dist/Draft.css';
@@ -16,7 +16,7 @@ const CreateArrowModal = () => {
 
   const [text, setText] = useState('');
 
-  const createNewTab = useCreateNewTab();
+  const createArrowInNewTab = useCreateArrowInNewTab();
 
 
   const handleChange = (editorState: EditorState) => {
@@ -33,7 +33,7 @@ const CreateArrowModal = () => {
     const contentState = editorState.getCurrentContent();
     const text = contentState.getPlainText('\n');
     const draft = JSON.stringify(convertToRaw(contentState));
-    createNewTab({
+    createArrowInNewTab({
       text,
       draft,
     });

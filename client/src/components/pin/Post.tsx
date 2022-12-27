@@ -2,7 +2,7 @@ import { IonCard } from "@ionic/react";
 import { MouseEvent, useContext } from "react";
 import { useSelector } from "react-redux";
 import { COMMENT_WIDTH } from "../../constants";
-import useLinkPins from "../../hooks/useLinkPins";
+import useLinkPins from "../../hooks/pin/useLinkPins";
 import { selectFrame } from "../../redux/slices/arrowSlice";
 import { Arrow } from "../../types";
 import { Pin } from "../../warp/arrow/types";

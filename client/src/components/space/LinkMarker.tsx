@@ -1,7 +1,7 @@
 import { MouseEvent } from "react";
 import { VIEW_RADIUS } from "../../constants";
-import useExpandPin from "../../hooks/useExpandPin";
-import useSelectPin from "../../hooks/useSelectPin";
+import useExpandPin from "../../hooks/pin/useExpandPin";
+import useSelectPin from "../../hooks/pin/useSelectPin";
 import { selectFrame, selectTxIdToArrow } from "../../redux/slices/arrowSlice";
 import { useAppSelector } from "../../redux/store";
 import { getPolylineCoords } from "../../utils";

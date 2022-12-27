@@ -1,7 +1,7 @@
 import { IonCard } from "@ionic/react";
 import { MouseEvent, useContext } from "react";
 import { COMMENT_WIDTH } from "../../constants";
-import useExpandPin from "../../hooks/useExpandPin";
+import useExpandPin from "../../hooks/pin/useExpandPin";
 import { selectFrame } from "../../redux/slices/arrowSlice";
 import { useAppSelector } from "../../redux/store";
 import { Arrow } from "../../types";

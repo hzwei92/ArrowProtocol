@@ -1,17 +1,17 @@
 import { IonButton, IonButtons, IonPopover } from "@ionic/react";
 import { Dispatch, SetStateAction, useContext } from "react";
 import { AppContext } from "../app/AppProvider";
-import { Comment } from "../../warp/arrow/types";
+import { Pin } from "../../warp/arrow/types";
 import { Arrow } from "../../types";
 
-interface CommentOptionsProps {
+interface PinOptionsProps {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   i: number;
-  comment: Comment
+  pin: Pin
   arrow: Arrow;
 }
-const CommentOptions = ({ isOpen, setIsOpen, i, comment, arrow }: CommentOptionsProps) => {
+const PinOptions = ({ isOpen, setIsOpen, i, pin, arrow }: PinOptionsProps) => {
   const { walletAddress } = useContext(AppContext);
 
   const handleCopyClick = () => {
@@ -29,7 +29,7 @@ const CommentOptions = ({ isOpen, setIsOpen, i, comment, arrow }: CommentOptions
 
   const handleCopyRelativeClick = (event: React.MouseEvent) => {
     event.stopPropagation();
-    //navigator.clipboard.writeText(`https://mindscape.pub/g/${abstract?.routeName}/${props.comment.i}`);
+    //navigator.clipboard.writeText(`https://mindscape.pub/g/${abstract?.routeName}/${props.pin.i}`);
   }
 
   const handleSubscribeClick = (event: React.MouseEvent) => {
@@ -44,13 +44,13 @@ const CommentOptions = ({ isOpen, setIsOpen, i, comment, arrow }: CommentOptions
 
   const handleCommitClick = (event: React.MouseEvent) => {
     event.stopPropagation();
-    //dispatch(setCommitArrowId(props.comment.detailId))
+    //dispatch(setCommitArrowId(props.pin.detailId))
   }
   const handleClose = () => {
     setIsOpen(false);
   }
   return (
-    <IonPopover trigger={'commentOptions-' + i} isOpen={isOpen} onWillDismiss={handleClose}>
+    <IonPopover trigger={'pinOptions-' + i} isOpen={isOpen} onWillDismiss={handleClose}>
         <div style={{
           margin: 10,
           borderBottom: '1px solid',
@@ -124,12 +124,12 @@ const CommentOptions = ({ isOpen, setIsOpen, i, comment, arrow }: CommentOptions
               display: 'table-cell',
               fontWeight: 'bold',
             }}>
-              commentCreatorAddress
+              pinCreatorAddress
             </div>
             <div style={{
               display: 'table-cell',
             }}>
-              {comment.creatorAddress}
+              {pin.creatorAddress}
             </div>
           </div>
         </div>
@@ -137,4 +137,4 @@ const CommentOptions = ({ isOpen, setIsOpen, i, comment, arrow }: CommentOptions
   );
 }
 
-export default CommentOptions;
+export default PinOptions;

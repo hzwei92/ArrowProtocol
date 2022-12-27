@@ -4,51 +4,51 @@ import { mergeArrows, selectFrame } from "../redux/slices/arrowSlice";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { AppContext } from '../components/app/AppProvider';
 import signer from "../wallet/signer";
-import useWriteCommentIs from "../warp/arrow/actions/write/useWriteCommentIs";
-interface SelectCommentProps {
+import useWritePinIs from "../warp/arrow/actions/write/useWritePinIs";
+interface SelectPinProps {
   i: number;
 }
-const useSelectComment = () => {
+const useSelectPin = () => {
   const dispatch = useAppDispatch();
 
   const router = useIonRouter();
 
   const frame = useAppSelector(selectFrame);
 
-  const writeCommentIs = useWriteCommentIs();
+  const writePinIs = useWritePinIs();
 
-  const selectComment = async ({ i }: SelectCommentProps) => {
+  const selectPin = async ({ i }: SelectPinProps) => {
     if (!frame) return;
 
     const topIs: number[] = [];
     const bottomIs: number[] = []  ;
-    frame.state.commentIs.forEach((commentI) => {
-      if (commentI === i) return;
+    frame.state.pinIs.forEach((pinI) => {
+      if (pinI === i) return;
       
-      if (frame.commentIToDescIToTrue[i][commentI]) {
-        topIs.push(commentI);
+      if (frame.pinIToDescIToTrue[i][pinI]) {
+        topIs.push(pinI);
       }
       else {
-        bottomIs.push(commentI);
+        bottomIs.push(pinI);
       }
     });
 
-    const commentIs = [...bottomIs, ...topIs, i];
+    const pinIs = [...bottomIs, ...topIs, i];
 
     dispatch(mergeArrows([{
       ...frame,
       state: {
         ...frame.state,
-        commentIs,
+        pinIs,
       }
     }]));
 
     router.push(`/j/${frame.txId}/${i}`);
 
-    await writeCommentIs({ commentIs });
+    await writePinIs({ pinIs });
   }
 
-  return selectComment;
+  return selectPin;
 }
 
-export default useSelectComment;
+export default useSelectPin;

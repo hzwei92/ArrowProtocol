@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { IonFab, IonFabButton, IonIcon, isPlatform } from '@ionic/react';
 import { playBackOutline, playForwardOutline, playSkipBackOutline, playSkipForwardOutline } from 'ionicons/icons';
 import { ReactZoomPanPinchRef } from 'react-zoom-pan-pinch';
-import useSelectComment from '../../hooks/useSelectComment';
+import useSelectPin from '../../hooks/useSelectPin';
 import { useAppSelector } from '../../redux/store';
 import { selectFrame } from '../../redux/slices/arrowSlice';
 
@@ -11,7 +11,7 @@ interface SpaceNavProps {
 }
 export default function SpaceNav({ spaceRef }: SpaceNavProps) {
   const frame = useAppSelector(selectFrame);
-  const selectComment = useSelectComment();
+  const selectPin = useSelectPin();
 
   if (!frame) return null;
 
@@ -19,7 +19,7 @@ export default function SpaceNav({ spaceRef }: SpaceNavProps) {
     event.stopPropagation();
     event.preventDefault();
 
-    selectComment({ i: 0 });
+    selectPin({ i: 0 });
   }
 
   const handleNavPrev = (event: React.MouseEvent) => {
@@ -27,10 +27,10 @@ export default function SpaceNav({ spaceRef }: SpaceNavProps) {
     event.preventDefault();
 
     let i = frame.focusI - 1;
-    while (i > 0 && frame.state.comments[i].deleteDate) {
+    while (i > 0 && frame.state.pins[i].deleteDate) {
       i--;
     }
-    selectComment({ i })
+    selectPin({ i })
   }
 
   const handleNavNext = (event: React.MouseEvent) => {
@@ -38,36 +38,36 @@ export default function SpaceNav({ spaceRef }: SpaceNavProps) {
     event.preventDefault();
 
     let i = frame.focusI + 1;
-    while (i < frame.state.comments.length - 1 && frame.state.comments[i].deleteDate) {
+    while (i < frame.state.pins.length - 1 && frame.state.pins[i].deleteDate) {
       i++;
     }
-    selectComment({ i })
+    selectPin({ i })
   }
 
   const handleNavLatest = (event: React.MouseEvent) => {
     event.stopPropagation();
     event.preventDefault();
 
-    let i = frame.state.comments.length - 1;
-    while (i > 0 && frame.state.comments[i].deleteDate) {
+    let i = frame.state.pins.length - 1;
+    while (i > 0 && frame.state.pins[i].deleteDate) {
       i--;
     }
-    selectComment({ i })
+    selectPin({ i })
   }
 
   const handleNavFocus = (event: React.MouseEvent) => {
     event.stopPropagation();
     event.preventDefault();
 
-    spaceRef.current?.zoomToElement(`comment-${frame.focusI}`, undefined, 200);
+    spaceRef.current?.zoomToElement(`pin-${frame.focusI}`, undefined, 200);
   }
 
   const handleMouseMove = (e: React.MouseEvent) => {
     e.preventDefault();
   }
   
-  const disablePrev = !frame.state.comments.slice(0, frame.focusI).find(comment => !comment.deleteDate);
-  const disableNext = !frame.state.comments.slice(frame.focusI + 1).find(comment => !comment.deleteDate);
+  const disablePrev = !frame.state.pins.slice(0, frame.focusI).find(pin => !pin.deleteDate);
+  const disableNext = !frame.state.pins.slice(frame.focusI + 1).find(pin => !pin.deleteDate);
   return (
     <div onMouseMove={handleMouseMove} style={{
       display: isPlatform('mobile') //&& mode !== Mode.PORTAL

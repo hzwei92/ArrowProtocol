@@ -2,32 +2,32 @@ import React, { useContext } from 'react';
 import { useAppSelector } from '../../redux/store';
 import { IonButton, IonButtons, IonIcon, IonLabel } from '@ionic/react';
 import { addOutline, closeOutline, removeOutline } from 'ionicons/icons';
-import { Comment } from '../../warp/arrow/types';
+import { Pin } from '../../warp/arrow/types';
 import { selectFrameTxId } from '../../redux/slices/arrowSlice';
 import { AppContext } from '../app/AppProvider';
 import { Arrow } from '../../types';
-import useExpandComment from '../../hooks/useExpandComment';
+import useExpandPin from '../../hooks/useExpandPin';
 
 interface PostBarProps {
   i: number;
-  comment: Comment;
+  pin: Pin;
   arrow: Arrow;
 }
 
-function PostBar({ i, comment, arrow }: PostBarProps) {
+function PostBar({ i, pin, arrow }: PostBarProps) {
   const { walletAddress, drag, setDrag, isDarkMode } = useContext(AppContext);
 
   const frameTxId = useAppSelector(selectFrameTxId);
 
-  const expandComment = useExpandComment();
+  const expandPin = useExpandPin();
 
   const beginDrag = () => {
     if (i === 0) return;
 
     setDrag({
       isScreen: false,
-      commentI: i,
-      targetCommentI: null,
+      pinI: i,
+      targetPinI: null,
     });
   }
 
@@ -37,7 +37,7 @@ function PostBar({ i, comment, arrow }: PostBarProps) {
 
   const handleExpandClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    expandComment({ i, isExpanded: !comment.isExpanded });
+    expandPin({ i, isExpanded: !pin.isExpanded });
   }
 
   const handleRemoveClick = (event: React.MouseEvent) => {
@@ -63,7 +63,7 @@ function PostBar({ i, comment, arrow }: PostBarProps) {
         textAlign: 'left',
         cursor: frameTxId === arrow.txId
             ? 'default'
-            : drag.commentI === i
+            : drag.pinI === i
               ? 'grabbing'
               : 'grab',
         touchAction: 'none',
@@ -109,7 +109,7 @@ function PostBar({ i, comment, arrow }: PostBarProps) {
             }}
           >
             {
-              comment.isExpanded
+              pin.isExpanded
                 ? <IonIcon icon={removeOutline} style={{
                     color: isDarkMode
                       ? 'black'
@@ -127,7 +127,7 @@ function PostBar({ i, comment, arrow }: PostBarProps) {
           <IonButton
             disabled={
               frameTxId === arrow.txId || 
-              (comment.creatorAddress !== walletAddress) //&& !canEdit) || 
+              (pin.creatorAddress !== walletAddress) //&& !canEdit) || 
               //!!pendingLink.sourceArrowId 
             } 
             color='inherit'

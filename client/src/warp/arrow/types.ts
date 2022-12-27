@@ -1,19 +1,19 @@
-export interface Comment {
-  creatorAddress: string; // the address of the user that created this comment
+export interface Pin {
+  creatorAddress: string; // the address of the user that created this pin
 
-  // abstractAddress: string; // the address of the arrow that contains this comment
-  txId: string | null; // the address of the arrow that the comment embeds within the container arrow.
+  // abstractAddress: string; // the address of the arrow that contains this pin
+  txId: string | null; // the address of the arrow that the pin embeds within the container arrow.
 
-  parentCommentI: number | null; //  the comments form a tree structure; dragging a comment will move the whole subtree
+  parentPinI: number | null; //  the pins form a tree structure; dragging a pin will move the whole subtree
   
-  sourceCommentI: number | null; // if detailArrow is to be rendered as a link, this is the comment that holds detailArrow.source
-  targetCommentI: number | null; // if detailArrow is to be rendered as a link, this is the comment that holds detailArrow.target
+  sourcePinI: number | null; // if detailArrow is to be rendered as a link, this is the pin that holds detailArrow.source
+  targetPinI: number | null; // if detailArrow is to be rendered as a link, this is the pin that holds detailArrow.target
   
   // x, y are rel to origin
   x: number; 
   y: number;
 
-  isExpanded: boolean; // whether the comment is expanded or collapsed
+  isExpanded: boolean; // whether the pin is expanded or collapsed
 
   createDate: number;
   updateDate: number;
@@ -35,12 +35,12 @@ export type Permit =
   // this puts up a minor paywall to view the arrow's subgraph, on cooperative block/Arrow explorers
   'readSubgraph' | 
   // this resricts who can add an arrow to the subgraph
-  'createComment' | 
+  'createPin' | 
   // this restricts who can modify the layout of the subgraph--
   // it's a tree-shaped layout, so this means translating a post's x,y,z coords or changing its parent
-  'updateComment' |
+  'updatePin' |
   // this restricts who can remove an arrow from the subgraph; of course this doesn't delete the arrow itself
-  'deleteComment' |
+  'deletePin' |
   // this restricts who can create/update/delete roles on the Arrow.
   'manageRoles'; 
 
@@ -79,17 +79,17 @@ export interface ArrowState {
 
 
   // the original Arrow in which this Arrow is embedded
-  // the arrow may be embedded in multiple Arrows, via those Arrows' comments
+  // the arrow may be embedded in multiple Arrows, via those Arrows' pins
   // however, the parentArrow is the Arrow in which this Arrow was created
   parentTxId: string | null;
 
-  // the arrow contains within it a tree structure of comments;
-  // each comment is the embedding of an Arrow within this Arrow, as content 
+  // the arrow contains within it a tree structure of pins;
+  // each pin is the embedding of an Arrow within this Arrow, as content 
   // as content that supplements the arrow's data. 
-  // Arrows are indexed into subgraphs by Arrows; this is defined by the Comments.
-  comments: Comment[]; 
+  // Arrows are indexed into subgraphs by Arrows; this is defined by the Pins.
+  pins: Pin[]; 
 
-  commentIs: number[]; // the indexes of the comments in the comments array, ordered by increasing z-index
+  pinIs: number[]; // the indexes of the pins in the pins array, ordered by increasing z-index
 
   // the arrow can be weighted by votes; 
   // it functions like a bank for AR tokens, 
@@ -122,18 +122,18 @@ export interface ArrowAction {
 export interface ArrowInput {
   function: ArrowFunction;
   txId?: string;
-  parentCommentI?: number;
-  sourceCommentI?: number | null;
-  targetCommentI?: number | null;
+  parentPinI?: number;
+  sourcePinI?: number | null;
+  targetPinI?: number | null;
   x?: number;
   y?: number;
   date?: number;
-  comments?: Comment[];
-  commentIs?: number[];
+  pins?: Pin[];
+  pinIs?: number[];
 }
 
 export type ArrowResult = string;
 
-export type ArrowFunction = 'createComment' | 'writeComments' | 'writeCommentIs';
+export type ArrowFunction = 'createPin' | 'writePins' | 'writePinIs';
 
 export type ContractResult = { state: ArrowState } | { result: ArrowResult };

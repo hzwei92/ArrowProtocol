@@ -5,15 +5,15 @@ import { useAppSelector } from "../../../../redux/store";
 import signer from "../../../../wallet/signer";
 
 
-interface WriteCommentIsProps {
-  commentIs: number[];
+interface WritePinIsProps {
+  pinIs: number[];
 }
 
-const useWriteCommentIs = () => {
+const useWritePinIs = () => {
   const { warp } = useContext(AppContext);
   const frame = useAppSelector(selectFrame);
 
-  const writeComments = async ({ commentIs }: WriteCommentIsProps) => {
+  const writePins = async ({ pinIs }: WritePinIsProps) => {
     if (!warp || !frame) return;
 
     const contract = await warp.contract(frame.txId).connect({
@@ -22,11 +22,11 @@ const useWriteCommentIs = () => {
     });
 
     await contract.writeInteraction({
-      function: 'writeCommentIs',
-      commentIs,
+      function: 'writePinIs',
+      pinIs,
     });
   }
-  return writeComments;
+  return writePins;
 }
 
-export default useWriteCommentIs;
+export default useWritePinIs;

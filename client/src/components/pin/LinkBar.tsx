@@ -2,29 +2,29 @@ import React, { useContext } from 'react';
 import { useAppSelector } from '../../redux/store';
 import { IonButton, IonButtons, IonIcon } from '@ionic/react';
 import { closeOutline, removeOutline } from 'ionicons/icons';
-import { Comment } from '../../warp/arrow/types';
+import { Pin } from '../../warp/arrow/types';
 import { selectFrameTxId } from '../../redux/slices/arrowSlice';
 import { AppContext } from '../app/AppProvider';
 import { Arrow } from '../../types';
-import useExpandComment from '../../hooks/useExpandComment';
+import useExpandPin from '../../hooks/useExpandPin';
 
 interface LinkBarProps {
   i: number;
-  comment: Comment;
+  pin: Pin;
   arrow: Arrow;
 }
 
-function LinkBar({i, comment, arrow }: LinkBarProps) {
+function LinkBar({i, pin, arrow }: LinkBarProps) {
   const { walletAddress, pendingLink } = useContext(AppContext);
 
   const frameTxId = useAppSelector(selectFrameTxId);
 
-  const expandComment = useExpandComment();
+  const expandPin = useExpandPin();
 
 
   const handleCollapseClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    expandComment({ i, isExpanded: false });
+    expandPin({ i, isExpanded: false });
   }
 
   const handleRemoveClick = (event: React.MouseEvent) => {
@@ -49,8 +49,8 @@ function LinkBar({i, comment, arrow }: LinkBarProps) {
       <IonButton
         disabled={
           frameTxId === arrow.txId || 
-          (comment.creatorAddress !== walletAddress) ||
-          pendingLink.sourceCommentI !== null
+          (pin.creatorAddress !== walletAddress) ||
+          pendingLink.sourcePinI !== null
         } 
         onClick={handleRemoveClick}
         style={{

@@ -2,61 +2,61 @@ import { IonCard } from "@ionic/react";
 import { MouseEvent, useContext } from "react";
 import { useSelector } from "react-redux";
 import { COMMENT_WIDTH } from "../../constants";
-import useLinkComments from "../../hooks/useLinkComments";
+import useLinkPins from "../../hooks/useLinkPins";
 import { selectFrame } from "../../redux/slices/arrowSlice";
 import { Arrow } from "../../types";
-import { Comment } from "../../warp/arrow/types";
+import { Pin } from "../../warp/arrow/types";
 import { AppContext } from "../app/AppProvider";
 import ArrowComponent from "../arrow/ArrowComponent";
 import PostBar from "./PostBar";
-import CommentControls from "./CommentControls";
+import PinControls from "./PinControls";
 
 interface PostProps {
   i: number;
-  comment: Comment;
+  pin: Pin;
   arrow: Arrow;
 }
 
-const Post = ({i, comment, arrow}: PostProps) => {
+const Post = ({i, pin, arrow}: PostProps) => {
   const { pendingLink, setPendingLink } = useContext(AppContext);
   const frame = useSelector(selectFrame);
   const isSelected = i === frame?.focusI;
-  const isLinking = pendingLink.sourceCommentI === i || pendingLink.targetCommentI === i;
+  const isLinking = pendingLink.sourcePinI === i || pendingLink.targetPinI === i;
 
-  const linkComments = useLinkComments();
+  const linkPins = useLinkPins();
 
   const handleClick = (e: MouseEvent) => {
     e.stopPropagation();
     
-    if (pendingLink.sourceCommentI !== null) {
-      if (pendingLink.sourceCommentI !== i) {
+    if (pendingLink.sourcePinI !== null) {
+      if (pendingLink.sourcePinI !== i) {
         console.log('linking');
-        linkComments({
-          sourceCommentI: pendingLink.sourceCommentI,
-          targetCommentI: i,
+        linkPins({
+          sourcePinI: pendingLink.sourcePinI,
+          targetPinI: i,
         });
       }
       setPendingLink({
-        sourceCommentI: null,
-        targetCommentI: null,
+        sourcePinI: null,
+        targetPinI: null,
       })
     }
   }
 
   const handleMouseEnter = (e: MouseEvent) => {
-    if (pendingLink.sourceCommentI !== null && pendingLink.sourceCommentI !== i) {
+    if (pendingLink.sourcePinI !== null && pendingLink.sourcePinI !== i) {
       setPendingLink({
         ...pendingLink,
-        targetCommentI: i,
+        targetPinI: i,
       });
     }
   }
 
   const handleMouseLeave = (e: MouseEvent) => {
-    if (pendingLink.sourceCommentI !== null && pendingLink.sourceCommentI !== i && pendingLink.targetCommentI === i) {
+    if (pendingLink.sourcePinI !== null && pendingLink.sourcePinI !== i && pendingLink.targetPinI === i) {
       setPendingLink({
         ...pendingLink,
-        targetCommentI: null,
+        targetPinI: null,
       });
     }
   }
@@ -77,18 +77,18 @@ const Post = ({i, comment, arrow}: PostProps) => {
       backgroundColor: isLinking
         ? arrow.state.color
         : null,
-      cursor: pendingLink.sourceCommentI !== null
+      cursor: pendingLink.sourcePinI !== null
         ? 'crosshair'
         : 'default', 
       pointerEvents: 'auto',
       fontSize: 10,
     }}>
-      <PostBar i={i} comment={comment} arrow={arrow} />
+      <PostBar i={i} pin={pin} arrow={arrow} />
       <div style={{
         padding: 5,
       }}>
         <ArrowComponent arrow={arrow} />
-        <CommentControls i={i} comment={comment} arrow={arrow}/>
+        <PinControls i={i} pin={pin} arrow={arrow}/>
       </div>
     </IonCard>
   )

@@ -4,27 +4,27 @@ import { AppContext } from "../components/app/AppProvider";
 import { selectFrame } from "../redux/slices/arrowSlice";
 import { useAppSelector } from "../redux/store";
 import useReadArrowState from "../warp/arrow/actions/read/useReadArrowState";
-import useCreateComment from "../warp/arrow/actions/write/useCreateComment";
+import useCreatePin from "../warp/arrow/actions/write/useCreatePin";
 import useDeployArrow from "../warp/arrow/actions/write/useDeployArrow";
 
 interface LinksProps {
-  sourceCommentI: number;
-  targetCommentI: number;
+  sourcePinI: number;
+  targetPinI: number;
 }
 
-const useLinkComments = () => {
+const useLinkPins = () => {
   const { walletAddress, profile } = useContext(AppContext);
   const frame = useAppSelector(selectFrame);
 
   const deployArrow = useDeployArrow();
-  const createComment = useCreateComment();
+  const createPin = useCreatePin();
   const readArrowState = useReadArrowState();
 
-  const linkComments = async ({ sourceCommentI, targetCommentI }: LinksProps) => {
+  const linkPins = async ({ sourcePinI, targetPinI }: LinksProps) => {
     if (!walletAddress || !profile || !frame) return;
 
-    const sourceComment = frame.state.comments[sourceCommentI];
-    const targetComment = frame.state.comments[targetCommentI];
+    const sourcePin = frame.state.pins[sourcePinI];
+    const targetPin = frame.state.pins[targetPinI];
 
     const linkTxId = await deployArrow({
       walletAddress,
@@ -34,8 +34,8 @@ const useLinkComments = () => {
       color: profile.color,
       data: '',
       parentTxId: frame.txId,
-      sourceTxId: sourceComment.txId,
-      targetTxId: targetComment.txId,
+      sourceTxId: sourcePin.txId,
+      targetTxId: targetPin.txId,
       date: Date.now(),
     });
 
@@ -43,21 +43,21 @@ const useLinkComments = () => {
       throw Error('Failed to deploy link arrow');
     };
 
-    await createComment({
+    await createPin({
       abstractAddress: frame.txId,
       txId: linkTxId,
-      parentCommentI: null,
-      sourceCommentI,
-      targetCommentI,
-      x: (sourceComment.x + targetComment.x) / 2,
-      y: (sourceComment.y + targetComment.y) / 2,
+      parentPinI: null,
+      sourcePinI,
+      targetPinI,
+      x: (sourcePin.x + targetPin.x) / 2,
+      y: (sourcePin.y + targetPin.y) / 2,
       date: Date.now(),
     });
 
     await readArrowState(frame.txId);
   }
 
-  return linkComments;
+  return linkPins;
 }
 
-export default useLinkComments;
+export default useLinkPins;

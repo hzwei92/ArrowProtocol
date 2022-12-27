@@ -1,23 +1,23 @@
 
-import { Comment } from '../../warp/arrow/types';
+import { Pin } from '../../warp/arrow/types';
 import LinkMarker from './LinkMarker';
 import PostMarker from './PostMarker';
 
 interface MarkerProps {
   i: number;
-  comment: Comment;
+  pin: Pin;
 };
 
-const Marker = ({ i, comment }: MarkerProps) => {
-  if (comment.parentCommentI !== null) {
+const Marker = ({ i, pin }: MarkerProps) => {
+  if (pin.parentPinI !== null) {
     return (
-      <PostMarker i={i} comment={comment} />
+      <PostMarker i={i} pin={pin} />
     )
   }
 
-  if (comment.sourceCommentI !== null && comment.targetCommentI !== null && comment.sourceCommentI !== comment.targetCommentI) {
+  if (pin.sourcePinI !== null && pin.targetPinI !== null && pin.sourcePinI !== pin.targetPinI) {
     return (
-      <LinkMarker i={i} comment={comment} />
+      <LinkMarker i={i} pin={pin} />
     )
   }
 

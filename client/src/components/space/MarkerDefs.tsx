@@ -9,10 +9,10 @@ const MarkerDefs = () => {
 
   const colorToTrue: IdToType<true> = {};
 
-  frame?.state.comments.forEach(t => {
+  frame?.state.pins.forEach(t => {
     if (!t.txId) return;
-    if (t.sourceCommentI === null || t.targetCommentI === null) return;
-    if (t.sourceCommentI === t.targetCommentI) return;
+    if (t.sourcePinI === null || t.targetPinI === null) return;
+    if (t.sourcePinI === t.targetPinI) return;
 
     const a = txIdToArrow[t.txId];
 

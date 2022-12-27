@@ -1,19 +1,19 @@
 import { useEffect } from 'react';
 import { VIEW_RADIUS } from '../../constants';
-import { Comment } from '../../warp/arrow/types';
+import { Pin } from '../../warp/arrow/types';
 import { selectFrame, selectTxIdToArrow } from '../../redux/slices/arrowSlice';
 import useReadArrowState from '../../warp/arrow/actions/read/useReadArrowState';
 import Link from './Link';
 import Post from './Post';
 import { useAppSelector } from '../../redux/store';
-import useSelectComment from '../../hooks/useSelectComment';
+import useSelectPin from '../../hooks/useSelectPin';
 
-interface CommentProps {
+interface PinProps {
   i: number;
-  comment: Comment;
+  pin: Pin;
 }
 
-const CommentComponent = ({ i, comment }: CommentProps) => {
+const PinComponent = ({ i, pin }: PinProps) => {
   const readArrowState = useReadArrowState();
 
   const txIdToArrow = useAppSelector(selectTxIdToArrow);
@@ -21,20 +21,20 @@ const CommentComponent = ({ i, comment }: CommentProps) => {
 
   const isSelected = frame?.focusI === i;
 
-  const selectComment = useSelectComment();
+  const selectPin = useSelectPin();
 
   useEffect(() => {
-    if (comment.txId){
-      const arrow = txIdToArrow[comment.txId];
+    if (pin.txId){
+      const arrow = txIdToArrow[pin.txId];
       if (!arrow) {
-        readArrowState(comment.txId);
+        readArrowState(pin.txId);
       }
     }
-  }, [comment.txId]);
+  }, [pin.txId]);
 
   let arrow;
-  if (comment.txId) {
-    arrow = txIdToArrow[comment.txId];
+  if (pin.txId) {
+    arrow = txIdToArrow[pin.txId];
   }
   else if (i === 0) {
     arrow = frame;
@@ -45,26 +45,26 @@ const CommentComponent = ({ i, comment }: CommentProps) => {
   const handleMouseDown = (event: React.MouseEvent) => {
     event.stopPropagation();
     if (!isSelected) {
-      selectComment({ i });
+      selectPin({ i });
     }
   }
 
   return (
-    <div id={`comment-${i}`} 
+    <div id={`pin-${i}`} 
       onMouseDown={handleMouseDown}
       style={{
         position: 'absolute',
-        left: VIEW_RADIUS + comment.x,
-        top: VIEW_RADIUS + comment.y,
+        left: VIEW_RADIUS + pin.x,
+        top: VIEW_RADIUS + pin.y,
       }}
     >
       {
         arrow?.state.sourceTxId === arrow?.state.targetTxId
-          ? <Post i={i} comment={comment} arrow={arrow}/>
-          : <Link i={i} comment={comment} arrow={arrow}/>
+          ? <Post i={i} pin={pin} arrow={arrow}/>
+          : <Link i={i} pin={pin} arrow={arrow}/>
       }
     </div>
   )
 }
 
-export default CommentComponent
+export default PinComponent

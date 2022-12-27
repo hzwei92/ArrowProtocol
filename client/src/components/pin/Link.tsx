@@ -1,36 +1,36 @@
 import { IonCard } from "@ionic/react";
 import { MouseEvent, useContext } from "react";
 import { COMMENT_WIDTH } from "../../constants";
-import useExpandComment from "../../hooks/useExpandComment";
+import useExpandPin from "../../hooks/useExpandPin";
 import { selectFrame } from "../../redux/slices/arrowSlice";
 import { useAppSelector } from "../../redux/store";
 import { Arrow } from "../../types";
-import { Comment } from "../../warp/arrow/types";
+import { Pin } from "../../warp/arrow/types";
 import { AppContext } from "../app/AppProvider";
 import ArrowComponent from "../arrow/ArrowComponent";
-import CommentControls from "./CommentControls";
+import PinControls from "./PinControls";
 import LinkBar from "./LinkBar";
 
 interface LinkProps {
   i: number;
-  comment: Comment;
+  pin: Pin;
   arrow: Arrow;
 }
 
-const Link = ({i, comment, arrow}: LinkProps) => {
+const Link = ({i, pin, arrow}: LinkProps) => {
   const { pendingLink } = useContext(AppContext);
 
   const frame = useAppSelector(selectFrame);
   const isSelected = frame?.focusI === i;
   
-  const expandComment = useExpandComment();
+  const expandPin = useExpandPin();
 
   const handleExpandClick = (e: MouseEvent) => {
     e.stopPropagation();
-    expandComment({i, isExpanded: true});
+    expandPin({i, isExpanded: true});
   }
 
-  if (comment.isExpanded) {
+  if (pin.isExpanded) {
     return (
       <IonCard style={{
         margin: 0,
@@ -45,7 +45,7 @@ const Link = ({i, comment, arrow}: LinkProps) => {
         padding: 5,
         position: 'relative',
         fontSize: 10,
-        cursor: pendingLink.sourceCommentI !== null
+        cursor: pendingLink.sourcePinI !== null
           ? 'crosshair'
           : 'default', 
       }}>
@@ -55,10 +55,10 @@ const Link = ({i, comment, arrow}: LinkProps) => {
           top: 0,
           zIndex: 10,
         }}>
-          <LinkBar i={i} comment={comment} arrow={arrow} />
+          <LinkBar i={i} pin={pin} arrow={arrow} />
         </div>
         <ArrowComponent arrow={arrow}/>
-        <CommentControls i={i} comment={comment} arrow={arrow}/>
+        <PinControls i={i} pin={pin} arrow={arrow}/>
       </IonCard>
     )
   }
@@ -80,7 +80,7 @@ const Link = ({i, comment, arrow}: LinkProps) => {
       opacity: .6,
       alignItems: 'center',
       fontSize: 10,
-      cursor: pendingLink.sourceCommentI !== null
+      cursor: pendingLink.sourcePinI !== null
         ? 'crosshair'
         : 'default', 
     }}>

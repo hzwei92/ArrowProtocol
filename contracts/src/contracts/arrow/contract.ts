@@ -1,5 +1,5 @@
-import { createComment } from './actions/write/createComment';
-import { writeComments } from './actions/write/writeComments';
+import { createPin } from './actions/write/createPin';
+import { writePins } from './actions/write/writePins';
 import { writeDraftAndText } from './actions/write/writeDraftAndText';
 import { ContractResult, ArrowAction, ArrowState } from './types';
 
@@ -9,10 +9,10 @@ export async function handle(state: ArrowState, action: ArrowAction): Promise<Co
   const input = action.input;
 
   switch (input.function) {
-    case 'createComment':
-      return await createComment(state, action);
-    case 'writeComments': 
-      return await writeComments(state, action);
+    case 'createPin':
+      return await createPin(state, action);
+    case 'writePins': 
+      return await writePins(state, action);
     case 'writeDraftAndText':
       return await writeDraftAndText(state, action);
     default:

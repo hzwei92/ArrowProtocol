@@ -220,15 +220,15 @@ const About = () => {
               that we can have arrows between all three: post and post, post and link, link and link.
             </li>
             <li>
-              Another data type, the <b>Comment</b>, is used to define additional structure on a graph.
+              Another data type, the <b>Pin</b>, is used to define additional structure on a graph.
             </li>
             <li>
-              The comment expresses the tagging of a set of arrows with the id of a single arrow.
+              The pin expresses the tagging of a set of arrows with the id of a single arrow.
 
               We can imagine this as the nesting of a set of details under an abstract.
             </li>
             <li>
-              The detail-arrows are further structured by comments, into a tree structure rooted 
+              The detail-arrows are further structured by pins, into a tree structure rooted 
               at the abstract-arrow.
 
               This tree structure is used to position arrows; drag an arrow and its subtree moves with it.

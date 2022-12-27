@@ -1,10 +1,10 @@
-import { ArrowAction, ArrowState, ContractResult, Comment } from '../../types';
+import { ArrowAction, ArrowState, ContractResult, Pin } from '../../types';
 
 declare const ContractError: any;
 
-export const createComment = async (
+export const createPin = async (
   state: ArrowState,
-  {caller, input: { txId, parentCommentI, sourceCommentI, targetCommentI, x, y, date }}: ArrowAction
+  {caller, input: { txId, parentPinI, sourcePinI, targetPinI, x, y, date }}: ArrowAction
 ): Promise<ContractResult> => {
   if (!txId) {
     throw new ContractError(`No txId supplied`);
@@ -19,12 +19,12 @@ export const createComment = async (
     throw new ContractError(`No date supplied`);
   }
 
-  const comment: Comment = {
+  const pin: Pin = {
     creatorAddress: caller,
     txId,
-    parentCommentI,
-    sourceCommentI,
-    targetCommentI,
+    parentPinI,
+    sourcePinI,
+    targetPinI,
     x,
     y,
     isExpanded: true,
@@ -33,8 +33,8 @@ export const createComment = async (
     deleteDate: null,
   };
 
-  state.commentIs.push(state.comments.length);
-  state.comments.push(comment);
+  state.pinIs.push(state.pins.length);
+  state.pins.push(pin);
 
   return { state }; 
 };

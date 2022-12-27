@@ -1,26 +1,26 @@
 import { IonButton, IonButtons, IonIcon } from '@ionic/react';
 import { ellipsisVertical } from 'ionicons/icons';
 import React, { useContext, useState } from 'react';
-import { Comment } from '../../warp/arrow/types';
-import CommentOptions from './CommentOptions';
-import useReplyComment from '../../hooks/useReplyComment';
+import { Pin } from '../../warp/arrow/types';
+import PinOptions from './PinOptions';
+import useReplyPin from '../../hooks/useReplyPin';
 import { Arrow } from '../../types';
 import { AppContext } from '../app/AppProvider';
 
-//import useCenterComment from './useCenterComment';
+//import useCenterPin from './useCenterPin';
 
-interface CommentControlsProps {
+interface PinControlsProps {
   i: number;
-  comment: Comment;
+  pin: Pin;
   arrow: Arrow;
 }
 
-function CommentControls({i, comment, arrow}: CommentControlsProps) {
+function PinControls({i, pin, arrow}: PinControlsProps) {
   const { setPendingLink } = useContext(AppContext);
 
   const [showOptions, setShowOptions] = useState(false);
 
-  const replyComment = useReplyComment();
+  const replyPin = useReplyPin();
 
   const handleMouseDown = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -38,14 +38,14 @@ function CommentControls({i, comment, arrow}: CommentControlsProps) {
 
   const handleReplyClick = (event: React.MouseEvent) => {
     event.stopPropagation();
-    replyComment({ i, comment, arrow });
+    replyPin({ i, pin, arrow });
   }
 
   const handleLinkClick = (event: React.MouseEvent) => {
     event.stopPropagation();
     setPendingLink({
-      sourceCommentI: i,
-      targetCommentI: null,
+      sourcePinI: i,
+      targetPinI: null,
     });
   }
 
@@ -86,7 +86,7 @@ function CommentControls({i, comment, arrow}: CommentControlsProps) {
         LINK
       </IonButton>
       <IonButton 
-        id={'comment-options-' + i} 
+        id={'pin-options-' + i} 
         size='small'
         onMouseDown={handleMouseDown} 
         onClick={handleOptionsClick}
@@ -98,7 +98,7 @@ function CommentControls({i, comment, arrow}: CommentControlsProps) {
           fontSize: 5,
         }}/>
       </IonButton>
-      <CommentOptions isOpen={showOptions} setIsOpen={setShowOptions} i={i} comment={comment} arrow={arrow} />
+      <PinOptions isOpen={showOptions} setIsOpen={setShowOptions} i={i} pin={pin} arrow={arrow} />
       <IonButton 
         onMouseDown={handleMouseDown} 
         onClick={handlePrevClick}
@@ -133,4 +133,4 @@ function CommentControls({i, comment, arrow}: CommentControlsProps) {
   )
 }
 
-export default React.memo(CommentControls)
+export default React.memo(PinControls)

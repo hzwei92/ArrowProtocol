@@ -24,31 +24,31 @@ const useReadArrowState = () => {
   
     // TODO differentiate between tx of type Arrow and tx in general; use tx tags?
 
-    const commentIToDescIToTrue: IdToType<IdToType<true>> = {};
-    state.comments.forEach((comment, i) => {
-      let t = comment;
+    const pinIToDescIToTrue: IdToType<IdToType<true>> = {};
+    state.pins.forEach((pin, i) => {
+      let t = pin;
 
       // add to own descendants 
-      commentIToDescIToTrue[i] = {
-        ...commentIToDescIToTrue[i],
+      pinIToDescIToTrue[i] = {
+        ...pinIToDescIToTrue[i],
         [i]: true,
       };
 
       // add to all ancestors' descendants
-      while (t.parentCommentI !== null) {
-        commentIToDescIToTrue[t.parentCommentI] = {
-          ...commentIToDescIToTrue[t.parentCommentI],
+      while (t.parentPinI !== null) {
+        pinIToDescIToTrue[t.parentPinI] = {
+          ...pinIToDescIToTrue[t.parentPinI],
           [i]: true,
         };
 
-        t = state.comments[t.parentCommentI];
+        t = state.pins[t.parentPinI];
       }
     });
 
     const arrow: Arrow = {
       txId: contractTxId,
       focusI: 0,
-      commentIToDescIToTrue,
+      pinIToDescIToTrue,
       state,
     };
 

@@ -1,12 +1,12 @@
 import { useAppSelector } from "../../redux/store"
 import { OFF_WHITE, SCROLL_SENSITIVITY, VIEW_RADIUS } from "../../constants";
 import { selectFrame, selectTxIdToArrow } from "../../redux/slices/arrowSlice"
-import CommentComponent from "../comment/CommentComponent"
+import PinComponent from "../pin/PinComponent"
 import { ReactZoomPanPinchRef, TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import { Fragment, MouseEvent, useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../app/AppProvider";
-import useMoveComment from "../../hooks/useMoveComment";
-import useWriteComments from "../../warp/arrow/actions/write/useWriteComments";
+import useMovePin from "../../hooks/useMovePin";
+import useWritePins from "../../warp/arrow/actions/write/useWritePins";
 import MarkerDefs from "./MarkerDefs";
 import Marker from "./Marker";
 import SpaceNav from "./SpaceNav";
@@ -19,16 +19,16 @@ const Space = () => {
 
   const spaceRef = useRef<ReactZoomPanPinchRef>(null);
   
-  const moveComment = useMoveComment();
-  const writeComments = useWriteComments();
+  const movePin = useMovePin();
+  const writePins = useWritePins();
 
-  const focusComment = frame?.state.comments[frame?.focusI];
-  const focusArrow = focusComment?.txId
-    ? txIdToArrow[focusComment.txId]
+  const focusPin = frame?.state.pins[frame?.focusI];
+  const focusArrow = focusPin?.txId
+    ? txIdToArrow[focusPin.txId]
     : null;
 
   useEffect(() => {
-    spaceRef.current?.zoomToElement(`comment-${frame?.focusI}`, 1.2, 200);
+    spaceRef.current?.zoomToElement(`pin-${frame?.focusI}`, 1.2, 200);
   }, [frame?.txId, frame?.focusI, focusArrow]);
 
   const [mouseMoveEvent, setMouseMoveEvent] = useState<MouseEvent | null>(null);
@@ -49,11 +49,11 @@ const Space = () => {
 
     setCursor({ x, y });
   
-    if (drag.commentI) {
+    if (drag.pinI) {
       const dx = Math.round(x - cursor.x);
       const dy = Math.round(y - cursor.y);
   
-      moveComment({ commentI: drag.commentI, dx, dy })
+      movePin({ pinI: drag.pinI, dx, dy })
     }
 
     setMouseMoveEvent(null);
@@ -62,20 +62,20 @@ const Space = () => {
   const handleMouseDown = (e: MouseEvent) => {
     setDrag({
       isScreen: true,
-      commentI: null,
-      targetCommentI: null,
+      pinI: null,
+      targetPinI: null,
     });
   }
 
   const handleMouseUp = (e: MouseEvent) => {
     setDrag({
       isScreen: false,
-      commentI: null,
-      targetCommentI: null,
+      pinI: null,
+      targetPinI: null,
     });
-    if (frame && drag.commentI !== null) {
-      writeComments({
-        comments: frame.state.comments,
+    if (frame && drag.pinI !== null) {
+      writePins({
+        pins: frame.state.pins,
       });
     }
   }
@@ -102,7 +102,7 @@ const Space = () => {
           ? 'black'
           : OFF_WHITE,
         borderRadius: 0,
-        cursor: drag.isScreen || !!drag.commentI
+        cursor: drag.isScreen || !!drag.pinI
           ? 'grabbing'
           : 'grab',
         position: 'relative',
@@ -117,7 +117,7 @@ const Space = () => {
         initialPositionY={VIEW_RADIUS}
         centerZoomedOut={false}
         panning={{
-          disabled: !!drag.commentI,
+          disabled: !!drag.pinI,
         }}
         wheel={{
           step: SCROLL_SENSITIVITY,
@@ -154,19 +154,19 @@ const Space = () => {
               }}>
                 <MarkerDefs />
                 {
-                  (frame.state.commentIs || []).map((commentI) => {
-                    const comment = frame.state.comments[commentI]
+                  (frame.state.pinIs || []).map((pinI) => {
+                    const pin = frame.state.pins[pinI]
                     return (
-                      <Marker key={'marker-'+commentI} i={commentI} comment={comment}/>
+                      <Marker key={'marker-'+pinI} i={pinI} pin={pin}/>
                     )
                   })
                 }
               </svg>
               {
-                (frame.state.commentIs || []).map((commentI) => {
-                  const comment = frame.state.comments[commentI]
+                (frame.state.pinIs || []).map((pinI) => {
+                  const pin = frame.state.pins[pinI]
                   return (
-                    <CommentComponent key={'comment-'+commentI} i={commentI} comment={comment}/>
+                    <PinComponent key={'pin-'+pinI} i={pinI} pin={pin}/>
                   )
                 })
               }

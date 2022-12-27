@@ -2,29 +2,29 @@ import { useContext } from 'react';
 import { AppContext } from '../../../../components/app/AppProvider';
 import signer from '../../../../wallet/signer';
 
-interface CreateCommentProps {
+interface CreatePinProps {
   abstractAddress: string;
   txId: string;
-  parentCommentI: number | null;
-  sourceCommentI: number | null;
-  targetCommentI: number | null;
+  parentPinI: number | null;
+  sourcePinI: number | null;
+  targetPinI: number | null;
   x: number;
   y: number;
   date: number;
 }
-const useCreateComment = () => {
+const useCreatePin = () => {
   const { warp } = useContext(AppContext);
 
-  const createComment = async ({
+  const createPin = async ({
     abstractAddress,
     txId,
-    parentCommentI,
-    sourceCommentI,
-    targetCommentI,
+    parentPinI,
+    sourcePinI,
+    targetPinI,
     x,
     y,
     date,
-  }: CreateCommentProps) => {
+  }: CreatePinProps) => {
     if (!warp) return;
 
     const contract = await warp.contract(abstractAddress).connect({
@@ -33,18 +33,18 @@ const useCreateComment = () => {
     })
     
     await contract.writeInteraction({
-      function: 'createComment',
+      function: 'createPin',
       txId,
-      parentCommentI,
-      sourceCommentI,
-      targetCommentI,
+      parentPinI,
+      sourcePinI,
+      targetPinI,
       x,
       y,
       date,
     })
   }
 
-  return createComment;
+  return createPin;
 }
 
-export default useCreateComment;
+export default useCreatePin;

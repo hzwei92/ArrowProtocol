@@ -25,11 +25,11 @@ const Space = () => {
   const focusPin = frame?.state.pins[frame?.focusI];
   const focusArrow = focusPin?.txId
     ? txIdToArrow[focusPin.txId]
-    : null;
+    : frame; // frame.pins[0] has txId undefined, but it refers to frame
 
   useEffect(() => {
     spaceRef.current?.zoomToElement(`pin-${frame?.focusI}`, 1.2, 200);
-  }, [frame?.txId, frame?.focusI, focusArrow?.txId]);
+  }, [frame?.txId, frame?.focusI, focusArrow]);
 
   const [mouseMoveEvent, setMouseMoveEvent] = useState<MouseEvent | null>(null);
 

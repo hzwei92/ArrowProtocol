@@ -1,9 +1,7 @@
 import { IonApp } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { createContext, Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
-import { defaultCacheOptions, Warp } from "warp-contracts";
-//@ts-ignore
-import { WarpFactory } from "warp-contracts/web";
+import { Warp } from "warp-contracts";
 import { DEFAULT_MENU_X } from "../../constants";
 import { Cursor, Drag, Mode, PendingLink } from "../../types";
 import { Profile } from "../../warp/jamn/types";
@@ -11,7 +9,11 @@ import { Profile } from "../../warp/jamn/types";
 
 export type AppContextType = {
   warp: Warp | undefined;
+  setWarp: Dispatch<SetStateAction<Warp | undefined>>;
 
+  isWalletLoaded: boolean;
+  setIsWalletLoaded: Dispatch<SetStateAction<boolean>>;
+  
   walletAddress: string | undefined;
   setWalletAddress: Dispatch<SetStateAction<string | undefined>>;
 
@@ -49,6 +51,7 @@ const AppContext = createContext<AppContextType>({} as AppContextType);
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [warp, setWarp] = useState<Warp | undefined>(undefined);
 
+  const [isWalletLoaded, setIsWalletLoaded] = useState(false);
   const [walletAddress, setWalletAddress] = useState<string | undefined>(undefined);
   const [profile, setProfile] = useState<Profile | undefined>(undefined);
 
@@ -77,42 +80,13 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [menuX, setMenuX] = useState(DEFAULT_MENU_X);
   const [menuIsResizing, setMenuIsResizing] = useState(false);
-  
-  useEffect(() => {
-    const init = async () => {
-      const warp = await WarpFactory.forTestnet({ ...defaultCacheOptions, inMemory: true });
-      setWarp(warp);
-      // const { address } = await warp.generateWallet();
-      // setWalletAddress(address);
-    }
-    init();
-
-    const handleArweaveWalletLoaded = async () => {
-      console.log('arweaveWalletLoaded');
-      const address = await window.arweaveWallet.getActiveAddress()
-      setWalletAddress(address);
-    }
-
-    const handleWalletSwitch = (e: any) => {
-      console.log('walletSwitch', e);
-      setWalletAddress(e.detail.address);
-    }
-
-    window.addEventListener('arweaveWalletLoaded', handleArweaveWalletLoaded);
-    window.addEventListener('walletSwitch', handleWalletSwitch);
-
-    return () => {
-      window.removeEventListener('arweaveWalletLoaded', handleArweaveWalletLoaded);
-      window.removeEventListener('walletSwitch', handleWalletSwitch);
-    }
-  }, []);
-
-  useEffect(() => {
-    document.body.classList.toggle('dark', isDarkMode);
-  }, [isDarkMode])
 
   const appContextValue: AppContextType = useMemo(() => ({
     warp,
+    setWarp,
+
+    isWalletLoaded,
+    setIsWalletLoaded,
 
     walletAddress,
     setWalletAddress,
@@ -144,7 +118,12 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setShowRegisterModal,
     showCreateArrowModal,
     setShowCreateArrowModal
-  }), [warp, walletAddress, profile, cursor, drag, pendingLink, mode, isDarkMode, menuX, showRegisterModal, showCreateArrowModal]);
+  }), [
+    warp,
+    isWalletLoaded, walletAddress, profile, 
+    cursor, drag, pendingLink, mode, isDarkMode, menuX, 
+    showRegisterModal, showCreateArrowModal
+  ]);
 
   return (
     <IonApp>

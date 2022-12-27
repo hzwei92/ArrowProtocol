@@ -42,9 +42,10 @@ export interface JamnInput {
 
 
 export interface JamnResult {
-  profile: Profile | undefined;
+  profile?: Profile;
+  defaultTabs?: string[];
 }
 
-export type JamnFunction = 'register' | 'readProfile';
+export type JamnFunction = 'register' | 'writeTabs' | 'readProfile' | 'readDefaultTabs';
 
 export type ContractResult = { state: JamnState } | { result: JamnResult };

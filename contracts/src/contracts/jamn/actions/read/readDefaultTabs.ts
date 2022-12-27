@@ -2,11 +2,9 @@ import { ContractResult, JamnAction, JamnState } from '../../types';
 
 declare const ContractError;
 
-export const readProfile = async (
+export const readDefaultTabs = async (
   state: JamnState, 
-  { caller }: JamnAction
 ): Promise<ContractResult> => {
-  const i = state.addressToProfileI[caller];
-  const result = { profile: state.profiles[i] };
+  const result = { defaultTabs: state.defaultTabs };
   return { result };
 };

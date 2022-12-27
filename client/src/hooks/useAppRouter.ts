@@ -22,12 +22,12 @@ const useAppRouter = () => {
 
     const path = router.routeInfo.pathname.split('/');
 
-    if (path[1] !== 'j') return;
-    
-    if (path[2] === undefined || path[2] === '') {
+    if (path[1] !== 'j' || path[2] === undefined || path[2] === '') {
       const txId = profile.tabs[profile.tabs.length - 1];
       const arrow = txIdToArrow[txId];
-      router.push(`/j/${txId}/${arrow.focusI}`);
+      if (arrow) {
+        router.push(`/j/${txId}/${arrow.focusI}`);
+      }
       return;
     }
     

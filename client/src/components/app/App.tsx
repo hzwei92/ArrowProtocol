@@ -24,14 +24,13 @@ import Menu from '../menu/Menu';
 import Portal from '../portal/Portal';
 import AppBarLeft from './AppBarLeft';
 import AppBarTop from './AppBarTop';
-import RegisterModal from '../profile/RegisterModal';
-import useAppRouter from '../../hooks/useAppRouter';
 import { useContext } from 'react';
 import { AppContext } from './AppProvider';
-import useAppInitializer from '../../hooks/useAppInitializer';
 import CreateArrowModal from '../tab/NewTabModal';
 import { Mode } from '../../types';
 import { APP_BAR_X, APP_BAR_Y } from '../../constants';
+import useAppRouter from '../../hooks/useAppRouter';
+import useAppInitializer from '../../hooks/useAppInitializer';
 
 setupIonicReact();
 
@@ -40,8 +39,7 @@ const App = () => {
   useAppInitializer();
 
   const { mode, menuX } = useContext(AppContext);
-
-
+  
   return (
     <div id='app'>
       <AppBarLeft />
@@ -82,7 +80,6 @@ const App = () => {
           <Portal />
         </div>
       </div>
-      <RegisterModal />
       <CreateArrowModal />
     </div>
   );

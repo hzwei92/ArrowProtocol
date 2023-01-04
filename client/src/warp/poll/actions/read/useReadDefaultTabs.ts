@@ -1,8 +1,7 @@
 import { useContext } from "react";
 import { AppContext } from "../../../../components/app/AppProvider";
-import { JAMN_CONTRACT_TX_ID } from "../../../../constants";
-import signer from "../../../../wallet/signer";
-import { JamnInput, JamnResult } from "../../types";
+import { POLL_CONTRACT_TX_ID } from "../../../../constants";
+import { PollInput, PollResult } from "../../types";
 
 const useReadDefaultTabs = () => {
   const { warp } = useContext(AppContext);
@@ -10,8 +9,8 @@ const useReadDefaultTabs = () => {
   const readDefaultTabs = async () => {
     if (!warp) return;
 
-    const contract = await warp.contract(JAMN_CONTRACT_TX_ID);
-    const result = await contract.viewState<JamnInput, JamnResult>({
+    const contract = await warp.contract(POLL_CONTRACT_TX_ID);
+    const result = await contract.viewState<PollInput, PollResult>({
       function: 'readDefaultTabs',
     });
 

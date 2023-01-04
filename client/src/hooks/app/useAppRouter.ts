@@ -3,7 +3,7 @@ import { useContext, useEffect } from "react";
 import { AppContext } from "../../components/app/AppProvider";
 import { mergeArrows, selectFrame, selectTxIdToArrow, setFrameTxId } from "../../redux/slices/arrowSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import useWriteTabs from "../../warp/jamn/actions/write/useWriteTabs";
+import useWriteTabs from "../../warp/profile/actions/write/useWriteTabs";
 
 const useAppRouter = () => {
   const dispatch = useAppDispatch();
@@ -23,7 +23,7 @@ const useAppRouter = () => {
     const path = router.routeInfo.pathname.split('/');
 
     if (path[1] !== 'j' || path[2] === undefined || path[2] === '') {
-      const txId = profile.tabs[profile.tabs.length - 1];
+      const txId = profile.state.tabs[profile.state.tabs.length - 1];
       const arrow = txIdToArrow[txId];
       if (arrow) {
         router.push(`/j/${txId}/${arrow.focusI}`);
@@ -31,11 +31,14 @@ const useAppRouter = () => {
       return;
     }
     
-    if (!profile.tabs.includes(path[2])) {
-      const tabs1 = [...profile.tabs, path[2]];
+    if (!profile.state.tabs.includes(path[2])) {
+      const tabs1 = [...profile.state.tabs, path[2]];
       setProfile({
         ...profile,
-        tabs: tabs1,
+        state: {
+          ...profile.state,
+          tabs: tabs1,
+        }
       });
       writeTabs(tabs1);
       return;

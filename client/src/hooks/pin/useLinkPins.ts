@@ -21,17 +21,18 @@ const useLinkPins = () => {
   const readArrowState = useReadArrowState();
 
   const linkPins = async ({ sourcePinI, targetPinI }: LinksProps) => {
-    if (!walletAddress || !profile || !frame) return;
+    if (!walletAddress || !profile?.txId || !frame) return;
 
     const sourcePin = frame.state.pins[sourcePinI];
     const targetPin = frame.state.pins[targetPinI];
 
     const linkTxId = await deployArrow({
       walletAddress,
+      profileTxId: profile.txId,
       uuid: v4(),
       text: '',
       draft: '',
-      color: profile.color,
+      color: profile.state.color,
       data: '',
       parentTxId: frame.txId,
       sourceTxId: sourcePin.txId,

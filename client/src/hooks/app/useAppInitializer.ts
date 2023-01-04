@@ -2,13 +2,16 @@ import { useContext, useEffect } from "react";
 import { AppContext } from "../../components/app/AppProvider";
 import { useAppDispatch } from "../../redux/store";
 import { setFrameTxId } from "../../redux/slices/arrowSlice";
-import useReadProfile from "../../warp/jamn/actions/read/useReadProfile";
-import useRegister from "../../warp/jamn/actions/write/useRegister";
-import useReadDefaultTabs from "../../warp/jamn/actions/read/useReadDefaultTabs";
 //@ts-ignore
 import { WarpFactory } from "warp-contracts/web";
 import { defaultCacheOptions } from "warp-contracts";
-import { Profile } from "../../warp/jamn/types";
+import useReadProfileTxId from "../../warp/poll/actions/read/useReadProfileTxId";
+import useRegisterProfileTxId from "../../warp/poll/actions/write/useRegisterProfile";
+import useReadDefaultTabs from "../../warp/poll/actions/read/useReadDefaultTabs";
+import useDeployProfile from "../../warp/profile/actions/write/useDeployProfile";
+import { v4 } from "uuid";
+import useReadProfileState from "../../warp/profile/actions/read/useReadProfileState";
+import { Profile } from "../../types";
 
 const useAppInitializer = () => {
   const dispatch = useAppDispatch();
@@ -23,9 +26,12 @@ const useAppInitializer = () => {
     isDarkMode,
   } = useContext(AppContext);
 
-  const readProfile = useReadProfile();
-  const register = useRegister();
+  const readProfileTxId = useReadProfileTxId();
+  const registerProfileTxId = useRegisterProfileTxId();
   const readDefaultTabs = useReadDefaultTabs();
+
+  const readProfileState = useReadProfileState();
+  const deployProfile = useDeployProfile();
 
   useEffect(() => {
     const initializeWarp = async () => {
@@ -75,47 +81,97 @@ const useAppInitializer = () => {
       let profile: Profile | undefined;
 
       if (walletAddress) {    
-        const result = await readProfile();
-        if (result?.type === 'ok') {
-          ({ profile } = result.result);
+        const result = await readProfileTxId();
 
-          if (!profile) {
-            await register({
-              name: walletAddress,
-              description: '',
-              color: '#' + Math.round(Math.random() * Math.pow(16, 6)).toString(16).padStart(6, '0'),
-            });
+        if (result?.type !== 'ok') {
+          throw new Error('Failed to load profile; readProfileTxId failed');
+        }
 
-            const result = await readProfile();
-            if (result?.type === 'ok') {
-              ({ profile } = result.result);
-            }
+        let { profileTxId } = result.result;
+
+        if (profileTxId === undefined) {
+          const result = await readDefaultTabs();
+
+          if (result?.type !== 'ok') {
+            throw new Error('Failed to load profile; readDefaultTabs failed');
           }
+
+          const { defaultTabs } = result.result;
+
+          if (defaultTabs === undefined) {
+            throw new Error('Failed to load profile; readDefaultTabs failed');
+          }
+  
+          profileTxId = await deployProfile({
+            walletAddress,
+            uuid: v4(),
+            data: '',
+            text: walletAddress,
+            draft: '',
+            color: '#' + Math.round(Math.random() * Math.pow(16, 6)).toString(16).padStart(6, '0'),
+            date: Date.now(),
+            tabs: defaultTabs,
+          });
+
+          if (profileTxId === undefined) {
+            throw new Error('Failed to load profile; deployProfile failed');
+          }
+
+          await registerProfileTxId({
+            profileTxId,
+          });
+        }
+
+        const state = await readProfileState(profileTxId);
+
+        if (state === undefined) {
+          throw new Error('Failed to load profile; readProfileState failed')
+        }
+
+        profile = {
+          txId: profileTxId,
+          state,
         }
       }
       else {
-        const result = await readDefaultTabs()
-        if (result?.type === 'ok') {
-          const { defaultTabs } = result.result;
-          if (defaultTabs) {
-            profile = {
-              address: '',
-              name: '',
-              description: '',
-              color: '',
-              tabs: defaultTabs,
-              pointBalance: 0,
-              createDate: 0,
-              updateDate: 0,
-              deleteDate: null,
-            }
+        const result = await readDefaultTabs();
+
+        if (result?.type !== 'ok') {
+          throw new Error('Failed to load profile; readDefaultTabs failed');
+        }
+
+        const { defaultTabs } = result.result;
+
+        if (defaultTabs === undefined) {
+          throw new Error('Failed to load profile; readDefaultTabs failed');
+        }
+
+        profile = {
+          txId: null,
+          state: {
+            creatorAddress: '',
+            uuid: v4(),
+            text: '',
+            draft: '',
+            data: '',
+            color: '#' + Math.round(Math.random() * Math.pow(16, 6)).toString(16).padStart(6, '0'),
+            tabs: defaultTabs,
+            leads: [],
+            txIdToUpvotes: {},
+            sourceTxIdToTxIdToTrue: {},
+            targetTxIdToTxIdToTrue: {},
+            totalPoints: 0,
+            addressToPointBalance: {},
+            createDate: 0,
+            updateDate: 0,
+            deleteDate: null,
           }
         }
       }
 
       if (profile) {
         setProfile(profile);
-        dispatch(setFrameTxId(profile?.tabs[profile.tabs.length - 1]))
+        dispatch(setFrameTxId(profile?.state.tabs[profile.state.tabs.length - 1]))
       }
       else {
         throw new Error('Failed to load profile');

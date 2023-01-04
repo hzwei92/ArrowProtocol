@@ -1,15 +1,14 @@
 import { useContext } from "react";
 import { AppContext } from "../../../../components/app/AppProvider";
-import { JAMN_CONTRACT_TX_ID } from "../../../../constants";
 import signer from "../../../../wallet/signer";
 
 const useWriteTabs = () => {
-  const { warp } = useContext(AppContext);
+  const { warp, profile } = useContext(AppContext);
 
   const writeTabs = async (tabs: string[]) => {
-    if (!warp) return;
+    if (!warp || !profile?.txId) return;
 
-    const contract = await warp.contract(JAMN_CONTRACT_TX_ID).connect({
+    const contract = await warp.contract(profile.txId).connect({
       signer,
       type: 'arweave',
     });

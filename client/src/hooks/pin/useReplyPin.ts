@@ -23,13 +23,14 @@ const useReplyPin = () => {
   const readArrowState = useReadArrowState();
 
   const replyPin = async ({ i, pin, arrow }: ReplyPinProps) => {
-    if (!walletAddress || !profile || !frameTxId) return;
+    if (!walletAddress || !profile?.txId || !frameTxId) return;
     const postTxId = await deployArrow({
       walletAddress,
+      profileTxId: profile.txId,
       uuid: v4(),
       text: '',
       draft: '',
-      color: profile.color,
+      color: profile.state.color,
       data: '',
       parentTxId: frameTxId,
       sourceTxId: null,
@@ -62,11 +63,12 @@ const useReplyPin = () => {
 
     const linkTxId = await deployArrow({
       walletAddress,
+      profileTxId: profile.txId,
       uuid: v4(),
       text: '',
       draft: '',
       data: '',
-      color: profile.color,
+      color: profile.state.color,
       parentTxId: frameTxId,
       sourceTxId: arrow.txId,
       targetTxId: postTxId,

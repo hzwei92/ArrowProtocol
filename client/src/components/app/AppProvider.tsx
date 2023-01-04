@@ -1,10 +1,9 @@
 import { IonApp } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { createContext, Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
+import { createContext, Dispatch, SetStateAction, useMemo, useState } from "react";
 import { Warp } from "warp-contracts";
 import { DEFAULT_MENU_X } from "../../constants";
-import { Cursor, Drag, Mode, PendingLink } from "../../types";
-import { Profile } from "../../warp/jamn/types";
+import { Cursor, Drag, Mode, PendingLink, Profile } from "../../types";
 
 
 export type AppContextType = {

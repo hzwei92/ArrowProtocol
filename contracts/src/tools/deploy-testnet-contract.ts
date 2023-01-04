@@ -2,7 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import { WarpFactory } from 'warp-contracts';
 import { getInitState as getInitArrowState } from '../contracts/arrow/getInitState';
-import { getInitState as getInitJamnState } from '../contracts/jamn/getInitState';
+import { getInitState as getInitProfileState } from '../contracts/profile/getInitState';
+import { getInitState as getInitPollState } from '../contracts/poll/getInitState';
 
 (async () => {
   const warp = WarpFactory.forTestnet();
@@ -20,8 +21,30 @@ import { getInitState as getInitJamnState } from '../contracts/jamn/getInitState
     fs.writeFileSync(walletFilename, JSON.stringify(wallet));
   }
 
+  const profileSrc = fs.readFileSync(path.join(__dirname, '../../dist/profile/contract.js'), 'utf8');
+  const profileState = getInitProfileState({
+    creatorAddress: address
+  });
+  const { contractTxId: profileTxId } = await warp.deploy({
+    wallet,
+    initState: JSON.stringify(profileState),
+    src: profileSrc,
+  });
+
+  console.log(`
+    Profile deployment completed. 
+    Checkout contract in SonAr:
+    https://sonar.warp.cc/#/app/contract/${profileTxId}?network=testnet
+  `);
+
   const arrowSrc = fs.readFileSync(path.join(__dirname, '../../dist/arrow/contract.js'), 'utf8');
-  const arrowState = getInitArrowState(address, null, null, null);
+  const arrowState = getInitArrowState({
+    creatorAddress: address, 
+    profileTxId, 
+    sourceTxId: null, 
+    targetTxId: null, 
+    parentTxId: null,
+  });
   const { contractTxId: arrowTxId } = await warp.deploy({
     wallet,
     initState: JSON.stringify(arrowState),
@@ -34,18 +57,21 @@ import { getInitState as getInitJamnState } from '../contracts/jamn/getInitState
     https://sonar.warp.cc/#/app/contract/${arrowTxId}?network=testnet
   `);
 
-  const jamnSrc = fs.readFileSync(path.join(__dirname, '../../dist/jamn/contract.js'), 'utf8');
-  const jamnState = getInitJamnState(address, [arrowTxId]);
-  const { contractTxId: jamnTxId } = await warp.deploy({
+  const pollSrc = fs.readFileSync(path.join(__dirname, '../../dist/poll/contract.js'), 'utf8');
+  const pollState = getInitPollState({
+    creatorAddress: address,
+    profileTxId,
+    defaultTabs: [arrowTxId],
+  });
+  const { contractTxId: pollTxId } = await warp.deploy({
     wallet,
-    initState: JSON.stringify(jamnState),
-    src: jamnSrc,
+    initState: JSON.stringify(pollState),
+    src: pollSrc,
   });
 
   console.log(`
-    JAMNN deployment completed. 
+    Poll deployment completed. 
     Checkout contract in SonAr:
-    https://sonar.warp.cc/#/app/contract/${jamnTxId}?network=testnet
+    https://sonar.warp.cc/#/app/contract/${pollTxId}?network=testnet
   `);
 })();
-``;

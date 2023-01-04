@@ -1,30 +1,27 @@
-import initializeArrowState from "../../initializeArrowState";
 import signer from '../../../../wallet/signer';
 import { ARROW_CONTRACT_SOURCE_TX_ID } from "../../../../constants";
 import { useContext } from "react";
 import { AppContext } from "../../../../components/app/AppProvider";
+import initializeProfileState from '../../initializeProfileState';
 
-export interface DeployArrowProps {
-  walletAddress: string;
-  profileTxId: string;
+export interface DeployProfileProps {
+  walletAddress: string; 
   data: string;
-  uuid: string;
-  text: string;
-  draft: string;
+  uuid: string; 
+  text: string; 
+  draft: string; 
   color: string;
-  parentTxId: string | null;
-  sourceTxId: string | null;
-  targetTxId: string | null;
   date: number;
+  tabs: string[];
 }
 
-const useDeployArrow = () => {
+const useDeployProfile = () => {
   const { warp } = useContext(AppContext);
 
-  const deployArrow = async (props: DeployArrowProps) => {
+  const deployProfile = async (props: DeployProfileProps) => {
     if (!warp) return;
 
-    const initState = initializeArrowState(props)
+    const initState = initializeProfileState(props)
   
     const { contractTxId } = await warp.deployFromSourceTx({
       wallet: {
@@ -34,9 +31,7 @@ const useDeployArrow = () => {
       initState: JSON.stringify(initState),
       srcTxId: ARROW_CONTRACT_SOURCE_TX_ID,
       tags: [
-        { name: 'Arrow-Protocol-Version', value: '0.1'},
-        { name: 'Arrow-Source-TxId', value: initState.sourceTxId ?? '' },
-        { name: 'Arrow-Target-TxId', value: initState.targetTxId ?? '' },
+        { name: 'Profile-Protocol-Version', value: '0.1'},
       ]
     });
   
@@ -45,8 +40,8 @@ const useDeployArrow = () => {
     return contractTxId;
   }
 
-  return deployArrow;
+  return deployProfile;
 }
 
 
-export default useDeployArrow;
+export default useDeployProfile;

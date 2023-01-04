@@ -1,4 +1,5 @@
 import { ArrowState } from "./warp/arrow/types";
+import { ProfileState } from "./warp/profile/types";
 
 export type IdToType<T> = {
   [id: string]: T;
@@ -9,6 +10,11 @@ export type Arrow = {
   focusI: number;
   pinIToDescIToTrue: IdToType<IdToType<true>>;
   state: ArrowState;
+}
+
+export type Profile = {
+  txId: string | null;
+  state: ProfileState;
 }
 
 export type Cursor = {

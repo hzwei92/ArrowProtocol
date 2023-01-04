@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { AppContext } from "../../components/app/AppProvider";
 import { selectFrameTxId, setFrameTxId } from "../../redux/slices/arrowSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import useWriteTabs from "../../warp/jamn/actions/write/useWriteTabs";
+import useWriteTabs from "../../warp/profile/actions/write/useWriteTabs";
 
 interface RemoveTabProps {
   arrowTxId: string;
@@ -23,11 +23,14 @@ const useRemoveTab = () => {
   const removeTab = async ({ arrowTxId }: RemoveTabProps) => {
     if (!profile) return;
 
-    const tabs1 = profile.tabs.filter(txId => txId !== arrowTxId);
+    const tabs1 = profile.state.tabs.filter(txId => txId !== arrowTxId);
 
     setProfile({
       ...profile,
-      tabs: tabs1,
+      state: {
+        ...profile.state,
+        tabs: tabs1,
+      }
     });
 
     if (arrowTxId === frameTxId) {

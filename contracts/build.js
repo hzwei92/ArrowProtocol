@@ -1,7 +1,7 @@
 const { build } = require('esbuild');
 const replace = require('replace-in-file');
 
-const contracts = ['/contracts/arrow/contract.ts', '/contracts/jamn/contract.ts'];
+const contracts = ['/contracts/arrow/contract.ts', '/contracts/poll/contract.ts', '/contracts/profile/contract.ts'];
 
 build({
   entryPoints: contracts.map((source) => {

@@ -50,7 +50,7 @@ const TabBar = () => {
         bottomShadow: 'none',
       }}>
         {
-          (profile?.tabs || []).map((arrowTxId, i) => {
+          (profile?.state.tabs || []).map((arrowTxId, i) => {
             return (
               <Tab key={'tab-' + arrowTxId} arrowTxId={arrowTxId} i={i}/>
             )

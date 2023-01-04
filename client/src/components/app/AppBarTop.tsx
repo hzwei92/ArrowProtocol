@@ -76,7 +76,7 @@ const AppBarTop = () => {
                 }}>
                   <IonIcon icon={personCircle} style={{
                     fontSize: 20,
-                    color: profile?.color,
+                    color: profile?.state.color,
                   }}/>
                 </div>
                 <div style={{

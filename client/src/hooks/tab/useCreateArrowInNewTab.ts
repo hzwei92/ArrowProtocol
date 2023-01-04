@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { v4 } from "uuid";
 import { AppContext } from "../../components/app/AppProvider";
 import useDeployArrow from "../../warp/arrow/actions/write/useDeployArrow";
-import useWriteTabs from "../../warp/jamn/actions/write/useWriteTabs";
+import useWriteTabs from "../../warp/profile/actions/write/useWriteTabs";
 
 interface CreateArrowInNewTabProps {
   text: string;
@@ -19,15 +19,16 @@ const useCreateArrowInNewTab = () => {
     text,
     draft,
   }: CreateArrowInNewTabProps) => {
-    if (!walletAddress || !profile) return;
+    if (!walletAddress || !profile?.txId) return;
 
     const contractTxId = await deployArrow({
       walletAddress,
+      profileTxId: profile.txId,
       data: '',
       uuid: v4(),
       text,
       draft,
-      color: profile.color,
+      color: profile.state.color,
       parentTxId: null,
       sourceTxId: null,
       targetTxId: null,
@@ -36,10 +37,13 @@ const useCreateArrowInNewTab = () => {
 
     if (!contractTxId) return;
 
-    const tabs1 = [...profile.tabs, contractTxId];
+    const tabs1 = [...profile.state.tabs, contractTxId];
     setProfile({
       ...profile,
-      tabs: tabs1,
+      state: {
+        ...profile.state,
+        tabs: tabs1,
+      }
     });
     writeTabs(tabs1);
   }

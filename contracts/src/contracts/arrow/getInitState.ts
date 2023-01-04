@@ -1,12 +1,20 @@
 import { ArrowState } from "./types";
 import { v4 } from 'uuid';
 
-export const getInitState = (
-  creatorAddress: string, 
-  sourceTxId: string, 
-  targetTxId: string, 
-  parentTxId: string,
-) => {
+interface GetInitStateProps {
+  creatorAddress: string;
+  profileTxId: string;
+  sourceTxId: string;
+  targetTxId: string;
+  parentTxId: string;
+}
+export const getInitState = ({
+  creatorAddress,
+  profileTxId,
+  sourceTxId,
+  targetTxId,
+  parentTxId,
+}: GetInitStateProps)=> {
   const date = Date.now();
   const initState: ArrowState = {
     uuid: v4(),
@@ -15,9 +23,9 @@ The cause of wind or the kite /
 For the kite dances`,
     draft: '',
     color: '#' + Math.round(Math.random() * Math.pow(16, 6)).toString(16).padStart(6, '0'),
-    weight: 0,
     data: '',
     creatorAddress,
+    profileTxId,
     sourceTxId,
     targetTxId,
     parentTxId,
@@ -46,7 +54,7 @@ For the kite dances`,
       name: 'member',
       description: 'A member owns at least 1e6 points, i.e. 1e-3 of the supply',
       permits: ['readSubgraph', 'createPin', 'updatePin', 'deletePin'],
-      pointThreshold: 1000000,
+      pointThreshold: 10 ** 6,
       createDate: date,
       updateDate: date,
       deleteDate: null,
@@ -60,7 +68,7 @@ For the kite dances`,
       deleteDate: null,
     }],
     addressToPointBalance: {
-      [creatorAddress]: 1000000000,
+      [creatorAddress]: 10 ** 9,
     },
     createDate: date,
     updateDate: date,

@@ -92,7 +92,7 @@ const Link = ({i, pin, arrow}: LinkProps) => {
       ? arrow.state.color
       : null,
     }}>
-      { arrow.state.weight }
+      1
     </IonCard>
   )
 }

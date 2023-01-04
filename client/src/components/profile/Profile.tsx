@@ -10,9 +10,9 @@ const Profile = () => {
   const [color, setColor] = useState('#ffffff');
 
   useEffect(() => {
-    if (!profile?.color) return;
-    setColor(profile.color);
-  }, [profile?.color]);
+    if (!profile?.state.color) return;
+    setColor(profile.state.color);
+  }, [profile?.state.color]);
 
   const handleColorChange = (color: any) => {
     setColor(color.hex);
@@ -47,10 +47,10 @@ const Profile = () => {
           <IonCardHeader style={{
             fontWeight: 'bold',
           }}>
-            Name
+            Text
           </IonCardHeader> 
           <IonCardContent >
-            { profile?.name }
+            { profile?.state.text }
           </IonCardContent>
         </IonCard>
         <IonCard>

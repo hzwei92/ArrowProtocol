@@ -41,7 +41,7 @@ export default function ArrowVoter({ arrow }: ArrowVoterProps) {
           )}
           style={{
             color: (userVote?.weight || 0) > 0
-              ? profile?.color
+              ? profile?.state.color
               : null,
             height: 20,
           
@@ -68,11 +68,7 @@ export default function ArrowVoter({ arrow }: ArrowVoterProps) {
             fontSize: 10,
           }}
         >
-          { 
-            arrow.state.weight > 1000
-              ? `${(arrow.state.weight / 1000).toFixed(1)}k`
-              : arrow.state.weight
-          }
+          1
         </IonButton>
         <IonButton
           onMouseDown={handleButtonMouseDown}
@@ -85,7 +81,7 @@ export default function ArrowVoter({ arrow }: ArrowVoterProps) {
           )}
           style={{
             color: (userVote?.weight || 0) < 0
-              ? profile?.color
+              ? profile?.state.color
               : null,
             height: 20,
           }}

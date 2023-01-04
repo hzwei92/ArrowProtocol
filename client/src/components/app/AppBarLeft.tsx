@@ -65,13 +65,13 @@ const AppBarLeft = () => {
             width: 50,
             height: 50,
             borderLeft: mode === Mode.PORTAL
-              ? `5px solid ${profile?.color}`
+              ? `5px solid ${profile?.state.color}`
               : null,
           }}
         >
           <IonIcon icon={apertureOutline} style={{
             color: mode === Mode.PORTAL
-              ? profile?.color
+              ? profile?.state.color
               : null,
           }}/>
         </IonButton>
@@ -83,13 +83,13 @@ const AppBarLeft = () => {
             width: 50,
             height: 50,
             borderLeft: mode === Mode.PROFILE
-              ? `5px solid ${profile?.color}`
+              ? `5px solid ${profile?.state.color}`
               : null,
           }}
         >
           <IonIcon icon={personCircleOutline} style={{
             color: mode === Mode.PROFILE
-              ? profile?.color
+              ? profile?.state.color
               : null,
           }}/>
         </IonButton>
@@ -101,13 +101,13 @@ const AppBarLeft = () => {
             width: 50,
             height: 50,
             borderLeft: mode === Mode.EXPLORER
-              ? `5px solid ${profile?.color}`
+              ? `5px solid ${profile?.state.color}`
               : null,
           }}
         >
           <IonIcon icon={globeOutline} style={{
             color: mode === Mode.EXPLORER
-              ? profile?.color
+              ? profile?.state.color
               : null,
           }}/>
         </IonButton>
@@ -119,13 +119,13 @@ const AppBarLeft = () => {
             height: 50,
             width: 50,
             borderLeft: mode === Mode.CONTACTS
-              ? `5px solid ${profile?.color}`
+              ? `5px solid ${profile?.state.color}`
               : null,
           }}
         >
           <IonIcon icon={peopleOutline} style={{
             color: mode === Mode.CONTACTS
-              ? profile?.color
+              ? profile?.state.color
               : null,
           }}/>
         </IonButton>
@@ -138,13 +138,13 @@ const AppBarLeft = () => {
             height: 50,
             width: 50,
             borderLeft: mode === Mode.ABOUT
-              ? `5px solid ${profile?.color}`
+              ? `5px solid ${profile?.state.color}`
               : null,
           }}
         >
           <IonIcon icon={informationCircleOutline} style={{
             color: mode === Mode.ABOUT
-              ? profile?.color
+              ? profile?.state.color
               : null,
           }}/>
         </IonButton>

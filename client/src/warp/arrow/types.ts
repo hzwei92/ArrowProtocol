@@ -66,9 +66,9 @@ export interface ArrowState {
   text: string; // the text of the arrow
   draft: string // the stringified raw draft-js contentState of the arrow
   color: string;
-  weight: number;
   
   creatorAddress: string; // the address of the creator of the arrow
+  profileTxId: string; // the profile of the creator of the arrow
 
   // the arrow connects two Arrows, source --> target; 
   // an Arrow is just a transaction, 
@@ -130,10 +130,12 @@ export interface ArrowInput {
   date?: number;
   pins?: Pin[];
   pinIs?: number[];
+  draft?: string;
+  text?: string;
 }
 
 export type ArrowResult = string;
 
-export type ArrowFunction = 'createPin' | 'writePins' | 'writePinIs';
+export type ArrowFunction = 'createPin' | 'writePins' | 'writePinIs' | 'writeDraftAndText';
 
 export type ContractResult = { state: ArrowState } | { result: ArrowResult };

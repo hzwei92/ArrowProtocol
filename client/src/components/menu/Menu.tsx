@@ -67,7 +67,7 @@ const Menu = () => {
         style={{
           width: 5,
           backgroundColor: showResizer
-            ? profile?.color
+            ? profile?.state.color
             : isDarkMode
               ? '#222222'
               : 'lavender',
